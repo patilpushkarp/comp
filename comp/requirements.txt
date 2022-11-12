@@ -1,1 +1,7 @@
 jupyter-book
+pandas
+gensim
+nltk
+wordcloud
+spacy
+pyLDAvis

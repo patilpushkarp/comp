@@ -1,11 +1,15 @@
-# Welcome to your Jupyter Book
+# Comparing Fintech and NBFC using Twitter Data
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+The project compares the fintech and NBFC based on Twitter data.
+The following fintechs are considered for the evaluation:
+1. Faircent
+2. Lendingkart
+3. Mobikwik
+4. Paytm
+5. Pine labs
 
-Check out the content pages bundled with this sample book to see more.
-
-```{tableofcontents}
-```
+The following NBFCs are considered for analysis:
+1. Aditya Birla Finance
+2. Bajaj Finance
+3. Cholamandalam
+4. Muthoot Finance

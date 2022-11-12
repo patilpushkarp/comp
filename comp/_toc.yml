@@ -3,6 +3,16 @@
 
 format: jb-book
 root: intro
-chapters:
-- file: docs/eda.ipynb
-- file: docs/topic_modelling.ipynb
+parts:
+- caption: Prelimnary Analysis
+  chapters:
+  - file: docs/eda.ipynb
+  - file: docs/topic_modelling.ipynb
+- caption: Fintech
+  chapters:
+  - file: docs/individual/fintech/faircent.ipynb
+  - file: docs/individual/fintech/lendingkart.ipynb
+  - file: docs/individual/fintech/mobikwik.ipynb
+  - file: docs/individual/fintech/paytm.ipynb
+  - file: docs/individual/fintech/pine_labs.ipynb
+
