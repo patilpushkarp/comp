@@ -33,5 +33,9 @@ Following are the steps to be followed:
 8. Create a dictionary from bigrams
 9. Create a corpus using the dictionary
 10. Perform hyper-parameter tuning for LDA model, using UMASS coherence score for evaluation
-11. Use the selected hyper-parameters to create LDA model and determine the topic for each tweet
-12. Use the model to find dominant words in each topic
+11. Use the selected hyper-parameters to create LDA model and determine the topics
+12. Use the model to find the topic associated with each tweet and also find the dominant words in each topic
+13. Get the intersection of topics from different companies
+14. Create a 10% subset of data by selecting observations with the highest contribution from each fintech
+15. Perform the above step for NBFC too
+16. Repeat the steps from 4 to 12 to find the dominant topics
