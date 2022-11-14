@@ -42,6 +42,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -884,7 +885,7 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Topics range</span>
 <span class="n">min_topics</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">max_topics</span> <span class="o">=</span> <span class="mi">31</span>
+<span class="n">max_topics</span> <span class="o">=</span> <span class="mi">15</span>
 <span class="n">step_size</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">topics_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_topics</span><span class="p">,</span> <span class="n">max_topics</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
 
@@ -899,7 +900,7 @@ title="Print to PDF"
 
 <span class="c1"># Validation sets</span>
 <span class="n">num_of_docs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">corpus_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">gensim</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">ClippedCorpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_of_docs</span><span class="o">*</span><span class="mf">0.75</span><span class="p">)),</span> 
+<span class="n">corpus_sets</span> <span class="o">=</span> <span class="p">[</span><span class="c1">#gensim.utils.ClippedCorpus(corpus, int(num_of_docs*0.75)), </span>
                <span class="n">corpus</span><span class="p">]</span>
 <span class="n">corpus_title</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;75% Corpus&#39;</span><span class="p">,</span> <span class="s1">&#39;100% Corpus&#39;</span><span class="p">]</span>
 <span class="n">model_results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">:</span> <span class="p">[],</span>
@@ -955,7 +956,214 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "9d84e10130954de7bf476ef25df154f4", "version_major": 2, "version_minor": 0}
-</script></div>
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Process SpawnPoolWorker-10225:
+Process SpawnPoolWorker-10222:
+Process SpawnPoolWorker-10221:
+Process SpawnPoolWorker-10226:
+Process SpawnPoolWorker-10227:
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 315, in _bootstrap
+    self.run()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/pool.py&quot;, line 109, in worker
+    initializer(*initargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamulticore.py&quot;, line 341, in worker_e_step
+    chunk_no, chunk, w_state = input_queue.get()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/queues.py&quot;, line 97, in get
+    res = self._recv_bytes()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/connection.py&quot;, line 216, in recv_bytes
+    buf = self._recv_bytes(maxlength)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/connection.py&quot;, line 421, in _recv_bytes
+    return self._recv(size)
+Traceback (most recent call last):
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/connection.py&quot;, line 380, in _recv
+    n = len(chunk)
+Traceback (most recent call last):
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 315, in _bootstrap
+    self.run()
+KeyboardInterrupt
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 315, in _bootstrap
+    self.run()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/pool.py&quot;, line 109, in worker
+    initializer(*initargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamulticore.py&quot;, line 341, in worker_e_step
+    chunk_no, chunk, w_state = input_queue.get()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 315, in _bootstrap
+    self.run()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/queues.py&quot;, line 96, in get
+    with self._rlock:
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/synchronize.py&quot;, line 95, in __enter__
+    return self._semlock.__enter__()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/pool.py&quot;, line 109, in worker
+    initializer(*initargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 108, in run
+    self._target(*self._args, **self._kwargs)
+KeyboardInterrupt
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamulticore.py&quot;, line 341, in worker_e_step
+    chunk_no, chunk, w_state = input_queue.get()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/queues.py&quot;, line 96, in get
+    with self._rlock:
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/synchronize.py&quot;, line 95, in __enter__
+    return self._semlock.__enter__()
+KeyboardInterrupt
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/pool.py&quot;, line 109, in worker
+    initializer(*initargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamulticore.py&quot;, line 341, in worker_e_step
+    chunk_no, chunk, w_state = input_queue.get()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/queues.py&quot;, line 96, in get
+    with self._rlock:
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/synchronize.py&quot;, line 95, in __enter__
+    return self._semlock.__enter__()
+KeyboardInterrupt
+Traceback (most recent call last):
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 315, in _bootstrap
+    self.run()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/pool.py&quot;, line 109, in worker
+    initializer(*initargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamulticore.py&quot;, line 344, in worker_e_step
+    worker_lda.sync_state()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamodel.py&quot;, line 634, in sync_state
+    self.expElogbeta = np.exp(current_Elogbeta)
+KeyboardInterrupt
+Process SpawnPoolWorker-10223:
+Traceback (most recent call last):
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 315, in _bootstrap
+    self.run()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/process.py&quot;, line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/multiprocessing/pool.py&quot;, line 109, in worker
+    initializer(*initargs)
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamulticore.py&quot;, line 344, in worker_e_step
+    worker_lda.sync_state()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamodel.py&quot;, line 633, in sync_state
+    current_Elogbeta = self.state.get_Elogbeta()
+  File &quot;/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamodel.py&quot;, line 282, in get_Elogbeta
+    return dirichlet_expectation(self.get_lambda())
+KeyboardInterrupt
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">Full</span><span class="g g-Whitespace">                                      </span>Traceback (most recent call last)
+<span class="nn">File ~/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamulticore.py:298,</span> in <span class="ni">LdaMulticore.update</span><span class="nt">(self, corpus, chunks_as_numpy)</span>
+<span class="g g-Whitespace">    </span><span class="mi">297</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">298</span>     <span class="n">job_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">chunk_no</span><span class="p">,</span> <span class="n">chunk</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">),</span> <span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">299</span>     <span class="n">queue_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="nn">File ~/miniforge3/envs/project/lib/python3.8/multiprocessing/queues.py:84,</span> in <span class="ni">Queue.put</span><span class="nt">(self, obj, block, timeout)</span>
+<span class="g g-Whitespace">     </span><span class="mi">83</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sem</span><span class="o">.</span><span class="n">acquire</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">84</span>     <span class="k">raise</span> <span class="n">Full</span>
+<span class="g g-Whitespace">     </span><span class="mi">86</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_notempty</span><span class="p">:</span>
+
+<span class="ne">Full</span>: 
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">28</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alpha</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="c1"># iterare through beta values</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">beta</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>         <span class="c1"># get the coherence score for the given parameters</span>
+<span class="ne">---&gt; </span><span class="mi">14</span>         <span class="n">cv</span> <span class="o">=</span> <span class="n">compute_coherence_values</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus_sets</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> 
+<span class="g g-Whitespace">     </span><span class="mi">15</span>                                       <span class="n">dictionary</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span> 
+<span class="g g-Whitespace">     </span><span class="mi">16</span>                                       <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">b</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>                                       <span class="n">texts</span><span class="o">=</span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>                                       <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>         <span class="c1"># Save the model results</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span>         <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corpus_title</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="nn">Cell In [23], line 3,</span> in <span class="ni">compute_coherence_values</span><span class="nt">(corpus, dictionary, k, alpha, beta, texts, coherence)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">compute_coherence_values</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">3</span>     <span class="n">lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                                            <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                                            <span class="n">num_topics</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">6</span>                                            <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>                                            <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>                                            <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>                                            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>                                            <span class="n">eta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="n">coherence_model_lda</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">lda_model</span><span class="p">,</span> 
+<span class="g g-Whitespace">     </span><span class="mi">13</span>                                                         <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span> 
+<span class="g g-Whitespace">     </span><span class="mi">14</span>                                                         <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span> 
+<span class="g g-Whitespace">     </span><span class="mi">15</span>                                                         <span class="n">coherence</span><span class="o">=</span><span class="n">coherence</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="k">return</span> <span class="n">coherence_model_lda</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
+
+<span class="nn">File ~/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamulticore.py:186,</span> in <span class="ni">LdaMulticore.__init__</span><span class="nt">(self, corpus, num_topics, id2word, workers, chunksize, passes, batch, alpha, eta, decay, offset, eval_every, iterations, gamma_threshold, random_state, minimum_probability, minimum_phi_value, per_word_topics, dtype)</span>
+<span class="g g-Whitespace">    </span><span class="mi">183</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">184</span>     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;auto-tuning alpha not implemented in LdaMulticore; use plain LdaModel.&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">186</span> <span class="nb">super</span><span class="p">(</span><span class="n">LdaMulticore</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="n">num_topics</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>     <span class="n">id2word</span><span class="o">=</span><span class="n">id2word</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="n">chunksize</span><span class="p">,</span> <span class="n">passes</span><span class="o">=</span><span class="n">passes</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="n">eta</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>     <span class="n">decay</span><span class="o">=</span><span class="n">decay</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">eval_every</span><span class="o">=</span><span class="n">eval_every</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">iterations</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="n">gamma_threshold</span><span class="o">=</span><span class="n">gamma_threshold</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">minimum_probability</span><span class="o">=</span><span class="n">minimum_probability</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">191</span>     <span class="n">minimum_phi_value</span><span class="o">=</span><span class="n">minimum_phi_value</span><span class="p">,</span> <span class="n">per_word_topics</span><span class="o">=</span><span class="n">per_word_topics</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">192</span> <span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamodel.py:520,</span> in <span class="ni">LdaModel.__init__</span><span class="nt">(self, corpus, num_topics, id2word, distributed, chunksize, passes, update_every, alpha, eta, decay, offset, eval_every, iterations, gamma_threshold, minimum_probability, random_state, ns_conf, minimum_phi_value, per_word_topics, callbacks, dtype)</span>
+<span class="g g-Whitespace">    </span><span class="mi">518</span> <span class="n">use_numpy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">519</span> <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">520</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">chunks_as_numpy</span><span class="o">=</span><span class="n">use_numpy</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">521</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_lifecycle_event</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">522</span>     <span class="s2">&quot;created&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">523</span>     <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;trained </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">524</span> <span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamulticore.py:309,</span> in <span class="ni">LdaMulticore.update</span><span class="nt">(self, corpus, chunks_as_numpy)</span>
+<span class="g g-Whitespace">    </span><span class="mi">305</span>             <span class="k">break</span>
+<span class="g g-Whitespace">    </span><span class="mi">306</span>         <span class="k">except</span> <span class="n">queue</span><span class="o">.</span><span class="n">Full</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">307</span>             <span class="c1"># in case the input job queue is full, keep clearing the</span>
+<span class="g g-Whitespace">    </span><span class="mi">308</span>             <span class="c1"># result queue, to make sure we don&#39;t deadlock</span>
+<span class="ne">--&gt; </span><span class="mi">309</span>             <span class="n">process_result_queue</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">311</span>     <span class="n">process_result_queue</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">312</span> <span class="c1"># endfor single corpus pass</span>
+<span class="g g-Whitespace">    </span><span class="mi">313</span> 
+<span class="g g-Whitespace">    </span><span class="mi">314</span> <span class="c1"># wait for all outstanding jobs to finish</span>
+
+<span class="nn">File ~/miniforge3/envs/project/lib/python3.8/site-packages/gensim/models/ldamulticore.py:275,</span> in <span class="ni">LdaMulticore.update.&lt;locals&gt;.process_result_queue</span><span class="nt">(force)</span>
+<span class="g g-Whitespace">    </span><span class="mi">273</span> <span class="n">merged_new</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">274</span> <span class="k">while</span> <span class="ow">not</span> <span class="n">result_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">275</span>     <span class="n">other</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">result_queue</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+<span class="g g-Whitespace">    </span><span class="mi">276</span>     <span class="n">queue_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+<span class="g g-Whitespace">    </span><span class="mi">277</span>     <span class="n">merged_new</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="nn">File ~/miniforge3/envs/project/lib/python3.8/multiprocessing/queues.py:97,</span> in <span class="ni">Queue.get</span><span class="nt">(self, block, timeout)</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span> <span class="k">if</span> <span class="n">block</span> <span class="ow">and</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rlock</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">97</span>         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recv_bytes</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">98</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_sem</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File ~/miniforge3/envs/project/lib/python3.8/multiprocessing/connection.py:216,</span> in <span class="ni">_ConnectionBase.recv_bytes</span><span class="nt">(self, maxlength)</span>
+<span class="g g-Whitespace">    </span><span class="mi">214</span> <span class="k">if</span> <span class="n">maxlength</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">maxlength</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;negative maxlength&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">216</span> <span class="n">buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recv_bytes</span><span class="p">(</span><span class="n">maxlength</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span> <span class="k">if</span> <span class="n">buf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">218</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_bad_message_length</span><span class="p">()</span>
+
+<span class="nn">File ~/miniforge3/envs/project/lib/python3.8/multiprocessing/connection.py:421,</span> in <span class="ni">Connection._recv_bytes</span><span class="nt">(self, maxsize)</span>
+<span class="g g-Whitespace">    </span><span class="mi">419</span> <span class="k">if</span> <span class="n">maxsize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="n">maxsize</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">420</span>     <span class="k">return</span> <span class="kc">None</span>
+<span class="ne">--&gt; </span><span class="mi">421</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recv</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/project/lib/python3.8/multiprocessing/connection.py:380,</span> in <span class="ni">Connection._recv</span><span class="nt">(self, size, read)</span>
+<span class="g g-Whitespace">    </span><span class="mi">378</span> <span class="k">while</span> <span class="n">remaining</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">379</span>     <span class="n">chunk</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">remaining</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">380</span>     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">381</span>     <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">382</span>         <span class="k">if</span> <span class="n">remaining</span> <span class="o">==</span> <span class="n">size</span><span class="p">:</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1717,7 +1925,7 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Topics range</span>
 <span class="n">min_topics</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">max_topics</span> <span class="o">=</span> <span class="mi">31</span>
+<span class="n">max_topics</span> <span class="o">=</span> <span class="mi">15</span>
 <span class="n">step_size</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">topics_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_topics</span><span class="p">,</span> <span class="n">max_topics</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
 
@@ -1732,7 +1940,7 @@ title="Print to PDF"
 
 <span class="c1"># Validation sets</span>
 <span class="n">num_of_docs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">corpus_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">gensim</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">ClippedCorpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_of_docs</span><span class="o">*</span><span class="mf">0.75</span><span class="p">)),</span> 
+<span class="n">corpus_sets</span> <span class="o">=</span> <span class="p">[</span><span class="c1">#gensim.utils.ClippedCorpus(corpus, int(num_of_docs*0.75)), </span>
                <span class="n">corpus</span><span class="p">]</span>
 <span class="n">corpus_title</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;75% Corpus&#39;</span><span class="p">,</span> <span class="s1">&#39;100% Corpus&#39;</span><span class="p">]</span>
 <span class="n">model_results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">:</span> <span class="p">[],</span>

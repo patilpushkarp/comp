@@ -42,6 +42,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -530,7 +531,11 @@ title="Print to PDF"
 <h1>Lendingkart<a class="headerlink" href="#lendingkart" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load necessary libraries</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">gensim</span>
 <span class="kn">import</span> <span class="nn">spacy</span>
@@ -540,23 +545,25 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">pickle</span> 
 <span class="kn">import</span> <span class="nn">pyLDAvis</span>
 
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/pushkar/Documents/projects/fin_comp/comp/docs&#39;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">utils.helper</span> <span class="kn">import</span> <span class="n">preprocess_tweet</span><span class="p">,</span> <span class="n">sentence_to_words</span><span class="p">,</span> <span class="n">lemmatization</span>
+
+<span class="kn">from</span> <span class="nn">utils.helper</span> <span class="kn">import</span> <span class="n">Processor</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/lendingkart/lendingkart.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/lendingkart/lendingkart.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Know the shape of the loaded data</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
@@ -566,177 +573,21 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="s1">&#39;2020-02-01&#39;</span><span class="p">]</span>
-<span class="n">post_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s1">&#39;2020-02-01&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
 <section id="preprocessing">
 <h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preprocess tweets</span>
-<span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">preprocess_tweet</span><span class="p">)</span>
-<span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">preprocess_tweet</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/1398106268.py:2: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  pre_df[&#39;preprocessed&#39;] = pre_df[&#39;tweet&#39;].apply(preprocess_tweet)
-/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/1398106268.py:3: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  post_df[&#39;preprocessed&#39;] = post_df[&#39;tweet&#39;].apply(preprocess_tweet)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preprocess the data</span>
+<span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">(</span><span class="s1">&#39;./../../data/config.json&#39;</span><span class="p">)</span>
+<span class="n">pre_df</span><span class="p">,</span> <span class="n">post_df</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create words data</span>
-<span class="n">pre_data</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="c1"># fintech_data_words = list(sentence_to_words(fintech_data))</span>
-<span class="n">pre_data_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sentence_to_words</span><span class="p">(</span><span class="n">pre_data</span><span class="p">))</span>
-
-<span class="c1"># Create words data</span>
-<span class="n">post_data</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="c1"># fintech_data_words = list(sentence_to_words(fintech_data))</span>
-<span class="n">post_data_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sentence_to_words</span><span class="p">(</span><span class="n">post_data</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># For pre-covid period</span>
-<span class="c1"># Build bigram and trigram models</span>
-<span class="n">pre_bigram</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phrases</span><span class="p">(</span><span class="n">pre_data_words</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">connector_words</span><span class="o">=</span><span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">ENGLISH_CONNECTOR_WORDS</span><span class="p">)</span>
-<span class="n">pre_trigram</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phrases</span><span class="p">(</span><span class="n">pre_bigram</span><span class="p">[</span><span class="n">pre_data_words</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-
-<span class="n">pre_bigram_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phraser</span><span class="p">(</span><span class="n">pre_bigram</span><span class="p">)</span>
-<span class="n">pre_trigram_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phraser</span><span class="p">(</span><span class="n">pre_trigram</span><span class="p">)</span>
-
-<span class="c1"># For post-covid period</span>
-<span class="c1"># Build bigram and trigram models</span>
-<span class="n">post_bigram</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phrases</span><span class="p">(</span><span class="n">post_data_words</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">connector_words</span><span class="o">=</span><span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">ENGLISH_CONNECTOR_WORDS</span><span class="p">)</span>
-<span class="n">post_trigram</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phrases</span><span class="p">(</span><span class="n">post_bigram</span><span class="p">[</span><span class="n">post_data_words</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-
-<span class="n">post_bigram_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phraser</span><span class="p">(</span><span class="n">post_bigram</span><span class="p">)</span>
-<span class="n">post_trigram_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phraser</span><span class="p">(</span><span class="n">post_trigram</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove stopwords</span>
-<span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">gensim</span><span class="o">.</span><span class="n">parsing</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">remove_stopwords</span><span class="p">)</span>
-<span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">gensim</span><span class="o">.</span><span class="n">parsing</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">remove_stopwords</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/4258172292.py:2: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  pre_df[&#39;preprocessed&#39;] = pre_df[&#39;preprocessed&#39;].apply(gensim.parsing.preprocessing.remove_stopwords)
-/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/4258172292.py:3: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  post_df[&#39;preprocessed&#39;] = post_df[&#39;preprocessed&#39;].apply(gensim.parsing.preprocessing.remove_stopwords)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;sep_words&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sentence_to_words</span><span class="p">([</span><span class="n">x</span><span class="p">]))[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;sep_words&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sentence_to_words</span><span class="p">([</span><span class="n">x</span><span class="p">]))[</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/3599064045.py:1: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  pre_df[&#39;sep_words&#39;] = pre_df[&#39;preprocessed&#39;].apply(lambda x: list(sentence_to_words([x]))[0])
-/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/3599064045.py:2: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  post_df[&#39;sep_words&#39;] = post_df[&#39;preprocessed&#39;].apply(lambda x: list(sentence_to_words([x]))[0])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;sep_words&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pre_bigram_model</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
-<span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;sep_words&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">post_bigram_model</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/1623641631.py:1: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  pre_df[&#39;bigram&#39;] = pre_df[&#39;sep_words&#39;].apply(lambda x: pre_bigram_model[x])
-/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/1623641631.py:2: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  post_df[&#39;bigram&#39;] = post_df[&#39;sep_words&#39;].apply(lambda x: post_bigram_model[x])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;trigram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">pre_trigram_model</span><span class="p">[</span><span class="n">x</span><span class="p">]])</span>
-<span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;trigram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">post_trigram_model</span><span class="p">[</span><span class="n">x</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/1589984664.py:1: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  pre_df[&#39;trigram&#39;] = pre_df[&#39;bigram&#39;].apply(lambda x: [pre_trigram_model[x]])
-/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/1589984664.py:2: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  post_df[&#39;trigram&#39;] = post_df[&#39;bigram&#39;].apply(lambda x: [post_trigram_model[x]])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_id2word</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">(</span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create dictionaries</span>
+<span class="n">pre_id2word</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">(</span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 <span class="n">post_id2word</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">(</span><span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -744,7 +595,8 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre_id2word</span><span class="o">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create corpus</span>
+<span class="n">pre_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre_id2word</span><span class="o">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
 <span class="n">post_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">post_id2word</span><span class="o">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
 </pre></div>
 </div>
@@ -777,46 +629,48 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(0,
-  &#39;0.015*&quot;lendingkart&quot; + 0.010*&quot;business&quot; + 0.009*&quot;loan&quot; + 0.006*&quot;indian&quot; + &#39;
-  &#39;0.005*&quot;new&quot; + 0.005*&quot;like&quot; + 0.005*&quot;companies&quot; + 0.005*&quot;heres&quot; + &#39;
-  &#39;0.005*&quot;help&quot; + 0.005*&quot;ur&quot;&#39;),
+  &#39;0.020*&quot;lendingkart&quot; + 0.011*&quot;india&quot; + 0.009*&quot;smooth_finance&quot; + &#39;
+  &#39;0.008*&quot;documents&quot; + 0.008*&quot;heres&quot; + 0.007*&quot;help&quot; + 0.007*&quot;check&quot; + &#39;
+  &#39;0.006*&quot;resource_msme&quot; + 0.006*&quot;platforms_provides&quot; + &#39;
+  &#39;0.006*&quot;capital_techcrunch&quot;&#39;),
  (1,
-  &#39;0.035*&quot;thank&quot; + 0.028*&quot;carecom&quot; + 0.023*&quot;hello&quot; + 0.017*&quot;details&quot; + &#39;
-  &#39;0.015*&quot;share&quot; + 0.015*&quot;registered_contact&quot; + 0.013*&quot;representatives&quot; + &#39;
-  &#39;0.013*&quot;assist&quot; + 0.013*&quot;concern&quot; + 0.012*&quot;inconvenience_caused&quot;&#39;),
+  &#39;0.063*&quot;indias_lendingkart&quot; + 0.063*&quot;access_working&quot; + &#39;
+  &#39;0.060*&quot;small_businesses&quot; + 0.059*&quot;raises_help&quot; + 0.059*&quot;capital&quot; + &#39;
+  &#39;0.011*&quot;lendingkart&quot; + 0.007*&quot;helping&quot; + 0.007*&quot;loan&quot; + 0.005*&quot;team&quot; + &#39;
+  &#39;0.005*&quot;thank&quot;&#39;),
  (2,
-  &#39;0.079*&quot;raises&quot; + 0.078*&quot;working_capital&quot; + 0.074*&quot;indias_lendingkart&quot; + &#39;
-  &#39;0.074*&quot;help_small&quot; + 0.073*&quot;businesses_access&quot; + 0.009*&quot;techcrunch&quot; + &#39;
-  &#39;0.005*&quot;new&quot; + 0.005*&quot;business&quot; + 0.004*&quot;heres&quot; + 0.004*&quot;nbfc&quot;&#39;),
+  &#39;0.038*&quot;thank&quot; + 0.022*&quot;hello&quot; + 0.018*&quot;business&quot; + 0.017*&quot;contact_details&quot; &#39;
+  &#39;+ 0.016*&quot;loan&quot; + 0.014*&quot;dear_customer&quot; + 0.010*&quot;carecom&quot; + &#39;
+  &#39;0.009*&quot;regret_inconvenience&quot; + 0.009*&quot;representatives_contact&quot; + &#39;
+  &#39;0.009*&quot;share_registered&quot;&#39;),
  (3,
-  &#39;0.021*&quot;lendingkart&quot; + 0.008*&quot;business&quot; + 0.008*&quot;free&quot; + &#39;
-  &#39;0.007*&quot;access_working&quot; + 0.007*&quot;capital&quot; + 0.007*&quot;loan&quot; + &#39;
-  &#39;0.007*&quot;existing_investors&quot; + 0.007*&quot;raises_series&quot; + 0.007*&quot;total_raised&quot; + &#39;
-  &#39;0.006*&quot;bringing&quot;&#39;),
+  &#39;0.043*&quot;lendingkart&quot; + 0.011*&quot;business&quot; + 0.009*&quot;hackathon&quot; + &#39;
+  &#39;0.009*&quot;register&quot; + 0.008*&quot;team&quot; + 0.008*&quot;know&quot; + 0.007*&quot;number&quot; + &#39;
+  &#39;0.007*&quot;days&quot; + 0.007*&quot;event&quot; + 0.006*&quot;dont&quot;&#39;),
  (4,
-  &#39;0.029*&quot;lendingkart&quot; + 0.021*&quot;alteria_capital&quot; + 0.015*&quot;lendingkart_raises&quot; &#39;
-  &#39;+ 0.014*&quot;raised&quot; + 0.012*&quot;led&quot; + 0.012*&quot;crore&quot; + 0.011*&quot;round&quot; + &#39;
-  &#39;0.011*&quot;rs_crore&quot; + 0.010*&quot;funding&quot; + 0.009*&quot;million&quot;&#39;),
+  &#39;0.018*&quot;loan&quot; + 0.010*&quot;lendingkart&quot; + 0.009*&quot;lendingkart_raises&quot; + &#39;
+  &#39;0.008*&quot;business_loan&quot; + 0.007*&quot;startup&quot; + 0.007*&quot;like&quot; + 0.007*&quot;rs_cr&quot; + &#39;
+  &#39;0.006*&quot;sorry_unpleasant&quot; + 0.006*&quot;seeking&quot; + 0.006*&quot;debt_funding&quot;&#39;),
  (5,
-  &#39;0.011*&quot;lendingkart&quot; + 0.009*&quot;business&quot; + 0.009*&quot;know&quot; + 0.008*&quot;startups&quot; + &#39;
-  &#39;0.007*&quot;existing_investors&quot; + 0.007*&quot;loan&quot; + 0.006*&quot;venture_debt&quot; + &#39;
-  &#39;0.005*&quot;alteria_capital&quot; + 0.005*&quot;number&quot; + 0.005*&quot;india&quot;&#39;),
+  &#39;0.021*&quot;alteria_capital&quot; + 0.017*&quot;lendingkart&quot; + 0.013*&quot;rs_crore&quot; + &#39;
+  &#39;0.011*&quot;credit&quot; + 0.011*&quot;million&quot; + 0.010*&quot;venture_debt&quot; + 0.008*&quot;raised&quot; + &#39;
+  &#39;0.008*&quot;equity&quot; + 0.007*&quot;like&quot; + 0.007*&quot;lendingkart_raises&quot;&#39;),
  (6,
-  &#39;0.021*&quot;lendingkart&quot; + 0.012*&quot;loan&quot; + 0.011*&quot;pm&quot; + 0.011*&quot;days&quot; + &#39;
-  &#39;0.008*&quot;thank&quot; + 0.008*&quot;am&quot; + 0.007*&quot;happy&quot; + 0.006*&quot;know&quot; + &#39;
-  &#39;0.006*&quot;cofounder&quot; + 0.005*&quot;assist&quot;&#39;),
+  &#39;0.014*&quot;lendingkart&quot; + 0.009*&quot;team&quot; + 0.009*&quot;business&quot; + 0.008*&quot;new&quot; + &#39;
+  &#39;0.006*&quot;sector&quot; + 0.006*&quot;heres&quot; + 0.006*&quot;companies&quot; + 0.006*&quot;read&quot; + &#39;
+  &#39;0.005*&quot;properly&quot; + 0.005*&quot;dont&quot;&#39;),
  (7,
-  &#39;0.014*&quot;business&quot; + 0.013*&quot;lendingkart&quot; + 0.010*&quot;sir&quot; + 0.009*&quot;loan&quot; + &#39;
-  &#39;0.008*&quot;help&quot; + 0.006*&quot;company&quot; + 0.006*&quot;business_loan&quot; + 0.006*&quot;msmes&quot; + &#39;
-  &#39;0.006*&quot;start&quot; + 0.005*&quot;team&quot;&#39;),
+  &#39;0.025*&quot;lendingkart&quot; + 0.013*&quot;startups&quot; + 0.008*&quot;company&quot; + 0.008*&quot;fintech&quot; &#39;
+  &#39;+ 0.007*&quot;issue&quot; + 0.007*&quot;crore&quot; + 0.006*&quot;round&quot; + 0.006*&quot;nbfc&quot; + &#39;
+  &#39;0.006*&quot;raised&quot; + 0.006*&quot;contact&quot;&#39;),
  (8,
-  &#39;0.046*&quot;lendingkart&quot; + 0.015*&quot;india&quot; + 0.007*&quot;sector&quot; + 0.007*&quot;heres&quot; + &#39;
-  &#39;0.007*&quot;lending&quot; + 0.005*&quot;bank&quot; + 0.005*&quot;business&quot; + 0.004*&quot;platform&quot; + &#39;
-  &#39;0.004*&quot;fintech&quot; + 0.004*&quot;growth&quot;&#39;),
+  &#39;0.023*&quot;lendingkart&quot; + 0.010*&quot;startup&quot; + 0.009*&quot;india&quot; + 0.008*&quot;new&quot; + &#39;
+  &#39;0.007*&quot;know&quot; + 0.007*&quot;business&quot; + 0.007*&quot;heres&quot; + 0.007*&quot;experience&quot; + &#39;
+  &#39;0.006*&quot;gujarat_fintech&quot; + 0.006*&quot;time&quot;&#39;),
  (9,
-  &#39;0.019*&quot;lendingkart&quot; + 0.015*&quot;team&quot; + 0.012*&quot;heres&quot; + 0.011*&quot;cr&quot; + &#39;
-  &#39;0.010*&quot;raises_rs&quot; + 0.009*&quot;startup_lendingkart&quot; + 0.009*&quot;work&quot; + &#39;
-  &#39;0.008*&quot;gujarat_fintech&quot; + 0.006*&quot;success&quot; + 0.006*&quot;crore&quot;&#39;)]
+  &#39;0.011*&quot;lendingkart&quot; + 0.011*&quot;startups&quot; + 0.008*&quot;business&quot; + 0.008*&quot;company&quot; &#39;
+  &#39;+ 0.007*&quot;list&quot; + 0.006*&quot;number&quot; + 0.006*&quot;startup&quot; + 0.006*&quot;india&quot; + &#39;
+  &#39;0.005*&quot;growth&quot; + 0.005*&quot;heres&quot;&#39;)]
 </pre></div>
 </div>
 </div>
@@ -843,47 +697,49 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(0,
-  &#39;0.032*&quot;lendingkart&quot; + 0.011*&quot;want&quot; + 0.011*&quot;cr&quot; + 0.009*&quot;rs_crore&quot; + &#39;
-  &#39;0.008*&quot;month&quot; + 0.007*&quot;loan&quot; + 0.007*&quot;business&quot; + 0.006*&quot;loans&quot; + &#39;
-  &#39;0.005*&quot;fintech&quot; + 0.005*&quot;data&quot;&#39;),
+  &#39;0.057*&quot;details&quot; + 0.037*&quot;contact&quot; + 0.030*&quot;hello&quot; + 0.028*&quot;concern&quot; + &#39;
+  &#39;0.027*&quot;kindly_dm&quot; + 0.027*&quot;contact_solve&quot; + 0.027*&quot;concern_looking&quot; + &#39;
+  &#39;0.026*&quot;forward_serve&quot; + 0.025*&quot;shall_happy&quot; + 0.025*&quot;experience_officer&quot;&#39;),
  (1,
-  &#39;0.015*&quot;reply&quot; + 0.013*&quot;lendingkart&quot; + 0.011*&quot;company&quot; + 0.009*&quot;raised&quot; + &#39;
-  &#39;0.009*&quot;business&quot; + 0.007*&quot;india&quot; + 0.007*&quot;finance&quot; + 0.006*&quot;support&quot; + &#39;
-  &#39;0.006*&quot;capital&quot; + 0.005*&quot;payment&quot;&#39;),
+  &#39;0.025*&quot;lendingkart&quot; + 0.012*&quot;rs_crore&quot; + 0.010*&quot;thanks_kind&quot; + &#39;
+  &#39;0.010*&quot;patience_cooperation&quot; + 0.010*&quot;business&quot; + 0.009*&quot;financial&quot; + &#39;
+  &#39;0.009*&quot;sir&quot; + 0.009*&quot;loan&quot; + 0.008*&quot;approved&quot; + 0.008*&quot;order&quot;&#39;),
  (2,
-  &#39;0.082*&quot;serve&quot; + 0.064*&quot;details&quot; + 0.063*&quot;registered_contact&quot; + &#39;
-  &#39;0.063*&quot;customer_experience&quot; + 0.062*&quot;share&quot; + 0.062*&quot;officer_shall&quot; + &#39;
-  &#39;0.062*&quot;happy&quot; + 0.062*&quot;forward&quot; + 0.061*&quot;contact_solve&quot; + &#39;
-  &#39;0.061*&quot;concern_looking&quot;&#39;),
+  &#39;0.045*&quot;deeply_value&quot; + 0.044*&quot;association_reassure&quot; + &#39;
+  &#39;0.043*&quot;committed_serving&quot; + 0.043*&quot;team_fully&quot; + 0.026*&quot;dear_sir&quot; + &#39;
+  &#39;0.024*&quot;better&quot; + 0.020*&quot;better_thank&quot; + 0.017*&quot;conversation_representative&quot; &#39;
+  &#39;+ 0.017*&quot;hope_satisfied&quot; + 0.017*&quot;connect_soon&quot;&#39;),
  (3,
-  &#39;0.043*&quot;carecom&quot; + 0.014*&quot;request&quot; + 0.014*&quot;emi&quot; + 0.013*&quot;applied&quot; + &#39;
-  &#39;0.013*&quot;lendingkart&quot; + 0.012*&quot;experience&quot; + 0.011*&quot;reply&quot; + 0.011*&quot;dm&quot; + &#39;
-  &#39;0.009*&quot;mailed&quot; + 0.009*&quot;rbi&quot;&#39;),
+  &#39;0.022*&quot;lendingkart&quot; + 0.012*&quot;company&quot; + 0.011*&quot;deducted&quot; + 0.011*&quot;help&quot; + &#39;
+  &#39;0.010*&quot;emi&quot; + 0.008*&quot;time&quot; + 0.008*&quot;mail&quot; + 0.007*&quot;like&quot; + 0.007*&quot;raised&quot; + &#39;
+  &#39;0.007*&quot;sir&quot;&#39;),
  (4,
-  &#39;0.060*&quot;team&quot; + 0.045*&quot;dear_sir&quot; + 0.043*&quot;association&quot; + &#39;
-  &#39;0.043*&quot;deeply_value&quot; + 0.042*&quot;reassure&quot; + 0.041*&quot;serving&quot; + &#39;
-  &#39;0.041*&quot;fully_committed&quot; + 0.040*&quot;details&quot; + 0.040*&quot;representative&quot; + &#39;
-  &#39;0.033*&quot;forwarded&quot;&#39;),
+  &#39;0.018*&quot;loan&quot; + 0.010*&quot;customer_care&quot; + 0.008*&quot;company&quot; + 0.008*&quot;bank&quot; + &#39;
+  &#39;0.007*&quot;ur&quot; + 0.007*&quot;pay&quot; + 0.007*&quot;cibil&quot; + 0.007*&quot;applied&quot; + &#39;
+  &#39;0.007*&quot;business&quot; + 0.007*&quot;dont&quot;&#39;),
  (5,
-  &#39;0.040*&quot;contact&quot; + 0.035*&quot;thank&quot; + 0.034*&quot;number&quot; + 0.030*&quot;reach&quot; + &#39;
-  &#39;0.029*&quot;able&quot; + 0.028*&quot;trying&quot; + 0.026*&quot;dear&quot; + 0.026*&quot;share&quot; + &#39;
-  &#39;0.025*&quot;customer&quot; + 0.025*&quot;touch&quot;&#39;),
+  &#39;0.063*&quot;dear&quot; + 0.061*&quot;customer&quot; + 0.047*&quot;thanks_giving&quot; + &#39;
+  &#39;0.047*&quot;chance_serve&quot; + 0.044*&quot;concerned_team&quot; + 0.044*&quot;shared_details&quot; + &#39;
+  &#39;0.037*&quot;thank&quot; + 0.028*&quot;customer_experience&quot; + 0.028*&quot;value_association&quot; + &#39;
+  &#39;0.028*&quot;soon_deeply&quot;&#39;),
  (6,
-  &#39;0.030*&quot;emi&quot; + 0.026*&quot;moratorium&quot; + 0.020*&quot;loan&quot; + 0.014*&quot;time&quot; + &#39;
-  &#39;0.014*&quot;lendingkart&quot; + 0.013*&quot;mail&quot; + 0.009*&quot;account&quot; + 0.008*&quot;response&quot; + &#39;
-  &#39;0.008*&quot;rbi&quot; + 0.008*&quot;months&quot;&#39;),
+  &#39;0.044*&quot;concern&quot; + 0.037*&quot;soon&quot; + 0.031*&quot;team&quot; + 0.027*&quot;forwarded_details&quot; + &#39;
+  &#39;0.021*&quot;hello&quot; + 0.019*&quot;contact_helpline&quot; + 0.019*&quot;monday_saturday&quot; + &#39;
+  &#39;0.018*&quot;department&quot; + 0.018*&quot;thank&quot; + 0.017*&quot;query&quot;&#39;),
  (7,
-  &#39;0.055*&quot;team&quot; + 0.050*&quot;soon&quot; + 0.050*&quot;connect&quot; + 0.048*&quot;details&quot; + &#39;
-  &#39;0.047*&quot;shared&quot; + 0.047*&quot;association&quot; + 0.046*&quot;reassure&quot; + &#39;
-  &#39;0.046*&quot;deeply_value&quot; + 0.046*&quot;concerned_team&quot; + 0.046*&quot;fully_committed&quot;&#39;),
+  &#39;0.100*&quot;serve&quot; + 0.077*&quot;contact&quot; + 0.072*&quot;customer_experience&quot; + &#39;
+  &#39;0.070*&quot;officer_shall&quot; + 0.069*&quot;looking_forward&quot; + 0.069*&quot;solve_concern&quot; + &#39;
+  &#39;0.068*&quot;happy_contact&quot; + 0.067*&quot;kindly_dm&quot; + 0.066*&quot;share_registered&quot; + &#39;
+  &#39;0.045*&quot;details_infocom&quot;&#39;),
  (8,
-  &#39;0.015*&quot;kar_rahe&quot; + 0.014*&quot;emi_cut&quot; + 0.013*&quot;banks&quot; + 0.013*&quot;milega&quot; + &#39;
-  &#39;0.013*&quot;hum_corona&quot; + 0.013*&quot;ke_khilaf&quot; + 0.013*&quot;se_kaise&quot; + &#39;
-  &#39;0.013*&quot;lad_lenge&quot; + 0.013*&quot;ye_virus&quot; + 0.013*&quot;lade_jo&quot;&#39;),
+  &#39;0.053*&quot;reassure_team&quot; + 0.053*&quot;value_association&quot; + 0.053*&quot;fully_committed&quot; &#39;
+  &#39;+ 0.049*&quot;serving_better&quot; + 0.047*&quot;soon_deeply&quot; + 0.040*&quot;team&quot; + &#39;
+  &#39;0.032*&quot;details_concerned&quot; + 0.032*&quot;hello_thanks&quot; + 0.031*&quot;giving_chance&quot; + &#39;
+  &#39;0.030*&quot;serve_shared&quot;&#39;),
  (9,
-  &#39;0.016*&quot;loan&quot; + 0.015*&quot;lendingkart&quot; + 0.012*&quot;company&quot; + 0.011*&quot;help&quot; + &#39;
-  &#39;0.011*&quot;sir&quot; + 0.010*&quot;employees&quot; + 0.009*&quot;hai&quot; + 0.008*&quot;dont&quot; + 0.008*&quot;need&quot; &#39;
-  &#39;+ 0.008*&quot;ko&quot;&#39;)]
+  &#39;0.035*&quot;emi&quot; + 0.024*&quot;lendingkart&quot; + 0.023*&quot;moratorium&quot; + 0.017*&quot;loan&quot; + &#39;
+  &#39;0.013*&quot;request&quot; + 0.013*&quot;mail&quot; + 0.012*&quot;reply&quot; + 0.012*&quot;month&quot; + &#39;
+  &#39;0.011*&quot;dont&quot; + 0.010*&quot;time&quot;&#39;)]
 </pre></div>
 </div>
 </div>
@@ -903,7 +759,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pre-COVID Coherence Score:  -10.973651624026603
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pre-COVID Coherence Score:  -12.041326886953787
 </pre></div>
 </div>
 </div>
@@ -920,7 +776,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Post-COVID Coherence Score:  -5.731216686736141
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Post-COVID Coherence Score:  -8.807710960349542
 </pre></div>
 </div>
 </div>
@@ -929,122 +785,22 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </section>
 <section id="hyper-parameter-tuning">
 <h2>Hyper-parameter tuning<a class="headerlink" href="#hyper-parameter-tuning" title="Permalink to this headline">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_coherence_values</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">):</span>
-    
-    <span class="n">lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
-                                           <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
-                                           <span class="n">num_topics</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> 
-                                           <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                           <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                           <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                           <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
-                                           <span class="n">eta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
-    
-    <span class="n">coherence_model_lda</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">lda_model</span><span class="p">,</span> 
-                                                        <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span> 
-                                                        <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span> 
-                                                        <span class="n">coherence</span><span class="o">=</span><span class="n">coherence</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">coherence_model_lda</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
 <section id="pre-covid">
 <h3>Pre-COVID<a class="headerlink" href="#pre-covid" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">grid</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="n">pre_corpus</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Topics range</span>
-<span class="n">min_topics</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">max_topics</span> <span class="o">=</span> <span class="mi">31</span>
-<span class="n">step_size</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">topics_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_topics</span><span class="p">,</span> <span class="n">max_topics</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-
-<span class="c1"># Alpha parameter</span>
-<span class="n">alpha</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">))</span>
-<span class="n">alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
-<span class="n">alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;asymmetric&#39;</span><span class="p">)</span>
-
-<span class="c1"># Beta parameter</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">))</span>
-<span class="n">beta</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
-
-<span class="c1"># Validation sets</span>
-<span class="n">num_of_docs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">corpus_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">gensim</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">ClippedCorpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_of_docs</span><span class="o">*</span><span class="mf">0.75</span><span class="p">)),</span> 
-               <span class="n">corpus</span><span class="p">]</span>
-<span class="n">corpus_title</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;75% Corpus&#39;</span><span class="p">,</span> <span class="s1">&#39;100% Corpus&#39;</span><span class="p">]</span>
-<span class="n">model_results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Topics&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Alpha&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Beta&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Coherence&#39;</span><span class="p">:</span> <span class="p">[]</span>
-                <span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">iterations</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">topics_range</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus_sets</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Can take a long time to run</span>
-<span class="k">if</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">iterations</span><span class="p">)</span>
-    
-    <span class="c1"># iterate through validation corpuses</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus_sets</span><span class="p">)):</span>
-        <span class="c1"># iterate through number of topics</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">topics_range</span><span class="p">:</span>
-            <span class="c1"># iterate through alpha values</span>
-            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alpha</span><span class="p">:</span>
-                <span class="c1"># iterare through beta values</span>
-                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">beta</span><span class="p">:</span>
-                    <span class="c1"># get the coherence score for the given parameters</span>
-                    <span class="n">cv</span> <span class="o">=</span> <span class="n">compute_coherence_values</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus_sets</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> 
-                                                  <span class="n">dictionary</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span> 
-                                                  <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">b</span><span class="p">,</span>
-                                                  <span class="n">texts</span><span class="o">=</span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-                                                  <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
-                    <span class="c1"># Save the model results</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corpus_title</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Coherence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv</span><span class="p">)</span>
-                    
-                    <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">pre_df_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">model_results</span><span class="p">)</span>
-    <span class="n">pbar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">perform_hyperparameter_tuning</span><span class="p">(</span><span class="n">pre_corpus</span><span class="p">,</span> 
+                                                        <span class="n">pre_id2word</span><span class="p">,</span> 
+                                                        <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
+                                                        <span class="s2">&quot;./../../data/fintech/lendingkart/pre.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "3f2f7fcf2abc4e75941cca7d77a4e42f", "version_major": 2, "version_minor": 0}
-</script></div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 780/780 [3:45:28&lt;00:00, 17.34s/it]    
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1081,43 +837,43 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
   <tbody>
     <tr>
       <th>0</th>
-      <td>75% Corpus</td>
+      <td>75.0% Corpus</td>
       <td>2</td>
       <td>0.01</td>
       <td>0.01</td>
-      <td>-10.313011</td>
+      <td>-11.630625</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>75% Corpus</td>
+      <td>75.0% Corpus</td>
       <td>2</td>
       <td>0.01</td>
       <td>0.31</td>
-      <td>-9.964101</td>
+      <td>-10.852349</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>75% Corpus</td>
+      <td>75.0% Corpus</td>
       <td>2</td>
       <td>0.01</td>
       <td>0.61</td>
-      <td>-10.403209</td>
+      <td>-9.803300</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>75% Corpus</td>
+      <td>75.0% Corpus</td>
       <td>2</td>
       <td>0.01</td>
-      <td>0.91</td>
-      <td>-10.074227</td>
+      <td>0.9099999999999999</td>
+      <td>-10.415090</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>75% Corpus</td>
+      <td>75.0% Corpus</td>
       <td>2</td>
       <td>0.01</td>
       <td>symmetric</td>
-      <td>-9.867330</td>
+      <td>-10.713609</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1128,75 +884,53 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
       <td>...</td>
     </tr>
     <tr>
-      <th>1735</th>
+      <th>775</th>
       <td>100% Corpus</td>
-      <td>30</td>
+      <td>14</td>
       <td>asymmetric</td>
       <td>0.01</td>
-      <td>-12.641898</td>
+      <td>-11.742100</td>
     </tr>
     <tr>
-      <th>1736</th>
+      <th>776</th>
       <td>100% Corpus</td>
-      <td>30</td>
+      <td>14</td>
       <td>asymmetric</td>
       <td>0.31</td>
-      <td>-11.886713</td>
+      <td>-11.115104</td>
     </tr>
     <tr>
-      <th>1737</th>
+      <th>777</th>
       <td>100% Corpus</td>
-      <td>30</td>
+      <td>14</td>
       <td>asymmetric</td>
       <td>0.61</td>
-      <td>-12.627834</td>
+      <td>-11.643153</td>
     </tr>
     <tr>
-      <th>1738</th>
+      <th>778</th>
       <td>100% Corpus</td>
-      <td>30</td>
+      <td>14</td>
       <td>asymmetric</td>
-      <td>0.91</td>
-      <td>-11.861413</td>
+      <td>0.9099999999999999</td>
+      <td>-11.507668</td>
     </tr>
     <tr>
-      <th>1739</th>
+      <th>779</th>
       <td>100% Corpus</td>
-      <td>30</td>
+      <td>14</td>
       <td>asymmetric</td>
       <td>symmetric</td>
-      <td>-13.105225</td>
+      <td>-11.656958</td>
     </tr>
   </tbody>
 </table>
-<p>1740 rows × 5 columns</p>
+<p>780 rows × 5 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
-<span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pre_df_result.to_csv(&quot;./../../data/fintech/lendingkart/pre.csv&quot;)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./../../data/fintech/lendingkart/pre.csv&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pre_df_result = pd.read_csv(&quot;./../../data/fintech/lendingkart/pre.csv&quot;)</span>
 </pre></div>
 </div>
 </div>
@@ -1205,7 +939,6 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Maximum coherence</span>
 <span class="n">pre_df_result</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;Coherence&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1"># pre_df_result[pre_df_result[&#39;Coherence&#39;] == pre_df_result[&#39;Coherence&#39;].max()]</span>
 <span class="n">pre_df_result</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1229,7 +962,6 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Unnamed: 0</th>
       <th>Validation_Set</th>
       <th>Topics</th>
       <th>Alpha</th>
@@ -1239,94 +971,84 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
   </thead>
   <tbody>
     <tr>
-      <th>948</th>
-      <td>948</td>
+      <th>648</th>
       <td>100% Corpus</td>
-      <td>4</td>
+      <td>10</td>
       <td>0.9099999999999999</td>
       <td>0.9099999999999999</td>
-      <td>-6.924567</td>
+      <td>-8.503835</td>
     </tr>
     <tr>
-      <th>78</th>
-      <td>78</td>
-      <td>75% Corpus</td>
-      <td>4</td>
-      <td>0.9099999999999999</td>
-      <td>0.9099999999999999</td>
-      <td>-7.285638</td>
-    </tr>
-    <tr>
-      <th>108</th>
-      <td>108</td>
-      <td>75% Corpus</td>
-      <td>5</td>
-      <td>0.9099999999999999</td>
-      <td>0.9099999999999999</td>
-      <td>-7.293230</td>
-    </tr>
-    <tr>
-      <th>947</th>
-      <td>947</td>
+      <th>438</th>
       <td>100% Corpus</td>
-      <td>4</td>
+      <td>3</td>
       <td>0.9099999999999999</td>
-      <td>0.61</td>
-      <td>-7.303301</td>
+      <td>0.9099999999999999</td>
+      <td>-8.570930</td>
     </tr>
     <tr>
-      <th>1001</th>
-      <td>1001</td>
+      <th>428</th>
       <td>100% Corpus</td>
-      <td>6</td>
-      <td>0.61</td>
+      <td>3</td>
       <td>0.31</td>
-      <td>-7.368152</td>
+      <td>0.9099999999999999</td>
+      <td>-8.860387</td>
     </tr>
     <tr>
-      <th>79</th>
-      <td>79</td>
-      <td>75% Corpus</td>
+      <th>437</th>
+      <td>100% Corpus</td>
+      <td>3</td>
+      <td>0.9099999999999999</td>
+      <td>0.61</td>
+      <td>-8.903289</td>
+    </tr>
+    <tr>
+      <th>443</th>
+      <td>100% Corpus</td>
+      <td>3</td>
+      <td>symmetric</td>
+      <td>0.9099999999999999</td>
+      <td>-8.948995</td>
+    </tr>
+    <tr>
+      <th>432</th>
+      <td>100% Corpus</td>
+      <td>3</td>
+      <td>0.61</td>
+      <td>0.61</td>
+      <td>-8.987103</td>
+    </tr>
+    <tr>
+      <th>435</th>
+      <td>100% Corpus</td>
+      <td>3</td>
+      <td>0.9099999999999999</td>
+      <td>0.01</td>
+      <td>-9.103997</td>
+    </tr>
+    <tr>
+      <th>442</th>
+      <td>100% Corpus</td>
+      <td>3</td>
+      <td>symmetric</td>
+      <td>0.61</td>
+      <td>-9.117170</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>75.0% Corpus</td>
+      <td>3</td>
+      <td>asymmetric</td>
+      <td>0.9099999999999999</td>
+      <td>-9.132598</td>
+    </tr>
+    <tr>
+      <th>469</th>
+      <td>100% Corpus</td>
       <td>4</td>
       <td>0.9099999999999999</td>
       <td>symmetric</td>
-      <td>-7.387055</td>
-    </tr>
-    <tr>
-      <th>103</th>
-      <td>103</td>
-      <td>75% Corpus</td>
-      <td>5</td>
-      <td>0.61</td>
-      <td>0.9099999999999999</td>
-      <td>-7.463332</td>
-    </tr>
-    <tr>
-      <th>76</th>
-      <td>76</td>
-      <td>75% Corpus</td>
-      <td>4</td>
-      <td>0.9099999999999999</td>
-      <td>0.31</td>
-      <td>-7.549348</td>
-    </tr>
-    <tr>
-      <th>1113</th>
-      <td>1113</td>
-      <td>100% Corpus</td>
-      <td>10</td>
-      <td>0.01</td>
-      <td>0.9099999999999999</td>
-      <td>-7.580376</td>
-    </tr>
-    <tr>
-      <th>107</th>
-      <td>107</td>
-      <td>75% Corpus</td>
-      <td>5</td>
-      <td>0.9099999999999999</td>
-      <td>0.61</td>
-      <td>-7.590615</td>
+      <td>-9.161936</td>
     </tr>
   </tbody>
 </table>
@@ -1386,29 +1108,29 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
   </thead>
   <tbody>
     <tr>
-      <th>19</th>
+      <th>4</th>
       <td>2</td>
-      <td>-8.794944</td>
+      <td>-10.148427</td>
     </tr>
     <tr>
-      <th>22</th>
+      <th>1</th>
       <td>3</td>
-      <td>-8.147617</td>
+      <td>-8.570930</td>
     </tr>
     <tr>
-      <th>0</th>
+      <th>2</th>
       <td>4</td>
-      <td>-6.924567</td>
+      <td>-9.724897</td>
     </tr>
     <tr>
-      <th>15</th>
+      <th>5</th>
       <td>5</td>
-      <td>-7.293230</td>
+      <td>-10.975091</td>
     </tr>
     <tr>
-      <th>27</th>
+      <th>8</th>
       <td>6</td>
-      <td>-8.129940</td>
+      <td>-11.300579</td>
     </tr>
   </tbody>
 </table>
@@ -1424,12 +1146,12 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;topics&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../../_images/lendingkart_41_1.png" src="../../../_images/lendingkart_41_1.png" />
+<img alt="../../../_images/lendingkart_26_1.png" src="../../../_images/lendingkart_26_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span><span class="p">[</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span><span class="p">[</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1461,44 +1183,44 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
   </thead>
   <tbody>
     <tr>
-      <th>948</th>
+      <th>438</th>
       <td>100% Corpus</td>
-      <td>4</td>
+      <td>3</td>
       <td>0.9099999999999999</td>
       <td>0.9099999999999999</td>
-      <td>-6.924567</td>
+      <td>-8.570930</td>
     </tr>
     <tr>
-      <th>78</th>
-      <td>75% Corpus</td>
-      <td>4</td>
+      <th>428</th>
+      <td>100% Corpus</td>
+      <td>3</td>
+      <td>0.31</td>
       <td>0.9099999999999999</td>
-      <td>0.9099999999999999</td>
-      <td>-7.285638</td>
+      <td>-8.860387</td>
     </tr>
     <tr>
-      <th>947</th>
+      <th>437</th>
       <td>100% Corpus</td>
-      <td>4</td>
+      <td>3</td>
       <td>0.9099999999999999</td>
       <td>0.61</td>
-      <td>-7.303301</td>
+      <td>-8.903289</td>
     </tr>
     <tr>
-      <th>79</th>
-      <td>75% Corpus</td>
-      <td>4</td>
-      <td>0.9099999999999999</td>
+      <th>443</th>
+      <td>100% Corpus</td>
+      <td>3</td>
       <td>symmetric</td>
-      <td>-7.387055</td>
+      <td>0.9099999999999999</td>
+      <td>-8.948995</td>
     </tr>
     <tr>
-      <th>76</th>
-      <td>75% Corpus</td>
-      <td>4</td>
-      <td>0.9099999999999999</td>
-      <td>0.31</td>
-      <td>-7.549348</td>
+      <th>432</th>
+      <td>100% Corpus</td>
+      <td>3</td>
+      <td>0.61</td>
+      <td>0.61</td>
+      <td>-8.987103</td>
     </tr>
   </tbody>
 </table>
@@ -1509,95 +1231,18 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <h3>Post-COVID<a class="headerlink" href="#post-covid" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">grid</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="n">post_corpus</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Topics range</span>
-<span class="n">min_topics</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">max_topics</span> <span class="o">=</span> <span class="mi">31</span>
-<span class="n">step_size</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">topics_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_topics</span><span class="p">,</span> <span class="n">max_topics</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-
-<span class="c1"># Alpha parameter</span>
-<span class="n">alpha</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">))</span>
-<span class="n">alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
-<span class="n">alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;asymmetric&#39;</span><span class="p">)</span>
-
-<span class="c1"># Beta parameter</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">))</span>
-<span class="n">beta</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
-
-<span class="c1"># Validation sets</span>
-<span class="n">num_of_docs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">corpus_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">gensim</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">ClippedCorpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_of_docs</span><span class="o">*</span><span class="mf">0.75</span><span class="p">)),</span> 
-               <span class="n">corpus</span><span class="p">]</span>
-<span class="n">corpus_title</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;75% Corpus&#39;</span><span class="p">,</span> <span class="s1">&#39;100% Corpus&#39;</span><span class="p">]</span>
-<span class="n">model_results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Topics&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Alpha&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Beta&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Coherence&#39;</span><span class="p">:</span> <span class="p">[]</span>
-                <span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">iterations</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">topics_range</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus_sets</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Can take a long time to run</span>
-<span class="k">if</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">iterations</span><span class="p">)</span>
-    
-    <span class="c1"># iterate through validation corpuses</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus_sets</span><span class="p">)):</span>
-        <span class="c1"># iterate through number of topics</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">topics_range</span><span class="p">:</span>
-            <span class="c1"># iterate through alpha values</span>
-            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alpha</span><span class="p">:</span>
-                <span class="c1"># iterare through beta values</span>
-                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">beta</span><span class="p">:</span>
-                    <span class="c1"># get the coherence score for the given parameters</span>
-                    <span class="n">cv</span> <span class="o">=</span> <span class="n">compute_coherence_values</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus_sets</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> 
-                                                  <span class="n">dictionary</span><span class="o">=</span><span class="n">post_id2word</span><span class="p">,</span> 
-                                                  <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">b</span><span class="p">,</span>
-                                                  <span class="n">texts</span><span class="o">=</span><span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-                                                  <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
-                    <span class="c1"># Save the model results</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corpus_title</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Coherence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv</span><span class="p">)</span>
-                    
-                    <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">post_df_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">model_results</span><span class="p">)</span>
-    <span class="n">pbar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">perform_hyperparameter_tuning</span><span class="p">(</span><span class="n">post_corpus</span><span class="p">,</span> 
+                                                        <span class="n">post_id2word</span><span class="p">,</span> 
+                                                        <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
+                                                        <span class="s2">&quot;./../../data/fintech/lendingkart/post.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "d6289ddbad9946a1a0407be4b39c5ccf", "version_major": 2, "version_minor": 0}
-</script></div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|▏         | 16/780 [00:48&lt;38:27,  3.02s/it]
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1678,23 +1323,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
-<span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># post_df_result.to_csv(&quot;./../../data/fintech/lendingkart/post.csv&quot;)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./../../data/fintech/lendingkart/post.csv&quot;</span><span class="p">)</span>
-<span class="n">post_df_result</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># post_df_result = pd.read_csv(&quot;./../../data/fintech/lendingkart/post.csv&quot;)</span>
 </pre></div>
 </div>
 </div>
@@ -1703,7 +1332,6 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Maximum coherence</span>
 <span class="n">post_df_result</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;Coherence&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1"># pre_df_result[pre_df_result[&#39;Coherence&#39;] == pre_df_result[&#39;Coherence&#39;].max()]</span>
 <span class="n">post_df_result</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1821,19 +1449,6 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;0.31&#39;, &#39;0.01&#39;, &#39;symmetric&#39;, &#39;0.61&#39;, &#39;0.9099999999999999&#39;,
-       &#39;asymmetric&#39;], dtype=object)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_topics_score</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1924,12 +1539,12 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;topics&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../../_images/lendingkart_58_1.png" src="../../../_images/lendingkart_58_1.png" />
+<img alt="../../../_images/lendingkart_36_1.png" src="../../../_images/lendingkart_36_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span><span class="p">[(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span><span class="p">[(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

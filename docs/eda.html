@@ -42,6 +42,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -52,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="topic_modelling.html" />
+    <link rel="next" title="Faircent" href="individual/fintech/faircent.html" />
     <link rel="prev" title="Comparing Fintech and NBFC using Twitter Data" href="../intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -353,12 +354,53 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#wordcloud-analysis">
+   Wordcloud Analysis
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fintech">
+     Fintech
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nbfc">
+     NBFC
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mixed-coding-analysis">
+   Mixed-Coding Analysis
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -370,6 +412,36 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#wordcloud-analysis">
+   Wordcloud Analysis
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fintech">
+     Fintech
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nbfc">
+     NBFC
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mixed-coding-analysis">
+   Mixed-Coding Analysis
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -384,11 +456,10 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load necessary packages</span>
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">clear_output</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">wordcloud</span> <span class="kn">import</span> <span class="n">WordCloud</span><span class="p">,</span> <span class="n">STOPWORDS</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
 
 <span class="kn">from</span> <span class="nn">utils.helper</span> <span class="kn">import</span> <span class="n">Processor</span>
 </pre></div>
@@ -418,94 +489,311 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_dropdown</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-    <span class="n">options</span><span class="o">=</span><span class="n">fintech</span><span class="p">,</span>
-    <span class="n">value</span><span class="o">=</span><span class="n">fintech</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Fintech company:&#39;</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stopwords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">STOPWORDS</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="wordcloud-analysis">
+<h2>Wordcloud Analysis<a class="headerlink" href="#wordcloud-analysis" title="Permalink to this headline">#</a></h2>
+<section id="fintech">
+<h3>Fintech<a class="headerlink" href="#fintech" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">fintech</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wordcloud for company: </span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./data/fintech/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">])</span>
+    <span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">()</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess_tweet</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;fintech&quot;</span><span class="p">]:</span>
+        <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span> <span class="o">+</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;fintech&quot;</span><span class="p">][</span><span class="n">comp</span><span class="p">]</span>
+    <span class="n">wordcloud</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span>
+                            <span class="n">background_color</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+                            <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span><span class="p">,</span>
+                            <span class="n">min_font_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
-<span class="n">fintech_out</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
-
-<span class="k">def</span> <span class="nf">on_change_fintech</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">fintech_out</span><span class="p">:</span>
-        <span class="n">clear_output</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;change&#39;</span> <span class="ow">and</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
-            <span class="n">clear_output</span><span class="p">()</span>
-            <span class="n">comp</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
-            <span class="n">stopwords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">STOPWORDS</span><span class="p">)</span>
-            <span class="n">fintech_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./data/fintech/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">])</span>
-            <span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">()</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess_tweet</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;fintech&quot;</span><span class="p">]:</span>
-                <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span> <span class="o">+</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;fintech&quot;</span><span class="p">][</span><span class="n">comp</span><span class="p">]</span>
-            <span class="n">wordcloud</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span>
-                                    <span class="n">background_color</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
-                                    <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span><span class="p">,</span>
-                                    <span class="n">min_font_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-            
-            <span class="c1"># plot the WordCloud image</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">wordcloud</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="n">fintech_dropdown</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_change_fintech</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
-
-<span class="n">display</span><span class="p">(</span><span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">fintech_dropdown</span><span class="p">,</span> <span class="n">fintech_out</span><span class="p">]))</span>
+    <span class="c1"># plot the WordCloud image</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">wordcloud</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "25e67f7ed3474bf49369f2213e94f2c3", "version_major": 2, "version_minor": 0}
-</script></div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wordcloud for company: lendingkart
+</pre></div>
+</div>
+<img alt="../_images/eda_7_1.png" src="../_images/eda_7_1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wordcloud for company: mobikwik
+</pre></div>
+</div>
+<img alt="../_images/eda_7_3.png" src="../_images/eda_7_3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wordcloud for company: faircent
+</pre></div>
+</div>
+<img alt="../_images/eda_7_5.png" src="../_images/eda_7_5.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wordcloud for company: paytm
+</pre></div>
+</div>
+<img alt="../_images/eda_7_7.png" src="../_images/eda_7_7.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wordcloud for company: pine_labs
+</pre></div>
+</div>
+<img alt="../_images/eda_7_9.png" src="../_images/eda_7_9.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Prominent keywords</strong></p>
+<ul class="simple">
+<li><p><em>Lendingkart</em>: serve, change, registered contact, experience officer, team, customer experience, giving us, association</p></li>
+<li><p><em>Mobikwik</em>: account, wallet, money, truly Indian, refund, issue, use</p></li>
+<li><p><em>Faircent</em>: p2p lending, loan, Indian, EMI, lender, borrower, platform, company, team</p></li>
+<li><p><em>Paytm</em>: account, app, wallet, money, refund, request, use</p></li>
+<li><p><em>Pine Labs</em>: support team, thank, request, contact detail, debit card, customer, payment, team</p></li>
+</ul>
+</section>
+<section id="nbfc">
+<h3>NBFC<a class="headerlink" href="#nbfc" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">nbfc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wordcloud for company: </span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./data/nbfc/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">])</span>
+    <span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">()</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess_tweet</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;nbfc&quot;</span><span class="p">]:</span>
+        <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span> <span class="o">+</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;nbfc&quot;</span><span class="p">][</span><span class="n">comp</span><span class="p">]</span>
+    <span class="n">wordcloud</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span>
+                            <span class="n">background_color</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+                            <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span><span class="p">,</span>
+                            <span class="n">min_font_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="c1"># plot the WordCloud image</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">wordcloud</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wordcloud for company: muthoot_finance
+</pre></div>
+</div>
+<img alt="../_images/eda_10_1.png" src="../_images/eda_10_1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wordcloud for company: bajaj_finance
+</pre></div>
+</div>
+<img alt="../_images/eda_10_3.png" src="../_images/eda_10_3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wordcloud for company: aditya_birla_finance
+</pre></div>
+</div>
+<img alt="../_images/eda_10_5.png" src="../_images/eda_10_5.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wordcloud for company: cholamandalam
+</pre></div>
+</div>
+<img alt="../_images/eda_10_7.png" src="../_images/eda_10_7.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Prominent keywords</strong></p>
+<ul class="simple">
+<li><p><em>Muthoot Finance</em>: gold loan, buy, crore, stock, target, Kerala, company, target, mannapuram</p></li>
+<li><p><em>Bajaj Finance</em>: greeting, thank, reference, assist, email id, post, request number, contact detail</p></li>
+<li><p><em>Aditya Birla Finance</em>: group, capital, loan, hiring, EMI, moratorium, apply now</p></li>
+<li><p><em>Cholamandalam</em>: investment, company, financial holding, securities, general insurance, India, target, stock</p></li>
+</ul>
+</section>
+</section>
+<section id="mixed-coding-analysis">
+<h2>Mixed-Coding Analysis<a class="headerlink" href="#mixed-coding-analysis" title="Permalink to this headline">#</a></h2>
+<p>When a document contains sentences with different languages, it is said to be mixed-coded. It will be helpful to analyze whether tweets in languages other than English are significant in number and then devise a strategy to deal with them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s1">&#39;./data/fintech/fintech.h5&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;fintech&#39;</span><span class="p">)</span>
+<span class="n">nbfc_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s1">&#39;./data/nbfc/nbfc.h5&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;nbfc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nbfc_dropdown</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-    <span class="n">options</span><span class="o">=</span><span class="n">nbfc</span><span class="p">,</span>
-    <span class="n">value</span><span class="o">=</span><span class="n">nbfc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;NBFC company:&#39;</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">nbfc_out</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
-
-<span class="k">def</span> <span class="nf">on_change_nbfc</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">nbfc_out</span><span class="p">:</span>
-        <span class="n">clear_output</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;change&#39;</span> <span class="ow">and</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
-            <span class="n">clear_output</span><span class="p">()</span>
-            <span class="n">comp</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
-            <span class="n">stopwords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">STOPWORDS</span><span class="p">)</span>
-            <span class="n">fintech_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./data/nbfc/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">])</span>
-            <span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">()</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess_tweet</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;nbfc&quot;</span><span class="p">]:</span>
-                <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span> <span class="o">+</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;nbfc&quot;</span><span class="p">][</span><span class="n">comp</span><span class="p">]</span>
-            <span class="n">wordcloud</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span>
-                                    <span class="n">background_color</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
-                                    <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span><span class="p">,</span>
-                                    <span class="n">min_font_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-            
-            <span class="c1"># plot the WordCloud image</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">wordcloud</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="n">nbfc_dropdown</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_change_nbfc</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
-
-<span class="n">display</span><span class="p">(</span><span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">nbfc_dropdown</span><span class="p">,</span> <span class="n">nbfc_out</span><span class="p">]))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of languages in tweets of fintechs: </span><span class="si">{</span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of languages in tweets of NBFCs: </span><span class="si">{</span><span class="n">nbfc_df</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "210a7c68ed9f47d2afb0494dcad21323", "version_major": 2, "version_minor": 0}
-</script></div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of languages in tweets of fintechs: 59
+Number of languages in tweets of NBFCs: 45
+</pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;is_en&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;en&#39;</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">nbfc_df</span><span class="p">[</span><span class="s1">&#39;is_en&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nbfc_df</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;en&#39;</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isen_df</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;company&#39;</span><span class="p">,</span> <span class="s1">&#39;is_en&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">()[[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isen_df</span><span class="p">[</span><span class="s1">&#39;percentage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;company&#39;</span><span class="p">,</span> <span class="s1">&#39;is_en&#39;</span><span class="p">],</span> <span class="n">group_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="mi">100</span> <span class="o">*</span> <span class="n">x</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_21680/3968065683.py:1: FutureWarning:
+
+Not prepending group keys to the result index of transform-like apply. In the future, the group keys will be included in the index, regardless of whether the applied function returns a like-indexed object.
+To preserve the previous behavior, use
+
+	&gt;&gt;&gt; .groupby(..., group_keys=False)
+
+To adopt the future behavior and silence this warning, use 
+
+	&gt;&gt;&gt; .groupby(..., group_keys=True)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isen_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>company</th>
+      <th>is_en</th>
+      <th>tweet</th>
+      <th>percentage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>faircent</td>
+      <td>False</td>
+      <td>20</td>
+      <td>6.230530</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>faircent</td>
+      <td>True</td>
+      <td>301</td>
+      <td>93.769470</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>lendingkart</td>
+      <td>False</td>
+      <td>705</td>
+      <td>12.841530</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>lendingkart</td>
+      <td>True</td>
+      <td>4785</td>
+      <td>87.158470</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>mobikwik</td>
+      <td>False</td>
+      <td>8001</td>
+      <td>15.036647</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>mobikwik</td>
+      <td>True</td>
+      <td>45209</td>
+      <td>84.963353</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>paytm</td>
+      <td>False</td>
+      <td>241072</td>
+      <td>23.959180</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>paytm</td>
+      <td>True</td>
+      <td>765106</td>
+      <td>76.040820</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>pine_labs</td>
+      <td>False</td>
+      <td>1157</td>
+      <td>11.036917</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>pine_labs</td>
+      <td>True</td>
+      <td>9326</td>
+      <td>88.963083</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">isen_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;company&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;percentage&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;is_en&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;English Tweets Proportion&quot;</span><span class="p">,</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;stack&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>Tweets with non-English language can be eliminated since the remaining data can is still significant in number.<br />
+For more advanced analysis, these tweets needed to be converted to the English language.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -542,10 +830,10 @@ title="Print to PDF"
             <p class="prev-next-title">Comparing Fintech and NBFC using Twitter Data</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="topic_modelling.html" title="next page">
+    <a class='right-next' id="next-link" href="individual/fintech/faircent.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title">Faircent</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

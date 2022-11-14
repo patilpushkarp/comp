@@ -42,6 +42,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -337,6 +338,11 @@ title="Print to PDF"
    High-Level Steps
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#methods-for-topic-determination">
+   Methods for Topic Determination
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -364,6 +370,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#high-level-steps">
    High-Level Steps
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#methods-for-topic-determination">
+   Methods for Topic Determination
   </a>
  </li>
 </ul>
@@ -424,6 +435,19 @@ The following fintechs are considered for the evaluation:</p>
 <li><p>Create a 10% subset of data by selecting observations with the highest contribution from each fintech</p></li>
 <li><p>Perform the above step for NBFC too</p></li>
 <li><p>Repeat the steps from 4 to 12 to find the dominant topics</p></li>
+</ol>
+</section>
+<section id="methods-for-topic-determination">
+<h2>Methods for Topic Determination<a class="headerlink" href="#methods-for-topic-determination" title="Permalink to this headline">#</a></h2>
+<p>Based on human judgment, two approaches can be taken:</p>
+<ol class="simple">
+<li><p>Observation-based: Observe the most probable words in the topic</p></li>
+<li><p>Interpretation-based: Word intrusion and topic intrusion</p></li>
+</ol>
+<p>Based on quantitative approaches, two approaches can be taken:</p>
+<ol class="simple">
+<li><p>Perplexity: Calculate the held-out log-likelihood</p></li>
+<li><p>Coherence: Calculate conditional likelihood of co-occurrence</p></li>
 </ol>
 </section>
 <div class="toctree-wrapper compound">
