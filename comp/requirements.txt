@@ -1,5 +1,6 @@
 jupyter-book
 jsonschema==3.2
+ipython==8.5
 pandas
 gensim
 nltk
