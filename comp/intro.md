@@ -39,3 +39,13 @@ Following are the steps to be followed:
 14. Create a 10% subset of data by selecting observations with the highest contribution from each fintech
 15. Perform the above step for NBFC too
 16. Repeat the steps from 4 to 12 to find the dominant topics
+
+## Methods for Topic Determination
+
+Based on human judgment, two approaches can be taken:
+1. Observation-based: Observe the most probable words in the topic
+2. Interpretation-based: Word intrusion and topic intrusion
+
+Based on quantitative approaches, two approaches can be taken:
+1. Perplexity: Calculate the held-out log-likelihood
+2. Coherence: Calculate conditional likelihood of co-occurrence
