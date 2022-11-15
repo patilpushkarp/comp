@@ -436,6 +436,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#inferencing">
    Inferencing
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Pre-COVID
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Post-COVID
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -516,6 +528,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#inferencing">
    Inferencing
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Pre-COVID
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Post-COVID
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -529,6 +553,13 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="lendingkart">
 <h1>Lendingkart<a class="headerlink" href="#lendingkart" title="Permalink to this headline">#</a></h1>
+<p>Lendingkart simplifies MSME finance. The main products of the company include -</p>
+<ol class="simple">
+<li><p>Business loan</p></li>
+<li><p>Working capital loan</p></li>
+<li><p>MSME loan</p></li>
+<li><p>Business loan for women</p></li>
+</ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load necessary libraries</span>
@@ -542,12 +573,21 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">tqdm.notebook</span> <span class="k">as</span> <span class="nn">tqdm</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="kn">import</span> <span class="nn">pickle</span> 
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
 <span class="kn">import</span> <span class="nn">pyLDAvis</span>
 
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/pushkar/Documents/projects/fin_comp/comp/docs&#39;</span><span class="p">)</span>
 
+<span class="kn">import</span> <span class="nn">utils.helper</span>
 <span class="kn">from</span> <span class="nn">utils.helper</span> <span class="kn">import</span> <span class="n">Processor</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">helper</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;module &#39;utils.helper&#39; from &#39;/Users/pushkar/Documents/projects/fin_comp/comp/docs/utils/helper.py&#39;&gt;
 </pre></div>
 </div>
 </div>
@@ -577,8 +617,14 @@ title="Print to PDF"
 <h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">(</span><span class="s1">&#39;./../../data/config.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preprocess the data</span>
-<span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">(</span><span class="s1">&#39;./../../data/config.json&#39;</span><span class="p">)</span>
 <span class="n">pre_df</span><span class="p">,</span> <span class="n">post_df</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -804,132 +850,6 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Validation_Set</th>
-      <th>Topics</th>
-      <th>Alpha</th>
-      <th>Beta</th>
-      <th>Coherence</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>75.0% Corpus</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>0.01</td>
-      <td>-11.630625</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>75.0% Corpus</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>0.31</td>
-      <td>-10.852349</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>75.0% Corpus</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>0.61</td>
-      <td>-9.803300</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>75.0% Corpus</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>0.9099999999999999</td>
-      <td>-10.415090</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>75.0% Corpus</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>symmetric</td>
-      <td>-10.713609</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>775</th>
-      <td>100% Corpus</td>
-      <td>14</td>
-      <td>asymmetric</td>
-      <td>0.01</td>
-      <td>-11.742100</td>
-    </tr>
-    <tr>
-      <th>776</th>
-      <td>100% Corpus</td>
-      <td>14</td>
-      <td>asymmetric</td>
-      <td>0.31</td>
-      <td>-11.115104</td>
-    </tr>
-    <tr>
-      <th>777</th>
-      <td>100% Corpus</td>
-      <td>14</td>
-      <td>asymmetric</td>
-      <td>0.61</td>
-      <td>-11.643153</td>
-    </tr>
-    <tr>
-      <th>778</th>
-      <td>100% Corpus</td>
-      <td>14</td>
-      <td>asymmetric</td>
-      <td>0.9099999999999999</td>
-      <td>-11.507668</td>
-    </tr>
-    <tr>
-      <th>779</th>
-      <td>100% Corpus</td>
-      <td>14</td>
-      <td>asymmetric</td>
-      <td>symmetric</td>
-      <td>-11.656958</td>
-    </tr>
-  </tbody>
-</table>
-<p>780 rows × 5 columns</p>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pre_df_result = pd.read_csv(&quot;./../../data/fintech/lendingkart/pre.csv&quot;)</span>
 </pre></div>
 </div>
@@ -1056,99 +976,24 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_topics_score</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">pre_df_result</span><span class="p">[(</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">])]</span>
-    <span class="n">max_value</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;Coherence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_value</span><span class="p">)</span>
-    <span class="n">pre_topics_score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_ts_df</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">create_topic_df</span><span class="p">(</span><span class="n">pre_df_result</span><span class="p">[</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;100% Corpus&#39;</span><span class="p">],</span> 
+                                        <span class="s1">&#39;0.9099999999999999&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;0.9099999999999999&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_ts_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pre_topics_score</span><span class="p">)</span>
-<span class="n">pre_ts_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="s1">&#39;coherence&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_ts_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">pre_ts_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">pre_ts_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;coherence&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Coherence plot&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>topics</th>
-      <th>coherence</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>4</th>
-      <td>2</td>
-      <td>-10.148427</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>3</td>
-      <td>-8.570930</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>4</td>
-      <td>-9.724897</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>5</td>
-      <td>-10.975091</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>6</td>
-      <td>-11.300579</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_ts_df</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;coherence&#39;</span><span class="p">)</span>
-</pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;topics&#39;&gt;
-</pre></div>
-</div>
-<img alt="../../../_images/lendingkart_26_1.png" src="../../../_images/lendingkart_26_1.png" />
-</div>
-</div>
+<p>For pre-COVID period, there are two points 10 and 3 where are coherence score is close to 0. But for the initial analysis, 3 will be chosen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span><span class="p">[</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -1239,87 +1084,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|▏         | 16/780 [00:48&lt;38:27,  3.02s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 780/780 [41:37&lt;00:00,  3.20s/it]
 </pre></div>
 </div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Validation_Set</th>
-      <th>Topics</th>
-      <th>Alpha</th>
-      <th>Beta</th>
-      <th>Coherence</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>75% Corpus</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>0.01</td>
-      <td>-4.654281</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>75% Corpus</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>0.31</td>
-      <td>-4.997103</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>75% Corpus</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>0.61</td>
-      <td>-5.439204</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>75% Corpus</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>0.91</td>
-      <td>-6.112097</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>75% Corpus</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>symmetric</td>
-      <td>-5.273664</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1364,166 +1132,84 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>906</th>
+      <th>412</th>
       <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>0.31</td>
-      <td>-2.600956</td>
-    </tr>
-    <tr>
-      <th>904</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>symmetric</td>
-      <td>-2.808227</td>
-    </tr>
-    <tr>
-      <th>923</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.9099999999999999</td>
-      <td>-2.882595</td>
-    </tr>
-    <tr>
-      <th>53</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.9099999999999999</td>
-      <td>-2.890555</td>
-    </tr>
-    <tr>
-      <th>31</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>0.31</td>
-      <td>-2.930297</td>
-    </tr>
-    <tr>
-      <th>52</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.61</td>
-      <td>-2.940758</td>
-    </tr>
-    <tr>
-      <th>40</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>0.01</td>
-      <td>-2.974750</td>
-    </tr>
-    <tr>
-      <th>974</th>
-      <td>100% Corpus</td>
-      <td>5</td>
-      <td>0.61</td>
-      <td>symmetric</td>
-      <td>-3.012792</td>
-    </tr>
-    <tr>
-      <th>920</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.01</td>
-      <td>-3.019088</td>
-    </tr>
-    <tr>
-      <th>33</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>0.9099999999999999</td>
-      <td>-3.024148</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_topics_score</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">post_df_result</span><span class="p">[(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;0.31&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;0.31&#39;</span><span class="p">)]</span>
-    <span class="n">max_value</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;Coherence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_value</span><span class="p">)</span>
-    <span class="n">post_topics_score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_ts_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">post_topics_score</span><span class="p">)</span>
-<span class="n">post_ts_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="s1">&#39;coherence&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_ts_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">post_ts_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>topics</th>
-      <th>coherence</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>22</th>
       <td>2</td>
-      <td>-5.266902</td>
+      <td>symmetric</td>
+      <td>0.61</td>
+      <td>-4.037596</td>
     </tr>
     <tr>
-      <th>0</th>
-      <td>3</td>
-      <td>-2.600956</td>
+      <th>398</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.31</td>
+      <td>0.9099999999999999</td>
+      <td>-4.082007</td>
     </tr>
     <tr>
-      <th>27</th>
-      <td>4</td>
-      <td>-4.121743</td>
+      <th>402</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.61</td>
+      <td>0.61</td>
+      <td>-4.146275</td>
     </tr>
     <tr>
-      <th>15</th>
-      <td>5</td>
-      <td>-5.475176</td>
+      <th>417</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>asymmetric</td>
+      <td>0.61</td>
+      <td>-4.154252</td>
     </tr>
     <tr>
-      <th>26</th>
-      <td>6</td>
-      <td>-3.341852</td>
+      <th>407</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.9099999999999999</td>
+      <td>0.61</td>
+      <td>-4.155749</td>
+    </tr>
+    <tr>
+      <th>403</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.61</td>
+      <td>0.9099999999999999</td>
+      <td>-4.195067</td>
+    </tr>
+    <tr>
+      <th>415</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>asymmetric</td>
+      <td>0.01</td>
+      <td>-4.211162</td>
+    </tr>
+    <tr>
+      <th>404</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.61</td>
+      <td>symmetric</td>
+      <td>-4.211570</td>
+    </tr>
+    <tr>
+      <th>393</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.01</td>
+      <td>0.9099999999999999</td>
+      <td>-4.241058</td>
+    </tr>
+    <tr>
+      <th>406</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.9099999999999999</td>
+      <td>0.31</td>
+      <td>-4.348645</td>
     </tr>
   </tbody>
 </table>
@@ -1531,20 +1217,27 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_ts_df</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;coherence&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_ts_df</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">create_topic_df</span><span class="p">(</span><span class="n">post_df_result</span><span class="p">[</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;100% Corpus&#39;</span><span class="p">],</span> 
+                                        <span class="s1">&#39;symmetric&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;0.61&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;topics&#39;&gt;
-</pre></div>
-</div>
-<img alt="../../../_images/lendingkart_36_1.png" src="../../../_images/lendingkart_36_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span><span class="p">[(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">post_ts_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;coherence&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Coherence plot&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>For the post-COVID period, the model with a number of topics equal to 2 gives the best coherence score.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span><span class="p">[(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1576,484 +1269,44 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>30</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>0.01</td>
-      <td>-3.261263</td>
-    </tr>
-    <tr>
-      <th>31</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>0.31</td>
-      <td>-2.930297</td>
-    </tr>
-    <tr>
-      <th>32</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>0.61</td>
-      <td>-3.353968</td>
-    </tr>
-    <tr>
-      <th>33</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>0.91</td>
-      <td>-3.024148</td>
-    </tr>
-    <tr>
-      <th>34</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>symmetric</td>
-      <td>-3.368206</td>
-    </tr>
-    <tr>
-      <th>35</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>0.01</td>
-      <td>-3.336116</td>
-    </tr>
-    <tr>
-      <th>36</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>0.31</td>
-      <td>-3.148272</td>
-    </tr>
-    <tr>
-      <th>37</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>0.61</td>
-      <td>-3.593593</td>
-    </tr>
-    <tr>
-      <th>38</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>0.91</td>
-      <td>-3.047007</td>
-    </tr>
-    <tr>
-      <th>39</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>symmetric</td>
-      <td>-3.199338</td>
-    </tr>
-    <tr>
-      <th>40</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>0.01</td>
-      <td>-2.974750</td>
-    </tr>
-    <tr>
-      <th>41</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>0.31</td>
-      <td>-3.542743</td>
-    </tr>
-    <tr>
-      <th>42</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>0.61</td>
-      <td>-3.419257</td>
-    </tr>
-    <tr>
-      <th>43</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>0.91</td>
-      <td>-3.182482</td>
-    </tr>
-    <tr>
-      <th>44</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>symmetric</td>
-      <td>-3.724102</td>
-    </tr>
-    <tr>
-      <th>45</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.91</td>
-      <td>0.01</td>
-      <td>-3.224055</td>
-    </tr>
-    <tr>
-      <th>46</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.91</td>
-      <td>0.31</td>
-      <td>-3.413842</td>
-    </tr>
-    <tr>
-      <th>47</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.91</td>
-      <td>0.61</td>
-      <td>-7.724925</td>
-    </tr>
-    <tr>
-      <th>48</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.91</td>
-      <td>0.91</td>
-      <td>-7.899748</td>
-    </tr>
-    <tr>
-      <th>49</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>0.91</td>
-      <td>symmetric</td>
-      <td>-3.825045</td>
-    </tr>
-    <tr>
-      <th>50</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.01</td>
-      <td>-3.098923</td>
-    </tr>
-    <tr>
-      <th>51</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.31</td>
-      <td>-3.506356</td>
-    </tr>
-    <tr>
-      <th>52</th>
-      <td>75% Corpus</td>
-      <td>3</td>
+      <th>412</th>
+      <td>100% Corpus</td>
+      <td>2</td>
       <td>symmetric</td>
       <td>0.61</td>
-      <td>-2.940758</td>
+      <td>-4.037596</td>
     </tr>
     <tr>
-      <th>53</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.91</td>
-      <td>-2.890555</td>
-    </tr>
-    <tr>
-      <th>54</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>symmetric</td>
-      <td>-3.405726</td>
-    </tr>
-    <tr>
-      <th>55</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>asymmetric</td>
-      <td>0.01</td>
-      <td>-5.980775</td>
-    </tr>
-    <tr>
-      <th>56</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>asymmetric</td>
+      <th>398</th>
+      <td>100% Corpus</td>
+      <td>2</td>
       <td>0.31</td>
-      <td>-6.716950</td>
+      <td>0.9099999999999999</td>
+      <td>-4.082007</td>
     </tr>
     <tr>
-      <th>57</th>
-      <td>75% Corpus</td>
-      <td>3</td>
+      <th>402</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.61</td>
+      <td>0.61</td>
+      <td>-4.146275</td>
+    </tr>
+    <tr>
+      <th>417</th>
+      <td>100% Corpus</td>
+      <td>2</td>
       <td>asymmetric</td>
       <td>0.61</td>
-      <td>-7.187683</td>
+      <td>-4.154252</td>
     </tr>
     <tr>
-      <th>58</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>asymmetric</td>
-      <td>0.91</td>
-      <td>-7.572446</td>
-    </tr>
-    <tr>
-      <th>59</th>
-      <td>75% Corpus</td>
-      <td>3</td>
-      <td>asymmetric</td>
-      <td>symmetric</td>
-      <td>-7.103224</td>
-    </tr>
-    <tr>
-      <th>900</th>
+      <th>407</th>
       <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>0.01</td>
-      <td>-3.237793</td>
-    </tr>
-    <tr>
-      <th>901</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>0.31</td>
-      <td>-3.170935</td>
-    </tr>
-    <tr>
-      <th>902</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
+      <td>2</td>
+      <td>0.9099999999999999</td>
       <td>0.61</td>
-      <td>-3.659490</td>
-    </tr>
-    <tr>
-      <th>903</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>0.91</td>
-      <td>-7.175654</td>
-    </tr>
-    <tr>
-      <th>904</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.01</td>
-      <td>symmetric</td>
-      <td>-2.808227</td>
-    </tr>
-    <tr>
-      <th>905</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>0.01</td>
-      <td>-3.128030</td>
-    </tr>
-    <tr>
-      <th>906</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>0.31</td>
-      <td>-2.600956</td>
-    </tr>
-    <tr>
-      <th>907</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>0.61</td>
-      <td>-3.276628</td>
-    </tr>
-    <tr>
-      <th>908</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>0.91</td>
-      <td>-3.289780</td>
-    </tr>
-    <tr>
-      <th>909</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
-      <td>symmetric</td>
-      <td>-3.199970</td>
-    </tr>
-    <tr>
-      <th>910</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>0.01</td>
-      <td>-3.128533</td>
-    </tr>
-    <tr>
-      <th>911</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>0.31</td>
-      <td>-3.144439</td>
-    </tr>
-    <tr>
-      <th>912</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>0.61</td>
-      <td>-3.621635</td>
-    </tr>
-    <tr>
-      <th>913</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>0.91</td>
-      <td>-7.484944</td>
-    </tr>
-    <tr>
-      <th>914</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.61</td>
-      <td>symmetric</td>
-      <td>-3.261245</td>
-    </tr>
-    <tr>
-      <th>915</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.91</td>
-      <td>0.01</td>
-      <td>-3.330676</td>
-    </tr>
-    <tr>
-      <th>916</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.91</td>
-      <td>0.31</td>
-      <td>-3.715716</td>
-    </tr>
-    <tr>
-      <th>917</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.91</td>
-      <td>0.61</td>
-      <td>-6.764777</td>
-    </tr>
-    <tr>
-      <th>918</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.91</td>
-      <td>0.91</td>
-      <td>-3.317296</td>
-    </tr>
-    <tr>
-      <th>919</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.91</td>
-      <td>symmetric</td>
-      <td>-3.332881</td>
-    </tr>
-    <tr>
-      <th>920</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.01</td>
-      <td>-3.019088</td>
-    </tr>
-    <tr>
-      <th>921</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.31</td>
-      <td>-3.295706</td>
-    </tr>
-    <tr>
-      <th>922</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.61</td>
-      <td>-3.201090</td>
-    </tr>
-    <tr>
-      <th>923</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>0.91</td>
-      <td>-2.882595</td>
-    </tr>
-    <tr>
-      <th>924</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>symmetric</td>
-      <td>symmetric</td>
-      <td>-3.034204</td>
-    </tr>
-    <tr>
-      <th>925</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>asymmetric</td>
-      <td>0.01</td>
-      <td>-5.522006</td>
-    </tr>
-    <tr>
-      <th>926</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>asymmetric</td>
-      <td>0.31</td>
-      <td>-4.491480</td>
-    </tr>
-    <tr>
-      <th>927</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>asymmetric</td>
-      <td>0.61</td>
-      <td>-7.427525</td>
-    </tr>
-    <tr>
-      <th>928</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>asymmetric</td>
-      <td>0.91</td>
-      <td>-6.150074</td>
-    </tr>
-    <tr>
-      <th>929</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>asymmetric</td>
-      <td>symmetric</td>
-      <td>-7.281787</td>
+      <td>-4.155749</td>
     </tr>
   </tbody>
 </table>
@@ -2069,13 +1322,13 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_final_lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">pre_corpus</span><span class="p">,</span>
                                         <span class="n">id2word</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span>
-                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                                         <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                         <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                         <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                         <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                        <span class="n">alpha</span><span class="o">=</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">3</span><span class="p">],</span>
-                                        <span class="n">eta</span><span class="o">=</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">3</span><span class="p">])</span>
+                                        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.91</span><span class="p">,</span>
+                                        <span class="n">eta</span><span class="o">=</span><span class="mf">0.91</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2092,7 +1345,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pre-COVID Coherence Score:  -7.097591841005574
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pre-COVID Coherence Score:  -8.483039795321636
 </pre></div>
 </div>
 </div>
@@ -2104,13 +1357,13 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_final_lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">post_corpus</span><span class="p">,</span>
                                         <span class="n">id2word</span><span class="o">=</span><span class="n">post_id2word</span><span class="p">,</span>
-                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                         <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                         <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                         <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                         <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.31</span><span class="p">,</span>
-                                        <span class="n">eta</span><span class="o">=</span><span class="mf">0.31</span><span class="p">)</span>
+                                        <span class="n">alpha</span><span class="o">=</span><span class="s1">&#39;symmetric&#39;</span><span class="p">,</span>
+                                        <span class="n">eta</span><span class="o">=</span><span class="mf">0.61</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2127,7 +1380,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pre-COVID Coherence Score:  -3.2576656642336856
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pre-COVID Coherence Score:  -4.691645589813399
 </pre></div>
 </div>
 </div>
@@ -2136,41 +1389,13 @@ title="Print to PDF"
 </section>
 <section id="inferencing">
 <h2>Inferencing<a class="headerlink" href="#inferencing" title="Permalink to this headline">#</a></h2>
+<section id="id3">
+<h3>Pre-COVID<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dominant_topics</span><span class="p">(</span><span class="n">ldamodel</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">texts</span><span class="p">):</span>
-    <span class="n">sent_topics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ldamodel</span><span class="p">[</span><span class="n">corpus</span><span class="p">]):</span>
-        <span class="n">row</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="p">(</span><span class="n">topic_num</span><span class="p">,</span> <span class="n">prop_topic</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">j</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
-                <span class="n">wp</span> <span class="o">=</span> <span class="n">ldamodel</span><span class="o">.</span><span class="n">show_topic</span><span class="p">(</span><span class="n">topic_num</span><span class="p">)</span>
-                <span class="n">topic_keywords</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">wp</span><span class="p">])</span>
-                <span class="n">sent_topics_df</span> <span class="o">=</span> <span class="n">sent_topics_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">topic_num</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">prop_topic</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">topic_keywords</span><span class="p">]),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span>
-                <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">break</span>
-    <span class="n">sent_topics_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dominant_Topic&#39;</span><span class="p">,</span> <span class="s1">&#39;Perc_Contribution&#39;</span><span class="p">,</span> <span class="s1">&#39;Topic_Keywords&#39;</span><span class="p">]</span>
-    <span class="n">contents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
-    <span class="n">sent_topics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">sent_topics_df</span><span class="p">,</span> <span class="n">contents</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">sent_topics_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Text&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">sent_topics_df</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_topic_sents_keywords</span> <span class="o">=</span> <span class="n">dominant_topics</span><span class="p">(</span>
-   <span class="n">ldamodel</span><span class="o">=</span><span class="n">pre_final_lda_model</span><span class="p">,</span> <span class="n">corpus</span><span class="o">=</span><span class="n">pre_corpus</span><span class="p">,</span> <span class="n">texts</span><span class="o">=</span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/2297222571.py:9: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
-  sent_topics_df = sent_topics_df.append(
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_topic_sents_keywords</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">dominant_topics</span><span class="p">(</span><span class="n">ldamodel</span><span class="o">=</span><span class="n">pre_final_lda_model</span><span class="p">,</span> 
+                                                         <span class="n">corpus</span><span class="o">=</span><span class="n">pre_corpus</span><span class="p">,</span> 
+                                                         <span class="n">texts</span><span class="o">=</span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -2209,38 +1434,38 @@ title="Print to PDF"
   <tbody>
     <tr>
       <th>0</th>
-      <td>2</td>
-      <td>0.7898</td>
-      <td>thank, hello, carecom, loan, assist, details, ...</td>
-      <td>[hello, seemant, regret, inconvenience_caused,...</td>
+      <td>0</td>
+      <td>0.8362</td>
+      <td>indias_lendingkart, small_businesses, access_w...</td>
+      <td>[hello, seemant, regret_inconvenience, caused_...</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>1</td>
-      <td>0.6428</td>
-      <td>lendingkart, heres, business, loan, know, help...</td>
+      <td>0</td>
+      <td>0.5690</td>
+      <td>indias_lendingkart, small_businesses, access_w...</td>
       <td>[sir, got, message, request, consider, issuing...</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2</td>
-      <td>0.3873</td>
-      <td>thank, hello, carecom, loan, assist, details, ...</td>
-      <td>[banknbfc, carecom]</td>
+      <td>1</td>
+      <td>0.6858</td>
+      <td>lendingkart, alteria_capital, capital, india, ...</td>
+      <td>[profitable, indian, sme, cr, turnover, good, ...</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>1</td>
-      <td>0.6512</td>
-      <td>lendingkart, heres, business, loan, know, help...</td>
-      <td>[profitable, indian, sme, cr, turnover, good, ...</td>
+      <td>2</td>
+      <td>0.8153</td>
+      <td>lendingkart, loan, business, heres, team, comp...</td>
+      <td>[mobile_number, mail, jawedqamar, com, jj, ent...</td>
     </tr>
     <tr>
       <th>4</th>
       <td>2</td>
-      <td>0.7924</td>
-      <td>thank, hello, carecom, loan, assist, details, ...</td>
-      <td>[mobile_number, mail, jawedqamar, com, jj, ent...</td>
+      <td>0.8705</td>
+      <td>lendingkart, loan, business, heres, team, comp...</td>
+      <td>[lendingkart, appointed, ratul, paul, senior, ...</td>
     </tr>
     <tr>
       <th>...</th>
@@ -2250,43 +1475,43 @@ title="Print to PDF"
       <td>...</td>
     </tr>
     <tr>
-      <th>1430</th>
-      <td>2</td>
-      <td>0.8189</td>
-      <td>thank, hello, carecom, loan, assist, details, ...</td>
-      <td>[hi, avinash, regret, inconvenience_caused, sh...</td>
+      <th>1268</th>
+      <td>0</td>
+      <td>0.8606</td>
+      <td>indias_lendingkart, small_businesses, access_w...</td>
+      <td>[hi, avinash, hope_representative, answered_qu...</td>
     </tr>
     <tr>
-      <th>1431</th>
-      <td>2</td>
-      <td>0.8427</td>
-      <td>thank, hello, carecom, loan, assist, details, ...</td>
+      <th>1269</th>
+      <td>1</td>
+      <td>0.8033</td>
+      <td>lendingkart, alteria_capital, capital, india, ...</td>
+      <td>[oncampus, placement, drive, lendingkart, nara...</td>
+    </tr>
+    <tr>
+      <th>1270</th>
+      <td>0</td>
+      <td>0.8525</td>
+      <td>indias_lendingkart, small_businesses, access_w...</td>
+      <td>[hi, avinash, regret_inconvenience, caused, sh...</td>
+    </tr>
+    <tr>
+      <th>1271</th>
+      <td>1</td>
+      <td>0.6430</td>
+      <td>lendingkart, alteria_capital, capital, india, ...</td>
       <td>[wish, let, guys, know, running, scam, horribl...</td>
     </tr>
     <tr>
-      <th>1432</th>
-      <td>0</td>
-      <td>0.3552</td>
-      <td>lendingkart, india, alteria_capital, team, cap...</td>
-      <td>[lendingkart]</td>
-    </tr>
-    <tr>
-      <th>1433</th>
-      <td>1</td>
-      <td>0.3130</td>
-      <td>lendingkart, heres, business, loan, know, help...</td>
+      <th>1272</th>
+      <td>2</td>
+      <td>0.4665</td>
+      <td>lendingkart, loan, business, heres, team, comp...</td>
       <td>[yup, thats]</td>
-    </tr>
-    <tr>
-      <th>1434</th>
-      <td>0</td>
-      <td>0.2500</td>
-      <td>lendingkart, india, alteria_capital, team, cap...</td>
-      <td>[]</td>
     </tr>
   </tbody>
 </table>
-<p>1435 rows × 4 columns</p>
+<p>1273 rows × 4 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -2296,26 +1521,54 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;thank, hello, carecom, loan, assist, details, share, business, days, company&#39;,
-       &#39;lendingkart, heres, business, loan, know, help, growth, business_loan, need, work&#39;,
-       &#39;lendingkart, india, alteria_capital, team, capital, raised, lendingkart_raises, existing_investors, million, led&#39;,
-       &#39;raises, working_capital, indias_lendingkart, help_small, businesses_access, techcrunch, sector, industry, lendingkart, msmes&#39;],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;indias_lendingkart, small_businesses, access_working, raises_help, capital, thank, hello, contact_details, experience, request&#39;,
+       &#39;lendingkart, alteria_capital, capital, india, startup, raised, rs_crore, lendingkart_raises, lending, million&#39;,
+       &#39;lendingkart, loan, business, heres, team, company, help, india, growth, new&#39;],
       dtype=object)
 </pre></div>
 </div>
 </div>
 </div>
+<p>Topics that can be inferred are:</p>
+<ol class="simple">
+<li><p>Topic Number: 0</p>
+<ul class="simple">
+<li><p>Probable topic title: Enabling business</p></li>
+<li><p>Key terms: ‘indias_lendingkart, small_businesses, access_working, raises_help, capital, thank, hello, contact_details, experience, request’</p></li>
+</ul>
+</li>
+<li><p>Topic Number: 1</p>
+<ul class="simple">
+<li><p>Probable topic title: Fundraising</p></li>
+<li><p>Key terms: ‘lendingkart, alteria_capital, capital, india, startup, raised, rs_crore, lendingkart_raises, lending, million’</p></li>
+</ul>
+</li>
+<li><p>Topic Number: 2</p>
+<ul class="simple">
+<li><p>Probable topic title: Social Identity</p></li>
+<li><p>Key terms: ‘lendingkart, loan, business, heres, team, company, help, India, growth, new’</p></li>
+</ul>
+</li>
+</ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_topic_sents_keywords</span> <span class="o">=</span> <span class="n">dominant_topics</span><span class="p">(</span>
-   <span class="n">ldamodel</span><span class="o">=</span><span class="n">post_final_lda_model</span><span class="p">,</span> <span class="n">corpus</span><span class="o">=</span><span class="n">post_corpus</span><span class="p">,</span> <span class="n">texts</span><span class="o">=</span><span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">fig</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">plot_topic_distribution</span><span class="p">(</span><span class="n">pre_df_topic_sents_keywords</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_2708/2297222571.py:9: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
-  sent_topics_df = sent_topics_df.append(
+</div>
+</div>
+<p>All the topics have almost equal distribution. This can be one of the signals that the company is conscious of its social media presence.</p>
+</section>
+<section id="id4">
+<h3>Post-COVID<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_topic_sents_keywords</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">dominant_topics</span><span class="p">(</span>
+   <span class="n">ldamodel</span><span class="o">=</span><span class="n">post_final_lda_model</span><span class="p">,</span> <span class="n">corpus</span><span class="o">=</span><span class="n">post_corpus</span><span class="p">,</span> <span class="n">texts</span><span class="o">=</span><span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2355,37 +1608,37 @@ title="Print to PDF"
     <tr>
       <th>0</th>
       <td>1</td>
-      <td>0.9751</td>
-      <td>lendingkart, emi, loan, moratorium, number, co...</td>
+      <td>0.9781</td>
+      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
       <td>[loan_id, lai, reverse, covid, releaf, govt, e...</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1</td>
-      <td>0.9751</td>
-      <td>lendingkart, emi, loan, moratorium, number, co...</td>
+      <td>0.9781</td>
+      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
       <td>[loan_id, lai, reverse, covid, releaf, govt, e...</td>
     </tr>
     <tr>
       <th>2</th>
       <td>1</td>
-      <td>0.9427</td>
-      <td>lendingkart, emi, loan, moratorium, number, co...</td>
-      <td>[recvd, thing, end, kindly, let, know, getting...</td>
+      <td>0.9484</td>
+      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
+      <td>[recvd, thing, end, kindly, let_know, getting,...</td>
     </tr>
     <tr>
       <th>3</th>
       <td>1</td>
-      <td>0.9002</td>
-      <td>lendingkart, emi, loan, moratorium, number, co...</td>
+      <td>0.8493</td>
+      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
       <td>[dear, asking, restructuring, forcing, settle,...</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2</td>
-      <td>0.9581</td>
-      <td>serve, share, registered_contact, details, cus...</td>
-      <td>[hello, kindly_dm, share, registered_contact, ...</td>
+      <td>0</td>
+      <td>0.9610</td>
+      <td>customer_experience, contact, serve, kindly_dm...</td>
+      <td>[hello, kindly_dm, share_registered, contact, ...</td>
     </tr>
     <tr>
       <th>...</th>
@@ -2395,43 +1648,43 @@ title="Print to PDF"
       <td>...</td>
     </tr>
     <tr>
-      <th>4050</th>
+      <th>3507</th>
       <td>1</td>
-      <td>0.6735</td>
-      <td>lendingkart, emi, loan, moratorium, number, co...</td>
+      <td>0.9717</td>
+      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
+      <td>[function, efficiently, critical, team, page, ...</td>
+    </tr>
+    <tr>
+      <th>3508</th>
+      <td>1</td>
+      <td>0.9745</td>
+      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
       <td>[speaker, alert, join, mithun_sundar, ceo, mit...</td>
     </tr>
     <tr>
-      <th>4051</th>
+      <th>3509</th>
       <td>1</td>
-      <td>0.9668</td>
-      <td>lendingkart, emi, loan, moratorium, number, co...</td>
+      <td>0.9723</td>
+      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
       <td>[union, earmarked, rs_crore, ministry, announc...</td>
     </tr>
     <tr>
-      <th>4052</th>
+      <th>3510</th>
       <td>1</td>
-      <td>0.9400</td>
-      <td>lendingkart, emi, loan, moratorium, number, co...</td>
-      <td>[satisfied, hona, hai, aur, mera, documents, a...</td>
-    </tr>
-    <tr>
-      <th>4053</th>
-      <td>1</td>
-      <td>0.9822</td>
-      <td>lendingkart, emi, loan, moratorium, number, co...</td>
+      <td>0.9851</td>
+      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
       <td>[help, mai, se, loan, apply, kiya, approval, h...</td>
     </tr>
     <tr>
-      <th>4054</th>
+      <th>3511</th>
       <td>1</td>
-      <td>0.8951</td>
-      <td>lendingkart, emi, loan, moratorium, number, co...</td>
+      <td>0.9124</td>
+      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
       <td>[movers, shakers, week, jan, feb]</td>
     </tr>
   </tbody>
 </table>
-<p>4055 rows × 4 columns</p>
+<p>3512 rows × 4 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -2441,45 +1694,40 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;lendingkart, emi, loan, moratorium, number, company, reach, mail, able, trying&#39;,
-       &#39;serve, share, registered_contact, details, customer_experience, kindly_dm, officer_shall, happy, contact_solve, forward&#39;,
-       &#39;team, association, deeply_value, reassure, details, fully_committed, soon, serving, giving, chance&#39;],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;lendingkart, emi, loan, moratorium, time, company, mail, reply, request, dont&#39;,
+       &#39;customer_experience, contact, serve, kindly_dm, share_registered, officer_shall, looking_forward, solve_concern, happy_contact, value_association&#39;],
       dtype=object)
 </pre></div>
 </div>
 </div>
 </div>
+<p>Topics that can be inferred are:</p>
+<ol class="simple">
+<li><p>Topic Number: 0</p>
+<ul class="simple">
+<li><p>Probable topic title: Loan Processing Issues and Queries</p></li>
+<li><p>Key terms: ‘indias_lendingkart, small_businesses, access_working, raises_help, capital, thank, hello, contact_details, experience, request’</p></li>
+</ul>
+</li>
+<li><p>Topic Number: 1</p>
+<ul class="simple">
+<li><p>Probable topic title: Issue resolutions by company</p></li>
+<li><p>Key terms: ‘customer_experience, contact, serve, kindly_dm, share_registered, officer_shall, looking_forward, solve_concern, happy_contact, value_association’</p></li>
+</ul>
+</li>
+</ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_topic_sents_keywords</span><span class="p">[</span><span class="s1">&#39;Dominant_Topic&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">fig</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">plot_topic_distribution</span><span class="p">(</span><span class="n">post_df_topic_sents_keywords</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    479
-1    333
-2    329
-3    294
-Name: Dominant_Topic, dtype: int64
-</pre></div>
 </div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_topic_sents_keywords</span><span class="p">[</span><span class="s1">&#39;Dominant_Topic&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1    2191
-0    1094
-2     770
-Name: Dominant_Topic, dtype: int64
-</pre></div>
-</div>
-</div>
-</div>
+<p>The distribution is topics is still uniform.</p>
+</section>
 </section>
 </section>
 
