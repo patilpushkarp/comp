@@ -5,6 +5,7 @@ import glob
 import tqdm
 import pandas as pd
 import numpy as np
+import plotly.express as px
 import gensim
 import spacy
 from nltk.tokenize import word_tokenize
@@ -201,26 +202,45 @@ class Processor:
         return df_result
 
 
-# def remove_hashtag(text):
-#     """Function to remove hashtags which are not part of main text"""
-    
-#     # Having a single word with multiple hashtags
-#     sep_text = text.split(" ")
-#     rel_sent_words = [word for word in sep_text if word.count('#') < 2]
-    
-#     # Consecutive hashtags
-#     remove_index = []
-#     hashtag_index = []
-#     for i, word in enumerate(rel_sent_words):
-#         if word.startswith('#'):
-#             hashtag_index.append(i)
-#         else:
-#             if len(hashtag_index) > 2:
-#                 remove_index.append(hashtag_index)
-#             else:
-#                 hashtag_index = []
-    
-#     for indexes in remove_index:
-#         start = indexes[0]
-#         end = indexes[-1]
-#         del rel_sent_words[start:end]
+    def create_topic_df(self, df, alpha, beta):
+        topics_score = []
+        for i in df['Topics'].value_counts().index:
+            data = []
+            data.append(i)
+            temp = df[(df['Topics'] == i) & (df['Alpha'] == alpha) & (df['Beta'] == beta)]
+            max_value = temp['Coherence'].max()
+            data.append(max_value)
+            topics_score.append(data)
+        
+        ts_df = pd.DataFrame(topics_score)
+        ts_df.columns = ['topics', 'coherence']
+
+        ts_df.sort_values('topics', inplace=True)
+
+        return ts_df.copy()
+
+    def dominant_topics(self, ldamodel, corpus, texts):
+        sent_topics_df = pd.DataFrame()
+        for i, row in enumerate(ldamodel[corpus]):
+            row = sorted(row[0], key=lambda x: (x[1]), reverse=True)
+            for j, (topic_num, prop_topic) in enumerate(row):
+                if j==0:
+                    wp = ldamodel.show_topic(topic_num)
+                    topic_keywords = ", ".join([word for word, prop in wp])
+                    sent_topics_df = sent_topics_df.append(
+                        pd.Series([int(topic_num), round(prop_topic,4), topic_keywords]), ignore_index=True
+                    )
+                else:
+                    break
+        sent_topics_df.columns = ['Dominant_Topic', 'Perc_Contribution', 'Topic_Keywords']
+        contents = pd.Series(texts)
+        sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
+        sent_topics_df.rename(columns={0: "Text"}, inplace=True)
+        return sent_topics_df.copy()
+
+    def plot_topic_distribution(self, df):
+        dist_df = pd.DataFrame(df['Dominant_Topic'].value_counts()).reset_index()
+        dist_df.columns = ['Topic_Numbers', 'Document_Counts']
+
+        fig = px.bar(dist_df, x='Topic_Numbers', y='Document_Counts', title='Topics Distribution')
+        return dist_df, fig

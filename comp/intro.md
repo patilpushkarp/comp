@@ -29,7 +29,7 @@ Following are the steps to be followed:
    4. Remove stopwords
 5. Convert sentences to words
 6. Create bigram and trigram models
-7. Use the above models to create bigram and trigram
+7. Use the above models to create bigram
 8. Create a dictionary from bigrams
 9. Create a corpus using the dictionary
 10. Perform hyper-parameter tuning for LDA model, using UMASS coherence score for evaluation
@@ -48,4 +48,4 @@ Based on human judgment, two approaches can be taken:
 
 Based on quantitative approaches, two approaches can be taken:
 1. Perplexity: Calculate the held-out log-likelihood
-2. Coherence: Calculate conditional likelihood of co-occurrence
+2. Coherence: Calculate the conditional likelihood of co-occurrence

@@ -9,3 +9,4 @@ wordcloud
 spacy
 pyLDAvis
 ipywidgets
+plotly
