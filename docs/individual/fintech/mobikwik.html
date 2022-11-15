@@ -971,8 +971,8 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_ts_df</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">create_topic_df</span><span class="p">(</span><span class="n">pre_df_result</span><span class="p">[</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;100% Corpus&#39;</span><span class="p">],</span> 
-                                        <span class="s1">&#39;0.9099999999999999&#39;</span><span class="p">,</span>
-                                        <span class="s1">&#39;0.9099999999999999&#39;</span><span class="p">)</span>
+                                        <span class="s1">&#39;0.61&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;0.01&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1009,10 +1009,10 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 </div>
-<p>For pre-COVID period, there are two points 10 and 3 where are coherence score is close to 0. But for the initial analysis, 3 will be chosen.</p>
+<p>For pre-COVID period, 2 topics model is having the best coherence score.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span><span class="p">[</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span><span class="p">[</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1044,44 +1044,44 @@ distutils Version classes are deprecated. Use packaging.version instead.
   </thead>
   <tbody>
     <tr>
-      <th>445</th>
-      <td>100% Corpus</td>
-      <td>3</td>
-      <td>asymmetric</td>
-      <td>0.01</td>
-      <td>-3.154533</td>
-    </tr>
-    <tr>
-      <th>55</th>
+      <th>25</th>
       <td>75.0% Corpus</td>
-      <td>3</td>
+      <td>2</td>
       <td>asymmetric</td>
       <td>0.01</td>
-      <td>-3.160254</td>
+      <td>-2.996087</td>
     </tr>
     <tr>
-      <th>420</th>
-      <td>100% Corpus</td>
-      <td>3</td>
+      <th>15</th>
+      <td>75.0% Corpus</td>
+      <td>2</td>
+      <td>0.9099999999999999</td>
       <td>0.01</td>
-      <td>0.01</td>
-      <td>-3.187071</td>
+      <td>-3.038487</td>
     </tr>
     <tr>
-      <th>425</th>
+      <th>400</th>
       <td>100% Corpus</td>
-      <td>3</td>
-      <td>0.31</td>
+      <td>2</td>
+      <td>0.61</td>
       <td>0.01</td>
-      <td>-3.239731</td>
+      <td>-3.089582</td>
     </tr>
     <tr>
-      <th>440</th>
+      <th>405</th>
       <td>100% Corpus</td>
-      <td>3</td>
+      <td>2</td>
+      <td>0.9099999999999999</td>
+      <td>0.01</td>
+      <td>-3.095156</td>
+    </tr>
+    <tr>
+      <th>410</th>
+      <td>100% Corpus</td>
+      <td>2</td>
       <td>symmetric</td>
       <td>0.01</td>
-      <td>-3.282393</td>
+      <td>-3.104404</td>
     </tr>
   </tbody>
 </table>
@@ -1100,7 +1100,7 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 86%|████████▌ | 670/780 [2:19:30&lt;30:49, 16.81s/it]  
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 780/780 [2:50:04&lt;00:00, 13.08s/it]  
 </pre></div>
 </div>
 </div>
@@ -1148,60 +1148,28 @@ distutils Version classes are deprecated. Use packaging.version instead.
   </thead>
   <tbody>
     <tr>
-      <th>412</th>
-      <td>100% Corpus</td>
+      <th>28</th>
+      <td>75.0% Corpus</td>
       <td>2</td>
-      <td>symmetric</td>
-      <td>0.61</td>
-      <td>-4.037596</td>
+      <td>asymmetric</td>
+      <td>0.9099999999999999</td>
+      <td>-3.032945</td>
     </tr>
     <tr>
-      <th>398</th>
-      <td>100% Corpus</td>
+      <th>11</th>
+      <td>75.0% Corpus</td>
       <td>2</td>
+      <td>0.61</td>
       <td>0.31</td>
-      <td>0.9099999999999999</td>
-      <td>-4.082007</td>
+      <td>-3.071636</td>
     </tr>
     <tr>
-      <th>402</th>
-      <td>100% Corpus</td>
-      <td>2</td>
-      <td>0.61</td>
-      <td>0.61</td>
-      <td>-4.146275</td>
-    </tr>
-    <tr>
-      <th>417</th>
-      <td>100% Corpus</td>
+      <th>26</th>
+      <td>75.0% Corpus</td>
       <td>2</td>
       <td>asymmetric</td>
-      <td>0.61</td>
-      <td>-4.154252</td>
-    </tr>
-    <tr>
-      <th>407</th>
-      <td>100% Corpus</td>
-      <td>2</td>
-      <td>0.9099999999999999</td>
-      <td>0.61</td>
-      <td>-4.155749</td>
-    </tr>
-    <tr>
-      <th>403</th>
-      <td>100% Corpus</td>
-      <td>2</td>
-      <td>0.61</td>
-      <td>0.9099999999999999</td>
-      <td>-4.195067</td>
-    </tr>
-    <tr>
-      <th>415</th>
-      <td>100% Corpus</td>
-      <td>2</td>
-      <td>asymmetric</td>
-      <td>0.01</td>
-      <td>-4.211162</td>
+      <td>0.31</td>
+      <td>-3.084442</td>
     </tr>
     <tr>
       <th>404</th>
@@ -1209,23 +1177,55 @@ distutils Version classes are deprecated. Use packaging.version instead.
       <td>2</td>
       <td>0.61</td>
       <td>symmetric</td>
-      <td>-4.211570</td>
+      <td>-3.098285</td>
     </tr>
     <tr>
-      <th>393</th>
-      <td>100% Corpus</td>
+      <th>5</th>
+      <td>75.0% Corpus</td>
       <td>2</td>
-      <td>0.01</td>
-      <td>0.9099999999999999</td>
-      <td>-4.241058</td>
-    </tr>
-    <tr>
-      <th>406</th>
-      <td>100% Corpus</td>
-      <td>2</td>
-      <td>0.9099999999999999</td>
       <td>0.31</td>
-      <td>-4.348645</td>
+      <td>0.01</td>
+      <td>-3.101236</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>75.0% Corpus</td>
+      <td>2</td>
+      <td>0.9099999999999999</td>
+      <td>0.01</td>
+      <td>-3.104879</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>75.0% Corpus</td>
+      <td>2</td>
+      <td>0.61</td>
+      <td>0.01</td>
+      <td>-3.104911</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.31</td>
+      <td>0.31</td>
+      <td>-3.112358</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.31</td>
+      <td>0.61</td>
+      <td>-3.117012</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>100% Corpus</td>
+      <td>2</td>
+      <td>0.31</td>
+      <td>symmetric</td>
+      <td>-3.118378</td>
     </tr>
   </tbody>
 </table>
@@ -1234,8 +1234,8 @@ distutils Version classes are deprecated. Use packaging.version instead.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_ts_df</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">create_topic_df</span><span class="p">(</span><span class="n">post_df_result</span><span class="p">[</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;100% Corpus&#39;</span><span class="p">],</span> 
-                                        <span class="s1">&#39;symmetric&#39;</span><span class="p">,</span>
-                                        <span class="s1">&#39;0.61&#39;</span><span class="p">)</span>
+                                        <span class="s1">&#39;0.61&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1261,9 +1261,18 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+
+/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+</pre></div>
 </div>
 </div>
-<p>For the post-COVID period, the model with a number of topics equal to 2 gives the best coherence score.</p>
+</div>
+<p>For the post-COVID period, the model with number of topics equal to 2 gives the best coherence score.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span><span class="p">[(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -1298,44 +1307,44 @@ distutils Version classes are deprecated. Use packaging.version instead.
   </thead>
   <tbody>
     <tr>
-      <th>412</th>
-      <td>100% Corpus</td>
-      <td>2</td>
-      <td>symmetric</td>
-      <td>0.61</td>
-      <td>-4.037596</td>
-    </tr>
-    <tr>
-      <th>398</th>
-      <td>100% Corpus</td>
-      <td>2</td>
-      <td>0.31</td>
-      <td>0.9099999999999999</td>
-      <td>-4.082007</td>
-    </tr>
-    <tr>
-      <th>402</th>
-      <td>100% Corpus</td>
-      <td>2</td>
-      <td>0.61</td>
-      <td>0.61</td>
-      <td>-4.146275</td>
-    </tr>
-    <tr>
-      <th>417</th>
-      <td>100% Corpus</td>
+      <th>28</th>
+      <td>75.0% Corpus</td>
       <td>2</td>
       <td>asymmetric</td>
-      <td>0.61</td>
-      <td>-4.154252</td>
+      <td>0.9099999999999999</td>
+      <td>-3.032945</td>
     </tr>
     <tr>
-      <th>407</th>
+      <th>11</th>
+      <td>75.0% Corpus</td>
+      <td>2</td>
+      <td>0.61</td>
+      <td>0.31</td>
+      <td>-3.071636</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>75.0% Corpus</td>
+      <td>2</td>
+      <td>asymmetric</td>
+      <td>0.31</td>
+      <td>-3.084442</td>
+    </tr>
+    <tr>
+      <th>404</th>
       <td>100% Corpus</td>
       <td>2</td>
-      <td>0.9099999999999999</td>
       <td>0.61</td>
-      <td>-4.155749</td>
+      <td>symmetric</td>
+      <td>-3.098285</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>75.0% Corpus</td>
+      <td>2</td>
+      <td>0.31</td>
+      <td>0.01</td>
+      <td>-3.101236</td>
     </tr>
   </tbody>
 </table>
@@ -1351,13 +1360,13 @@ distutils Version classes are deprecated. Use packaging.version instead.
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_final_lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">pre_corpus</span><span class="p">,</span>
                                         <span class="n">id2word</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span>
-                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                         <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                         <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                         <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                         <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.91</span><span class="p">,</span>
-                                        <span class="n">eta</span><span class="o">=</span><span class="mf">0.91</span><span class="p">)</span>
+                                        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.61</span><span class="p">,</span>
+                                        <span class="n">eta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1374,7 +1383,7 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pre-COVID Coherence Score:  -8.483039795321636
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pre-COVID Coherence Score:  -3.0801339942224555
 </pre></div>
 </div>
 </div>
@@ -1391,8 +1400,8 @@ distutils Version classes are deprecated. Use packaging.version instead.
                                         <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                         <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                         <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                        <span class="n">alpha</span><span class="o">=</span><span class="s1">&#39;symmetric&#39;</span><span class="p">,</span>
-                                        <span class="n">eta</span><span class="o">=</span><span class="mf">0.61</span><span class="p">)</span>
+                                        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.61</span><span class="p">,</span>
+                                        <span class="n">eta</span><span class="o">=</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1409,7 +1418,7 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pre-COVID Coherence Score:  -4.691645589813399
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pre-COVID Coherence Score:  -3.110776776720428
 </pre></div>
 </div>
 </div>
@@ -1464,37 +1473,37 @@ distutils Version classes are deprecated. Use packaging.version instead.
     <tr>
       <th>0</th>
       <td>0</td>
-      <td>0.8362</td>
-      <td>indias_lendingkart, small_businesses, access_w...</td>
-      <td>[hello, seemant, regret_inconvenience, caused_...</td>
+      <td>0.6401</td>
+      <td>mobikwik, rs, wallet, supercash, use, payment,...</td>
+      <td>[piss, drinking, human, crap, eating, fucking,...</td>
     </tr>
     <tr>
       <th>1</th>
       <td>0</td>
-      <td>0.5690</td>
-      <td>indias_lendingkart, small_businesses, access_w...</td>
-      <td>[sir, got, message, request, consider, issuing...</td>
+      <td>0.8796</td>
+      <td>mobikwik, rs, wallet, supercash, use, payment,...</td>
+      <td>[irctc_uts, app, offer, use, mobikwik, superca...</td>
     </tr>
     <tr>
       <th>2</th>
       <td>1</td>
-      <td>0.6858</td>
-      <td>lendingkart, alteria_capital, capital, india, ...</td>
-      <td>[profitable, indian, sme, cr, turnover, good, ...</td>
+      <td>0.9396</td>
+      <td>mobikwik, money, account, wallet, help, refund...</td>
+      <td>[dont, care, customers, misbehaving, customers...</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2</td>
-      <td>0.8153</td>
-      <td>lendingkart, loan, business, heres, team, comp...</td>
-      <td>[mobile_number, mail, jawedqamar, com, jj, ent...</td>
+      <td>1</td>
+      <td>0.9396</td>
+      <td>mobikwik, money, account, wallet, help, refund...</td>
+      <td>[dont, care, customers, misbehaving, customers...</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2</td>
-      <td>0.8705</td>
-      <td>lendingkart, loan, business, heres, team, comp...</td>
-      <td>[lendingkart, appointed, ratul, paul, senior, ...</td>
+      <td>1</td>
+      <td>0.6220</td>
+      <td>mobikwik, money, account, wallet, help, refund...</td>
+      <td>[stay_away, recharged, jio, phonepe, debited, ...</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1504,43 +1513,43 @@ distutils Version classes are deprecated. Use packaging.version instead.
       <td>...</td>
     </tr>
     <tr>
-      <th>1268</th>
+      <th>16901</th>
       <td>0</td>
-      <td>0.8606</td>
-      <td>indias_lendingkart, small_businesses, access_w...</td>
-      <td>[hi, avinash, hope_representative, answered_qu...</td>
+      <td>0.8744</td>
+      <td>mobikwik, rs, wallet, supercash, use, payment,...</td>
+      <td>[sign_mobikwik, use_referral, code, rse, bz, r...</td>
     </tr>
     <tr>
-      <th>1269</th>
+      <th>16902</th>
       <td>1</td>
-      <td>0.8033</td>
-      <td>lendingkart, alteria_capital, capital, india, ...</td>
-      <td>[oncampus, placement, drive, lendingkart, nara...</td>
+      <td>0.7210</td>
+      <td>mobikwik, money, account, wallet, help, refund...</td>
+      <td>[money]</td>
     </tr>
     <tr>
-      <th>1270</th>
-      <td>0</td>
-      <td>0.8525</td>
-      <td>indias_lendingkart, small_businesses, access_w...</td>
-      <td>[hi, avinash, regret_inconvenience, caused, sh...</td>
-    </tr>
-    <tr>
-      <th>1271</th>
+      <th>16903</th>
       <td>1</td>
-      <td>0.6430</td>
-      <td>lendingkart, alteria_capital, capital, india, ...</td>
-      <td>[wish, let, guys, know, running, scam, horribl...</td>
+      <td>0.8935</td>
+      <td>mobikwik, money, account, wallet, help, refund...</td>
+      <td>[understand, big, money, meand, team, daysretu...</td>
     </tr>
     <tr>
-      <th>1272</th>
-      <td>2</td>
-      <td>0.4665</td>
-      <td>lendingkart, loan, business, heres, team, comp...</td>
-      <td>[yup, thats]</td>
+      <th>16904</th>
+      <td>1</td>
+      <td>0.9350</td>
+      <td>mobikwik, money, account, wallet, help, refund...</td>
+      <td>[seriously, raised, issue, confidently, giving...</td>
+    </tr>
+    <tr>
+      <th>16905</th>
+      <td>1</td>
+      <td>0.7817</td>
+      <td>mobikwik, money, account, wallet, help, refund...</td>
+      <td>[thank, opening, savings, account, new_year, h...</td>
     </tr>
   </tbody>
 </table>
-<p>1273 rows × 4 columns</p>
+<p>16906 rows × 4 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -1550,9 +1559,8 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;indias_lendingkart, small_businesses, access_working, raises_help, capital, thank, hello, contact_details, experience, request&#39;,
-       &#39;lendingkart, alteria_capital, capital, india, startup, raised, rs_crore, lendingkart_raises, lending, million&#39;,
-       &#39;lendingkart, loan, business, heres, team, company, help, india, growth, new&#39;],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;mobikwik, rs, wallet, supercash, use, payment, app, cashback, offer, upi&#39;,
+       &#39;mobikwik, money, account, wallet, help, refund, transaction, fraud, number, days&#39;],
       dtype=object)
 </pre></div>
 </div>
@@ -1562,20 +1570,14 @@ distutils Version classes are deprecated. Use packaging.version instead.
 <ol class="simple">
 <li><p>Topic Number: 0</p>
 <ul class="simple">
-<li><p>Probable topic title: Enabling business</p></li>
-<li><p>Key terms: ‘indias_lendingkart, small_businesses, access_working, raises_help, capital, thank, hello, contact_details, experience, request’</p></li>
+<li><p>Probable topic title: Promotion - Cashback and Referrals</p></li>
+<li><p>Key terms: ‘mobikwik, rs, wallet, supercash, use, payment, app, cashback, offer, upi’</p></li>
 </ul>
 </li>
 <li><p>Topic Number: 1</p>
 <ul class="simple">
-<li><p>Probable topic title: Fundraising</p></li>
-<li><p>Key terms: ‘lendingkart, alteria_capital, capital, india, startup, raised, rs_crore, lendingkart_raises, lending, million’</p></li>
-</ul>
-</li>
-<li><p>Topic Number: 2</p>
-<ul class="simple">
-<li><p>Probable topic title: Social Identity</p></li>
-<li><p>Key terms: ‘lendingkart, loan, business, heres, team, company, help, India, growth, new’</p></li>
+<li><p>Probable topic title: Wallet Issues</p></li>
+<li><p>Key terms: ‘mobikwik, money, account, wallet, help, refund, transaction, fraud, number, days’</p></li>
 </ul>
 </li>
 </ol>
@@ -1587,6 +1589,15 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+
+/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -1597,13 +1608,13 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0, 0, &#39;445&#39;), Text(0, 0, &#39;419&#39;), Text(0, 0, &#39;409&#39;)]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0, 0, &#39;10493&#39;), Text(0, 0, &#39;6413&#39;)]
 </pre></div>
 </div>
 <img alt="../../../_images/mobikwik_52_1.png" src="../../../_images/mobikwik_52_1.png" />
 </div>
 </div>
-<p>All the topics have almost equal distribution. This can be one of the signals that the company is conscious of its social media presence.</p>
+<p>Topics don’t exhibit a uniform distribution. Topics related to wallet issues are more prominent.</p>
 </section>
 <section id="id4">
 <h3>Post-COVID<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
@@ -1651,37 +1662,37 @@ distutils Version classes are deprecated. Use packaging.version instead.
     <tr>
       <th>0</th>
       <td>1</td>
-      <td>0.9781</td>
-      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
-      <td>[loan_id, lai, reverse, covid, releaf, govt, e...</td>
+      <td>0.9116</td>
+      <td>mobikwik, payment, wallet, money, account, tra...</td>
+      <td>[dmed, query, kindly, resolve, priority, basis]</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1</td>
-      <td>0.9781</td>
-      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
-      <td>[loan_id, lai, reverse, covid, releaf, govt, e...</td>
+      <td>0.8957</td>
+      <td>mobikwik, payment, wallet, money, account, tra...</td>
+      <td>[sir, ive, mobikwk, debit_card, try, set, upi,...</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>1</td>
-      <td>0.9484</td>
-      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
-      <td>[recvd, thing, end, kindly, let_know, getting,...</td>
+      <td>0</td>
+      <td>0.8479</td>
+      <td>app, mobikwik, indian, truly_indian, payments,...</td>
+      <td>[bahut, company, use, application]</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>1</td>
-      <td>0.8493</td>
-      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
-      <td>[dear, asking, restructuring, forcing, settle,...</td>
+      <td>0</td>
+      <td>0.6592</td>
+      <td>app, mobikwik, indian, truly_indian, payments,...</td>
+      <td>[company, hai, mere, refund, nahi, diya, months]</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0</td>
-      <td>0.9610</td>
-      <td>customer_experience, contact, serve, kindly_dm...</td>
-      <td>[hello, kindly_dm, share_registered, contact, ...</td>
+      <td>1</td>
+      <td>0.8815</td>
+      <td>mobikwik, payment, wallet, money, account, tra...</td>
+      <td>[respond, dm, assured, adjustment]</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1691,43 +1702,43 @@ distutils Version classes are deprecated. Use packaging.version instead.
       <td>...</td>
     </tr>
     <tr>
-      <th>3507</th>
+      <th>28298</th>
       <td>1</td>
-      <td>0.9717</td>
-      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
-      <td>[function, efficiently, critical, team, page, ...</td>
+      <td>0.8890</td>
+      <td>mobikwik, payment, wallet, money, account, tra...</td>
+      <td>[hello, need, help, light, payment, contact]</td>
     </tr>
     <tr>
-      <th>3508</th>
+      <th>28299</th>
       <td>1</td>
-      <td>0.9745</td>
-      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
-      <td>[speaker, alert, join, mithun_sundar, ceo, mit...</td>
+      <td>0.8811</td>
+      <td>mobikwik, payment, wallet, money, account, tra...</td>
+      <td>[recharge, update, vodafone, account]</td>
     </tr>
     <tr>
-      <th>3509</th>
+      <th>28300</th>
       <td>1</td>
-      <td>0.9723</td>
-      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
-      <td>[union, earmarked, rs_crore, ministry, announc...</td>
+      <td>0.9404</td>
+      <td>mobikwik, payment, wallet, money, account, tra...</td>
+      <td>[dear, team, plz_help, able_login, ac, pl, hel...</td>
     </tr>
     <tr>
-      <th>3510</th>
+      <th>28301</th>
       <td>1</td>
-      <td>0.9851</td>
-      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
-      <td>[help, mai, se, loan, apply, kiya, approval, h...</td>
+      <td>0.9135</td>
+      <td>mobikwik, payment, wallet, money, account, tra...</td>
+      <td>[dear, team, help, able_login, ac, bit, urgent]</td>
     </tr>
     <tr>
-      <th>3511</th>
+      <th>28302</th>
       <td>1</td>
-      <td>0.9124</td>
-      <td>lendingkart, emi, loan, moratorium, time, comp...</td>
-      <td>[movers, shakers, week, jan, feb]</td>
+      <td>0.8652</td>
+      <td>mobikwik, payment, wallet, money, account, tra...</td>
+      <td>[hey, pg, recharge, uts, wallet, gpay, says, m...</td>
     </tr>
   </tbody>
 </table>
-<p>3512 rows × 4 columns</p>
+<p>28303 rows × 4 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -1737,9 +1748,30 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;lendingkart, emi, loan, moratorium, time, company, mail, reply, request, dont&#39;,
-       &#39;customer_experience, contact, serve, kindly_dm, share_registered, officer_shall, looking_forward, solve_concern, happy_contact, value_association&#39;],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;mobikwik, payment, wallet, money, account, transaction, rs, refund, recharge, help&#39;,
+       &#39;app, mobikwik, indian, truly_indian, payments, support, use, payment, download, apps&#39;],
       dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_topic_sents_keywords</span><span class="p">[</span><span class="n">post_df_topic_sents_keywords</span><span class="p">[</span><span class="s1">&#39;Topic_Keywords&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;app, mobikwik, indian, truly_indian, payments, support, use, payment, download, apps&#39;</span><span class="p">][</span><span class="s1">&#39;Text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([list([&#39;bahut&#39;, &#39;company&#39;, &#39;use&#39;, &#39;application&#39;]),
+       list([&#39;company&#39;, &#39;hai&#39;, &#39;mere&#39;, &#39;refund&#39;, &#39;nahi&#39;, &#39;diya&#39;, &#39;months&#39;]),
+       list([&#39;discounts&#39;, &#39;offered&#39;, &#39;restaurant&#39;, &#39;payment_gateway&#39;, &#39;like&#39;, &#39;mobikwik&#39;, &#39;mastercard&#39;]),
+       list([&#39;number_belong&#39;, &#39;mobikwik&#39;, &#39;request_share&#39;, &#39;sensitive_details&#39;, &#39;thanks&#39;]),
+       list([&#39;rohit&#39;, &#39;request_share&#39;, &#39;personal_details&#39;, &#39;handle&#39;, &#39;referring&#39;, &#39;belong&#39;, &#39;mobikwik&#39;, &#39;thanks&#39;]),
+       list([&#39;following&#39;, &#39;loan&#39;, &#39;provider&#39;, &#39;apps&#39;, &#39;hacking&#39;, &#39;contacts&#39;, &#39;people&#39;, &#39;unable&#39;, &#39;pay&#39;, &#39;os&#39;, &#39;loan&#39;, &#39;dues&#39;, &#39;data&#39;, &#39;leaked&#39;, &#39;china&#39;, &#39;control&#39;, &#39;urgently&#39;, &#39;data&#39;, &#39;privacy&#39;, &#39;compromised&#39;]),
+       list([&#39;guess&#39;, &#39;sucks&#39;, &#39;terms&#39;, &#39;service&#39;, &#39;support&#39;, &#39;yeah&#39;]),
+       list([&#39;like&#39;, &#39;know&#39;, &#39;promtion&#39;, &#39;means&#39;, &#39;recharged_jio&#39;, &#39;app&#39;, &#39;transactio&#39;, &#39;mobikwik&#39;, &#39;im&#39;, &#39;getting&#39;, &#39;cashback&#39;, &#39;customer&#39;, &#39;support&#39;, &#39;worthless&#39;, &#39;think&#39;]),
+       list([&#39;request_share&#39;, &#39;mobikwik&#39;, &#39;wallet&#39;, &#39;password_creditdebit&#39;, &#39;card_pin&#39;, &#39;otp_cvv&#39;, &#39;confidential_information&#39;, &#39;thanks&#39;]),
+       list([&#39;yeah&#39;, &#39;true&#39;, &#39;gets&#39;, &#39;offer&#39;])], dtype=object)
 </pre></div>
 </div>
 </div>
@@ -1748,14 +1780,14 @@ distutils Version classes are deprecated. Use packaging.version instead.
 <ol class="simple">
 <li><p>Topic Number: 0</p>
 <ul class="simple">
-<li><p>Probable topic title: Loan Processing Issues and Queries</p></li>
-<li><p>Key terms: ‘indias_lendingkart, small_businesses, access_working, raises_help, capital, thank, hello, contact_details, experience, request’</p></li>
+<li><p>Probable topic title: Issues and Queries</p></li>
+<li><p>Key terms: ‘mobikwik, payment, wallet, money, account, transaction, rs, refund, recharge, help’</p></li>
 </ul>
 </li>
 <li><p>Topic Number: 1</p>
 <ul class="simple">
-<li><p>Probable topic title: Issue resolutions by company</p></li>
-<li><p>Key terms: ‘customer_experience, contact, serve, kindly_dm, share_registered, officer_shall, looking_forward, solve_concern, happy_contact, value_association’</p></li>
+<li><p>Probable topic title: Promotion - Social</p></li>
+<li><p>Key terms: ‘app, mobikwik, indian, truly_indian, payments, support, use, payment, download, apps’</p></li>
 </ul>
 </li>
 </ol>
@@ -1767,6 +1799,15 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+
+/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -1777,13 +1818,22 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0, 0, &#39;1871&#39;), Text(0, 0, &#39;1641&#39;)]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0, 0, &#39;16169&#39;), Text(0, 0, &#39;12134&#39;)]
 </pre></div>
 </div>
-<img alt="../../../_images/mobikwik_60_1.png" src="../../../_images/mobikwik_60_1.png" />
+<img alt="../../../_images/mobikwik_61_1.png" src="../../../_images/mobikwik_61_1.png" />
 </div>
 </div>
-<p>The distribution is topics is still uniform.</p>
+<p>The distribution of topics is not uniform. Company is promoting aggresively on social media platforms.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save outputs</span>
+<span class="n">pre_df_topic_sents_keywords</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/mobikwik/mobikwik_pre_output.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">post_df_topic_sents_keywords</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/mobikwik/mobikwik_post_output.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 </section>
