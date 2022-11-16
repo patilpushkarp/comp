@@ -16,11 +16,14 @@ class Processor:
 
     def __init__(self, config_file_path):
 
-        fintech_path = './../data/fintech/'
+
+        splitted_path = config_file_path.split('/')
+        initial_path = "/".join(splitted_path[:-1])
+        fintech_path = f"{initial_path}/fintech/"
         fintech_folders = glob.glob(f"{fintech_path}*/", recursive=True)
         self.fintech = [path.split('/')[-2] for path in fintech_folders]
 
-        nbfc_path = './../data/nbfc/'
+        nbfc_path = f"{initial_path}/nbfc/"
         nbfc_folders = glob.glob(f"{nbfc_path}*/", recursive=True)
         self.nbfc = [path.split('/')[-2] for path in nbfc_folders]
 
@@ -33,7 +36,8 @@ class Processor:
         
         self._nbfc_stopwords = []
         for comp in self.nbfc:
-            self._nbfc_stopwords = self._nbfc_stopwords + self.config_data["stopwords"]["fintech"][comp]
+            self.config_data["stopwords"]["nbfc"][comp]
+            self._nbfc_stopwords = self._nbfc_stopwords + self.config_data["stopwords"]["nbfc"][comp]
 
         self._config_stopwords = self._fintech_stopwords + self._nbfc_stopwords
         self.stopwords = STOPWORDS.union(set(self._config_stopwords))
@@ -72,6 +76,9 @@ class Processor:
 
     def preprocess(self, df):
 
+        # Drop duplicates
+        df.drop_duplicates('tweet', inplace=True)
+
         # Select tweets with english language
         df = df[df['language'] == "en"]
 
@@ -82,6 +89,10 @@ class Processor:
         # Preprocess tweets
         pre_df.loc[:, 'preprocessed'] = pre_df['tweet'].apply(self.preprocess_tweet)
         post_df.loc[:, 'preprocessed'] = post_df['tweet'].apply(self.preprocess_tweet)
+
+        # Remove empty texts
+        pre_df = pre_df[pre_df['preprocessed'].map(bool)]
+        post_df = post_df[post_df['preprocessed'].map(bool)]
 
         # Create words data
         pre_data = pre_df['preprocessed'].values.tolist()
@@ -219,7 +230,7 @@ class Processor:
 
         return ts_df.copy()
 
-    def dominant_topics(self, ldamodel, corpus, texts):
+    def dominant_topics(self, ldamodel, corpus, texts, tweets):
         sent_topics_df = pd.DataFrame()
         for i, row in enumerate(ldamodel[corpus]):
             row = sorted(row[0], key=lambda x: (x[1]), reverse=True)
@@ -233,7 +244,7 @@ class Processor:
                 else:
                     break
         sent_topics_df.columns = ['Dominant_Topic', 'Perc_Contribution', 'Topic_Keywords']
-        contents = pd.Series(texts)
+        contents = pd.Series(tweets)
         sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
         sent_topics_df.rename(columns={0: "Text"}, inplace=True)
         return sent_topics_df.copy()
