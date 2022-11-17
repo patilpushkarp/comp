@@ -15,4 +15,13 @@ parts:
   - file: docs/individual/fintech/mobikwik.ipynb
   - file: docs/individual/fintech/paytm.ipynb
   - file: docs/individual/fintech/pine_labs.ipynb
+- caption: NBFC
+  chapters:
+  - file: docs/individual/nbfc/aditya_birla_finance.ipynb
+  - file: docs/individual/nbfc/bajaj_finance.ipynb
+  - file: docs/individual/nbfc/cholamandalam.ipynb
+  - file: docs/individual/nbfc/muthoot_finance.ipynb
+- caption: Extras
+  chapters:
+  - file: docs/extras/notes.md
 
