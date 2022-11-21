@@ -9,6 +9,7 @@ import plotly.express as px
 import gensim
 import spacy
 from nltk.tokenize import word_tokenize
+from textblob import TextBlob
 from gensim.parsing.preprocessing import STOPWORDS
 nlp = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
 
@@ -69,10 +70,10 @@ class Processor:
         return (gensim.utils.simple_preprocess(str(sentence), deacc=True) for sentence in sentences)
 
 
-    def lemmatization(self, words, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV']):
+    def lemmatization(self, tokens):
         """Function to lemmatized tokenied sentence"""
-        doc = nlp(" ".join(words))
-        return [token.lemma_ for token in doc if token.pos_ in allowed_postags]
+        doc = nlp(" ".join(tokens))
+        return " ".join([token.lemma_ for token in doc])
 
     def preprocess(self, df):
 
@@ -255,3 +256,35 @@ class Processor:
 
         fig = px.bar(dist_df, x='Topic_Numbers', y='Document_Counts', title='Topics Distribution')
         return dist_df, fig
+
+    def word_distribution(self, text, find):
+        text_tokens = word_tokenize(text)
+        text = self.lemmatization(text_tokens)
+        if find in text:
+            return True
+        else:
+            return False
+    
+    def words_distribution(self, df, words):
+        result = pd.DataFrame()
+        rdf = pd.DataFrame()
+        for word in tqdm.tqdm(words):
+            rdf[word] = df['tweet'].apply(self.word_distribution, find=word)
+            temp = pd.DataFrame(rdf[word].value_counts()).reset_index()
+            if len(temp) == 2:
+                result = result.append(
+                    pd.Series([word, temp.iloc[0][word], temp.iloc[1][word]]), ignore_index=True
+                )
+            else:
+                if 'False' in temp['index'].values.tolist():
+                    result = result.append(
+                        pd.Series([word, temp.iloc[0][word], 0]), ignore_index=True
+                    )
+                else:
+                    result = result.append(
+                        pd.Series([word, 0, temp.iloc[0][word]]), ignore_index=True
+                    )
+        result.columns=['words', 'false_cnt', 'true_cnt']
+        result['false_percent'] = result['false_cnt'] * 100 / (result['false_cnt'] + result['true_cnt'])
+        result['true_percent'] = result['true_cnt'] * 100 / (result['false_cnt'] + result['true_cnt'])
+        return result
