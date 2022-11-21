@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Lendingkart &#8212; Comparing Businesses - Fintech and NBFC</title>
+    <title>Paytm - In Progress &#8212; Comparing Businesses - Fintech and NBFC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -129,7 +129,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="topic.html">
-   Fintech
+   Topic Modeling
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -154,7 +154,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     Lendingkart
+     Paytm - In Progress
     </a>
    </li>
    <li class="toctree-l2">
@@ -173,7 +173,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../nbfc/topic.html">
-   NBFC
+   Topic Modeling
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
   <label for="toctree-checkbox-2">
@@ -521,7 +521,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Lendingkart</h1>
+                <h1>Paytm - In Progress</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -614,15 +614,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="lendingkart">
-<h1>Lendingkart<a class="headerlink" href="#lendingkart" title="Permalink to this headline">#</a></h1>
-<p>Lendingkart simplifies MSME finance. The main products of the company include -</p>
-<ol class="simple">
-<li><p>Business loan</p></li>
-<li><p>Working capital loan</p></li>
-<li><p>MSME loan</p></li>
-<li><p>Business loan for women</p></li>
-</ol>
+  <section class="tex2jax_ignore mathjax_ignore" id="paytm-in-progress">
+<h1>Paytm - In Progress<a class="headerlink" href="#paytm-in-progress" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load necessary libraries</span>
@@ -658,7 +651,7 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/lendingkart/lendingkart.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/paytm/paytm.csv&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -671,7 +664,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5490, 27)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1006178, 27)
 </pre></div>
 </div>
 </div>
@@ -689,6 +682,14 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preprocess the data</span>
 <span class="n">pre_df</span><span class="p">,</span> <span class="n">post_df</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span> <span class="o">=</span> <span class="n">pre_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">post_df</span> <span class="o">=</span> <span class="n">post_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -900,7 +901,7 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">perform_hyperparameter_tuning</span><span class="p">(</span><span class="n">pre_corpus</span><span class="p">,</span> 
                                                         <span class="n">pre_id2word</span><span class="p">,</span> 
                                                         <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
-                                                        <span class="s2">&quot;./../../data/fintech/lendingkart/pre.csv&quot;</span><span class="p">)</span>
+                                                        <span class="s2">&quot;./../../data/fintech/paytm/pre.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -912,7 +913,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pre_df_result = pd.read_csv(&quot;./../../data/fintech/lendingkart/pre.csv&quot;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pre_df_result = pd.read_csv(&quot;./../../data/fintech/paytm/pre.csv&quot;)</span>
 </pre></div>
 </div>
 </div>
@@ -1163,7 +1164,7 @@ distutils Version classes are deprecated. Use packaging.version instead.
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">perform_hyperparameter_tuning</span><span class="p">(</span><span class="n">post_corpus</span><span class="p">,</span> 
                                                         <span class="n">post_id2word</span><span class="p">,</span> 
                                                         <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
-                                                        <span class="s2">&quot;./../../data/fintech/lendingkart/post.csv&quot;</span><span class="p">)</span>
+                                                        <span class="s2">&quot;./../../data/fintech/paytm/post.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1175,7 +1176,7 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># post_df_result = pd.read_csv(&quot;./../../data/fintech/lendingkart/post.csv&quot;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># post_df_result = pd.read_csv(&quot;./../../data/fintech/paytm/post.csv&quot;)</span>
 </pre></div>
 </div>
 </div>
@@ -1886,8 +1887,8 @@ distutils Version classes are deprecated. Use packaging.version instead.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save outputs</span>
-<span class="n">pre_df_topic_sents_keywords</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/lendingkart/lendingkart_pre_output.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">post_df_topic_sents_keywords</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/lendingkart/lendingkart_post_output.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pre_df_topic_sents_keywords</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/paytm/paytm_pre_output.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">post_df_topic_sents_keywords</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/paytm/paytm_post_output.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
