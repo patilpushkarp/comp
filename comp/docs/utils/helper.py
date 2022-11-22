@@ -13,6 +13,8 @@ from textblob import TextBlob
 from gensim.parsing.preprocessing import STOPWORDS
 nlp = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
 
+tqdm.tqdm.pandas()
+
 class Processor:
 
     def __init__(self, config_file_path):
@@ -268,15 +270,15 @@ class Processor:
     def words_distribution(self, df, words):
         result = pd.DataFrame()
         rdf = pd.DataFrame()
-        for word in tqdm.tqdm(words):
-            rdf[word] = df['tweet'].apply(self.word_distribution, find=word)
+        for word in tqdm.tqdm(words, position=1):
+            rdf[word] = df['tweet'].progress_apply(self.word_distribution, find=word)
             temp = pd.DataFrame(rdf[word].value_counts()).reset_index()
             if len(temp) == 2:
                 result = result.append(
                     pd.Series([word, temp.iloc[0][word], temp.iloc[1][word]]), ignore_index=True
                 )
             else:
-                if 'False' in temp['index'].values.tolist():
+                if False in temp['index'].values.tolist():
                     result = result.append(
                         pd.Series([word, temp.iloc[0][word], 0]), ignore_index=True
                     )

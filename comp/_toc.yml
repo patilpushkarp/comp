@@ -17,6 +17,13 @@ parts:
     - file: docs/individual/fintech/mobikwik.ipynb
     - file: docs/individual/fintech/paytm.ipynb
     - file: docs/individual/fintech/pine_labs.ipynb
+  - file: docs/individual/fintech/distribution.md
+    sections:
+    - file: docs/individual/fintech/distribution_faircent.ipynb
+    - file: docs/individual/fintech/distribution_lendingkart.ipynb
+    - file: docs/individual/fintech/distribution_mobikwik.ipynb
+    - file: docs/individual/fintech/distribution_paytm.ipynb
+    - file: docs/individual/fintech/distribution_pine_labs.ipynb
 - caption: NBFC
   chapters:
   - file: docs/individual/nbfc/topic.md
