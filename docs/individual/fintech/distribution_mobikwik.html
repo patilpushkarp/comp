@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Lendingkart &#8212; Comparing Businesses - Fintech and NBFC</title>
+    <title>Mobikwik &#8212; Comparing Businesses - Fintech and NBFC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -53,8 +53,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Mobikwik" href="distribution_mobikwik.html" />
-    <link rel="prev" title="Faircent" href="distribution_faircent.html" />
+    <link rel="next" title="Paytm - In Progress" href="distribution_paytm.html" />
+    <link rel="prev" title="Lendingkart" href="distribution_lendingkart.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -179,13 +179,13 @@ const thebe_selector_output = ".output, .cell_output"
      Faircent
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="distribution_lendingkart.html">
      Lendingkart
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="distribution_mobikwik.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Mobikwik
     </a>
    </li>
@@ -311,7 +311,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/patilpushkarp/comp/main?urlpath=tree/docs/docs/individual/fintech/distribution_lendingkart.ipynb"
+        <a href="https://mybinder.org/v2/gh/patilpushkarp/comp/main?urlpath=tree/docs/docs/individual/fintech/distribution_mobikwik.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -329,7 +329,7 @@ title="Launch on Binder"
       </li>
       
       <li>
-        <a href="https://colab.research.google.com/github/patilpushkarp/comp/blob/main/docs/docs/individual/fintech/distribution_lendingkart.ipynb"
+        <a href="https://colab.research.google.com/github/patilpushkarp/comp/blob/main/docs/docs/individual/fintech/distribution_mobikwik.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -389,7 +389,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/patilpushkarp/comp/issues/new?title=Issue%20on%20page%20%2Fdocs/individual/fintech/distribution_lendingkart.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/patilpushkarp/comp/issues/new?title=Issue%20on%20page%20%2Fdocs/individual/fintech/distribution_mobikwik.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -417,7 +417,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../../../_sources/docs/individual/fintech/distribution_lendingkart.ipynb"
+        <a href="../../../_sources/docs/individual/fintech/distribution_mobikwik.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -466,7 +466,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Lendingkart</h1>
+                <h1>Mobikwik</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -478,8 +478,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="lendingkart">
-<h1>Lendingkart<a class="headerlink" href="#lendingkart" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="mobikwik">
+<h1>Mobikwik<a class="headerlink" href="#mobikwik" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load necessary libraries</span>
@@ -519,7 +519,7 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/lendingkart/lendingkart.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/mobikwik/mobikwik.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -532,7 +532,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5490, 27)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(53210, 27)
 </pre></div>
 </div>
 </div>
@@ -569,14 +569,14 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 21/21 [01:05&lt;00:00,  3.10s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 21/21 [32:12&lt;00:00, 92.01s/it]  
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/lendingkart/pre_wd.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/mobikwik/pre_wd.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -588,14 +588,14 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 21/21 [04:29&lt;00:00, 12.83s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 21/21 [22:49&lt;00:00, 65.21s/it]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/lendingkart/post_wd.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/mobikwik/post_wd.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -636,23 +636,23 @@ title="Print to PDF"
     <tr>
       <th>0</th>
       <td>harassment</td>
-      <td>1435</td>
-      <td>0</td>
-      <td>100.000000</td>
-      <td>0.000000</td>
+      <td>19715</td>
+      <td>16</td>
+      <td>99.918909</td>
+      <td>0.081091</td>
     </tr>
     <tr>
       <th>1</th>
       <td>fraud</td>
-      <td>1427</td>
-      <td>8</td>
-      <td>99.442509</td>
-      <td>0.557491</td>
+      <td>18523</td>
+      <td>1208</td>
+      <td>93.877654</td>
+      <td>6.122346</td>
     </tr>
     <tr>
       <th>2</th>
       <td>restructure</td>
-      <td>1435</td>
+      <td>19731</td>
       <td>0</td>
       <td>100.000000</td>
       <td>0.000000</td>
@@ -660,7 +660,7 @@ title="Print to PDF"
     <tr>
       <th>3</th>
       <td>covid19 relief</td>
-      <td>1435</td>
+      <td>19731</td>
       <td>0</td>
       <td>100.000000</td>
       <td>0.000000</td>
@@ -668,55 +668,55 @@ title="Print to PDF"
     <tr>
       <th>4</th>
       <td>force</td>
-      <td>1433</td>
-      <td>2</td>
-      <td>99.860627</td>
-      <td>0.139373</td>
+      <td>19693</td>
+      <td>38</td>
+      <td>99.807410</td>
+      <td>0.192590</td>
     </tr>
     <tr>
       <th>5</th>
       <td>money cut</td>
-      <td>1435</td>
-      <td>0</td>
-      <td>100.000000</td>
-      <td>0.000000</td>
+      <td>19729</td>
+      <td>2</td>
+      <td>99.989864</td>
+      <td>0.010136</td>
     </tr>
     <tr>
       <th>6</th>
       <td>unethical</td>
-      <td>1434</td>
-      <td>1</td>
-      <td>99.930314</td>
-      <td>0.069686</td>
+      <td>19719</td>
+      <td>12</td>
+      <td>99.939182</td>
+      <td>0.060818</td>
     </tr>
     <tr>
       <th>7</th>
       <td>fake</td>
-      <td>1431</td>
-      <td>4</td>
-      <td>99.721254</td>
-      <td>0.278746</td>
+      <td>19539</td>
+      <td>192</td>
+      <td>99.026912</td>
+      <td>0.973088</td>
     </tr>
     <tr>
       <th>8</th>
       <td>false promise</td>
-      <td>1435</td>
-      <td>0</td>
-      <td>100.000000</td>
-      <td>0.000000</td>
+      <td>19714</td>
+      <td>17</td>
+      <td>99.913841</td>
+      <td>0.086159</td>
     </tr>
     <tr>
       <th>9</th>
       <td>shutdown</td>
-      <td>1434</td>
-      <td>1</td>
-      <td>99.930314</td>
-      <td>0.069686</td>
+      <td>19725</td>
+      <td>6</td>
+      <td>99.969591</td>
+      <td>0.030409</td>
     </tr>
     <tr>
       <th>10</th>
       <td>moratorium</td>
-      <td>1435</td>
+      <td>19731</td>
       <td>0</td>
       <td>100.000000</td>
       <td>0.000000</td>
@@ -724,55 +724,55 @@ title="Print to PDF"
     <tr>
       <th>11</th>
       <td>no response</td>
-      <td>1430</td>
-      <td>5</td>
-      <td>99.651568</td>
-      <td>0.348432</td>
+      <td>19487</td>
+      <td>244</td>
+      <td>98.763367</td>
+      <td>1.236633</td>
     </tr>
     <tr>
       <th>12</th>
       <td>scam</td>
-      <td>1432</td>
-      <td>3</td>
-      <td>99.790941</td>
-      <td>0.209059</td>
+      <td>19643</td>
+      <td>88</td>
+      <td>99.554001</td>
+      <td>0.445999</td>
     </tr>
     <tr>
       <th>13</th>
       <td>no answer</td>
-      <td>1435</td>
-      <td>0</td>
-      <td>100.000000</td>
-      <td>0.000000</td>
+      <td>19723</td>
+      <td>8</td>
+      <td>99.959455</td>
+      <td>0.040545</td>
     </tr>
     <tr>
       <th>14</th>
       <td>love</td>
-      <td>1420</td>
-      <td>15</td>
-      <td>98.954704</td>
-      <td>1.045296</td>
+      <td>19620</td>
+      <td>111</td>
+      <td>99.437433</td>
+      <td>0.562567</td>
     </tr>
     <tr>
       <th>15</th>
       <td>responsive</td>
-      <td>1434</td>
-      <td>1</td>
-      <td>99.930314</td>
-      <td>0.069686</td>
+      <td>19721</td>
+      <td>10</td>
+      <td>99.949318</td>
+      <td>0.050682</td>
     </tr>
     <tr>
       <th>16</th>
       <td>very bad</td>
-      <td>1434</td>
-      <td>1</td>
-      <td>99.930314</td>
-      <td>0.069686</td>
+      <td>19626</td>
+      <td>105</td>
+      <td>99.467842</td>
+      <td>0.532158</td>
     </tr>
     <tr>
       <th>17</th>
       <td>machine learning</td>
-      <td>1435</td>
+      <td>19731</td>
       <td>0</td>
       <td>100.000000</td>
       <td>0.000000</td>
@@ -780,23 +780,23 @@ title="Print to PDF"
     <tr>
       <th>18</th>
       <td>algorithm</td>
-      <td>1433</td>
-      <td>2</td>
-      <td>99.860627</td>
-      <td>0.139373</td>
+      <td>19730</td>
+      <td>1</td>
+      <td>99.994932</td>
+      <td>0.005068</td>
     </tr>
     <tr>
       <th>19</th>
       <td>delay</td>
-      <td>1430</td>
-      <td>5</td>
-      <td>99.651568</td>
-      <td>0.348432</td>
+      <td>19685</td>
+      <td>46</td>
+      <td>99.766864</td>
+      <td>0.233136</td>
     </tr>
     <tr>
       <th>20</th>
       <td>leveraging</td>
-      <td>1435</td>
+      <td>19731</td>
       <td>0</td>
       <td>100.000000</td>
       <td>0.000000</td>
@@ -819,7 +819,7 @@ title="Print to PDF"
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;true_cnt&#39;, ylabel=&#39;words&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../../_images/distribution_lendingkart_13_1.png" src="../../../_images/distribution_lendingkart_13_1.png" />
+<img alt="../../../_images/distribution_mobikwik_13_1.png" src="../../../_images/distribution_mobikwik_13_1.png" />
 </div>
 </div>
 </section>
@@ -851,17 +851,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="distribution_faircent.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="distribution_lendingkart.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Faircent</p>
+            <p class="prev-next-title">Lendingkart</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="distribution_mobikwik.html" title="next page">
+    <a class='right-next' id="next-link" href="distribution_paytm.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Mobikwik</p>
+        <p class="prev-next-title">Paytm - In Progress</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
