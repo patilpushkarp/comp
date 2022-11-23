@@ -32,7 +32,7 @@ parts:
     - file: docs/individual/nbfc/bajaj_finance.ipynb
     - file: docs/individual/nbfc/cholamandalam.ipynb
     - file: docs/individual/nbfc/muthoot_finance.ipynb
-  - file: docs/individual/fintech/distribution.md
+  - file: docs/individual/nbfc/distribution.md
     sections:
     - file: docs/individual/nbfc/distribution_aditya_birla_finance.ipynb
     - file: docs/individual/nbfc/distribution_bajaj_finance.ipynb
