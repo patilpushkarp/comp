@@ -569,7 +569,6 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<p>Perform lemmatization, word correction</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;harassment&quot;</span><span class="p">,</span> <span class="s2">&quot;fraud&quot;</span><span class="p">,</span> <span class="s2">&quot;restructure&quot;</span><span class="p">,</span> <span class="s2">&quot;covid19 relief&quot;</span><span class="p">,</span> <span class="s2">&quot;force&quot;</span><span class="p">,</span> <span class="s2">&quot;money cut&quot;</span><span class="p">,</span> <span class="s2">&quot;unethical&quot;</span><span class="p">,</span> <span class="s2">&quot;fake&quot;</span><span class="p">,</span> <span class="s2">&quot;false promise&quot;</span><span class="p">,</span> <span class="s2">&quot;shutdown&quot;</span><span class="p">,</span>
@@ -630,6 +629,13 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_result</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/lendingkart/pre_wd.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pre_result = pd.read_csv(&#39;./../../data/fintech/lendingkart/pre_wd.csv&#39;)</span>
 </pre></div>
 </div>
 </div>
@@ -881,19 +887,227 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-
-<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;true_percent&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">pre_result</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-
-<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;true_percent&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">post_result</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_result</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;true_percent&#39;, ylabel=&#39;words&#39;&gt;
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>words</th>
+      <th>false_cnt</th>
+      <th>true_cnt</th>
+      <th>false_percent</th>
+      <th>true_percent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>harassment</td>
+      <td>4046</td>
+      <td>9</td>
+      <td>99.778052</td>
+      <td>0.221948</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>fraud</td>
+      <td>4004</td>
+      <td>51</td>
+      <td>98.742293</td>
+      <td>1.257707</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>restructure</td>
+      <td>4016</td>
+      <td>39</td>
+      <td>99.038224</td>
+      <td>0.961776</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>covid19 relief</td>
+      <td>4055</td>
+      <td>0</td>
+      <td>100.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>force</td>
+      <td>3993</td>
+      <td>62</td>
+      <td>98.471023</td>
+      <td>1.528977</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>money cut</td>
+      <td>4054</td>
+      <td>1</td>
+      <td>99.975339</td>
+      <td>0.024661</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>unethical</td>
+      <td>4050</td>
+      <td>5</td>
+      <td>99.876695</td>
+      <td>0.123305</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>fake</td>
+      <td>4050</td>
+      <td>5</td>
+      <td>99.876695</td>
+      <td>0.123305</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>false promise</td>
+      <td>4055</td>
+      <td>0</td>
+      <td>100.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>shutdown</td>
+      <td>4053</td>
+      <td>2</td>
+      <td>99.950678</td>
+      <td>0.049322</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>moratorium</td>
+      <td>3762</td>
+      <td>293</td>
+      <td>92.774353</td>
+      <td>7.225647</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>no response</td>
+      <td>4010</td>
+      <td>45</td>
+      <td>98.890259</td>
+      <td>1.109741</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>scam</td>
+      <td>3983</td>
+      <td>72</td>
+      <td>98.224414</td>
+      <td>1.775586</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>no answer</td>
+      <td>4054</td>
+      <td>1</td>
+      <td>99.975339</td>
+      <td>0.024661</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>love</td>
+      <td>4051</td>
+      <td>4</td>
+      <td>99.901356</td>
+      <td>0.098644</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>responsive</td>
+      <td>4043</td>
+      <td>12</td>
+      <td>99.704069</td>
+      <td>0.295931</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>very bad</td>
+      <td>4044</td>
+      <td>11</td>
+      <td>99.728730</td>
+      <td>0.271270</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>machine learning</td>
+      <td>4055</td>
+      <td>0</td>
+      <td>100.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>algorithm</td>
+      <td>4053</td>
+      <td>2</td>
+      <td>99.950678</td>
+      <td>0.049322</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>delay</td>
+      <td>4042</td>
+      <td>13</td>
+      <td>99.679408</td>
+      <td>0.320592</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>leveraging</td>
+      <td>4055</td>
+      <td>0</td>
+      <td>100.000000</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;true_percent&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">pre_result</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Frequency Percent&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Words&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Pre-COVID&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">containers</span><span class="p">:</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">i</span><span class="p">,)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;true_percent&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">post_result</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Frequency Percent&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Words&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Post-COVID&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">containers</span><span class="p">:</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">i</span><span class="p">,)</span>
 </pre></div>
 </div>
-<img alt="../../../_images/distribution_lendingkart_13_1.png" src="../../../_images/distribution_lendingkart_13_1.png" />
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/distribution_lendingkart_14_0.png" src="../../../_images/distribution_lendingkart_14_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -901,16 +1115,19 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">pre_result</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Frequency Count&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Words&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Pre-COVID&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">containers</span><span class="p">:</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">i</span><span class="p">,)</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">post_result</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Frequency Count&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Words&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Post-COVID&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">containers</span><span class="p">:</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">i</span><span class="p">,)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;true_cnt&#39;, ylabel=&#39;words&#39;&gt;
-</pre></div>
-</div>
-<img alt="../../../_images/distribution_lendingkart_14_1.png" src="../../../_images/distribution_lendingkart_14_1.png" />
+<img alt="../../../_images/distribution_lendingkart_15_0.png" src="../../../_images/distribution_lendingkart_15_0.png" />
 </div>
 </div>
 </section>
