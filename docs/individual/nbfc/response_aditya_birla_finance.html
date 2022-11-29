@@ -1034,47 +1034,39 @@ title="Print to PDF"
 Resolution time is the time difference between the last date of last tweet in the conversation and the date of first query.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># result[&#39;resolution_time&#39;] = 0</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">conversation_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">):</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">conversation_id</span><span class="p">]</span>
-    <span class="n">tmp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">comp_tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">:</span>
-        <span class="n">resolution_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">result</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resolution_time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># for index, conversation_id in enumerate(conversation_ids):</span>
+<span class="c1">#     tmp = df[df[&#39;conversation_id&#39;] == conversation_id]</span>
+<span class="c1">#     tmp.sort_values(&#39;date&#39;, ascending=True, inplace=True)</span>
+<span class="c1">#     comp_tmp = tmp[tmp[&#39;username&#39;] == company_username]</span>
+<span class="c1">#     if tmp.iloc[-1][&#39;username&#39;] == company_username:</span>
+<span class="c1">#         resolution_time = (tmp.iloc[-1][&#39;date&#39;] - tmp.iloc[0][&#39;date&#39;]) / datetime.timedelta(hours=1)</span>
+<span class="c1">#         result.at[index, &#39;resolution_time&#39;] = resolution_time</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of queries resolved: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of queries unresolved: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of queries resolved: 547
-Number of queries unresolved: 189
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># print(f&quot;Number of queries resolved: {len(result[&#39;resolution_time&#39;].to_numpy().nonzero()[0])}&quot;)</span>
+<span class="c1"># print(f&quot;Number of queries unresolved: {result.shape[0] - len(result[&#39;resolution_time&#39;].to_numpy().nonzero()[0])}&quot;)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of resolution time&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fig = px.histogram(result, x=&#39;resolution_time&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of resolution time&#39;)</span>
+<span class="c1"># fig.show()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../../../_images/response_aditya_birla_finance_25_0.svg" src="../../../_images/response_aditya_birla_finance_25_0.svg" /></div>
 </div>
 </section>
 </section>

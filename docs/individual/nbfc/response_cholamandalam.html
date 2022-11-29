@@ -839,13 +839,11 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;response_time&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">1000</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;response_time&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of response time&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fig = px.histogram(result[result[&#39;response_time&#39;]&lt;1000], x=&#39;response_time&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of response time&#39;)</span>
+<span class="c1"># fig.show()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../../../_images/response_cholamandalam_18_0.svg" src="../../../_images/response_cholamandalam_18_0.svg" /></div>
 </div>
 </section>
 <section id="resolution-time">
@@ -888,13 +886,18 @@ Number of queries unresolved: 4
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of resolution time&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fig = px.histogram(result, x=&#39;resolution_time&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of resolution time&#39;)</span>
+<span class="c1"># fig.show()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../../../_images/response_cholamandalam_24_0.svg" src="../../../_images/response_cholamandalam_24_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># result.describe()</span>
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 </section>
