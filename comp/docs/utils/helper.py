@@ -124,6 +124,27 @@ class Processor:
         return pre_df, post_df
 
 
+    def preprocess_individual(self, df):
+
+        df.drop_duplicates('tweet', inplace=True)
+
+        df.loc[:, 'preprocessed'] = df['tweet'].apply(self.preprocess_tweet)
+
+        df = df[df['preprocessed'].map(bool)]
+
+        data = df['preprocessed'].values.tolist()
+        data_words = list(self.sentence_to_words(data))
+
+        bigram = gensim.models.phrases.Phrases(data_words, min_count=5, threshold=10, connector_words=gensim.models.phrases.ENGLISH_CONNECTOR_WORDS)
+        bigram_model = gensim.models.phrases.Phraser(bigram)
+
+        df.loc[:, 'sep_words'] = df['preprocessed'].apply(lambda x: list(self.sentence_to_words([x]))[0])
+
+        df['bigram'] = df['sep_words'].apply(lambda x: bigram_model[x])
+
+        return df
+
+
     def compute_coherence_values(self, corpus, dictionary, k, alpha, beta, texts, coherence='u_mass'):
 
         lda_model = gensim.models.LdaMulticore(corpus=corpus,

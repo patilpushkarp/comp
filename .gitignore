@@ -132,3 +132,5 @@ dmypy.json
 data/
 .DS_Store
 _build/
+comp/.DS_Store
+comp/docs/.DS_Store
