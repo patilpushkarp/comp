@@ -331,7 +331,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../nbfc/response_cholamandalam.html">
-     Cholamandalam ?
+     Cholamandalam
     </a>
    </li>
    <li class="toctree-l2">
@@ -587,6 +587,11 @@ title="Print to PDF"
    Resolution time
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#query-tweets-topics">
+   Query Tweets Topics
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -616,6 +621,11 @@ title="Print to PDF"
    Resolution time
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#query-tweets-topics">
+   Query Tweets Topics
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -635,6 +645,7 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">gensim</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">tqdm.notebook</span> <span class="k">as</span> <span class="nn">tqdm</span>
 <span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
@@ -668,7 +679,7 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Company username</span>
-<span class="n">company_username</span> <span class="o">=</span> <span class="s1">&#39;Paytm&#39;</span>
+<span class="n">company_username</span> <span class="o">=</span> <span class="s1">&#39;Paytmcare&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -678,6 +689,13 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Correct the format of variables</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;inReplyToTweetId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;inReplyToTweetId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%.0f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
 </pre></div>
 </div>
 </div>
@@ -711,7 +729,7 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "8bcb24fe10fb485fbcc16a3720d0b90d", "version_major": 2, "version_minor": 0}
+{"model_id": "928ffb87210f4b33ae8b6a715b9110f3", "version_major": 2, "version_minor": 0}
 </script></div>
 </div>
 <div class="cell docutils container">
@@ -729,7 +747,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1124, 28)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3459, 28)
 </pre></div>
 </div>
 </div>
@@ -743,7 +761,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of unique conversations: 736
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of unique conversations: 3358
 </pre></div>
 </div>
 </div>
@@ -769,7 +787,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">conversation_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">conversation_id</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">)):</span>
     <span class="n">tmp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">conversation_id</span><span class="p">]</span>
     <span class="n">tmp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">comp_tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">]</span>
@@ -778,6 +796,10 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "d448db45e28345b9b8d33fcf7c90650d", "version_major": 2, "version_minor": 0}
+</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -811,28 +833,28 @@ title="Print to PDF"
   <tbody>
     <tr>
       <th>0</th>
-      <td>1343785976942882818</td>
-      <td>0.8880555555555556</td>
+      <td>1344016717694042114</td>
+      <td>1.860833</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>1344177960446640130</td>
-      <td>0.6102777777777778</td>
+      <td>1344186330482262016</td>
+      <td>0.860000</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>1313373475407491073</td>
-      <td>2.4975</td>
+      <td>1343909218022117378</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>1343868209510850564</td>
-      <td>3.4202777777777778</td>
+      <td>1343164305173147648</td>
+      <td>0.015556</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>1343518600808677381</td>
-      <td>0.0</td>
+      <td>1341356011563565059</td>
+      <td>4.873333</td>
     </tr>
     <tr>
       <th>...</th>
@@ -840,33 +862,33 @@ title="Print to PDF"
       <td>...</td>
     </tr>
     <tr>
-      <th>731</th>
-      <td>1097425529492393984</td>
-      <td>0.0</td>
+      <th>3353</th>
+      <td>1080341597475106816</td>
+      <td>0.000000</td>
     </tr>
     <tr>
-      <th>732</th>
-      <td>1099926708210167808</td>
-      <td>7.112777777777778</td>
+      <th>3354</th>
+      <td>1080108275478204421</td>
+      <td>0.000000</td>
     </tr>
     <tr>
-      <th>733</th>
-      <td>1096309397372817408</td>
-      <td>0.3461111111111111</td>
+      <th>3355</th>
+      <td>1080103861594013696</td>
+      <td>0.000000</td>
     </tr>
     <tr>
-      <th>734</th>
-      <td>1096031343539118080</td>
-      <td>0.0</td>
+      <th>3356</th>
+      <td>1080034600405983233</td>
+      <td>0.000000</td>
     </tr>
     <tr>
-      <th>735</th>
-      <td>1081796840176128000</td>
-      <td>23.574444444444445</td>
+      <th>3357</th>
+      <td>1080033058043002880</td>
+      <td>0.076389</td>
     </tr>
   </tbody>
 </table>
-<p>736 rows × 2 columns</p>
+<p>3358 rows × 2 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -877,7 +899,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/response_paytm_17_0.svg" src="../../../_images/response_paytm_17_0.svg" /></div>
+<img alt="../../../_images/response_paytm_18_0.svg" src="../../../_images/response_paytm_18_0.svg" /></div>
 </div>
 </section>
 <section id="resolution-time">
@@ -893,7 +915,7 @@ Resolution time is the time difference between the last date of last tweet in th
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">conversation_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">conversation_id</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">)):</span>
     <span class="n">tmp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">conversation_id</span><span class="p">]</span>
     <span class="n">tmp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">comp_tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">]</span>
@@ -903,6 +925,10 @@ Resolution time is the time difference between the last date of last tweet in th
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "f9948138e4c9465e8cd3f4570b865874", "version_major": 2, "version_minor": 0}
+</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -912,8 +938,8 @@ Resolution time is the time difference between the last date of last tweet in th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of queries resolved: 547
-Number of queries unresolved: 189
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of queries resolved: 1897
+Number of queries unresolved: 1461
 </pre></div>
 </div>
 </div>
@@ -926,7 +952,7 @@ Number of queries unresolved: 189
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/response_paytm_23_0.svg" src="../../../_images/response_paytm_23_0.svg" /></div>
+<img alt="../../../_images/response_paytm_24_0.svg" src="../../../_images/response_paytm_24_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -935,15 +961,671 @@ Number of queries unresolved: 189
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">result</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">NameError</span>: name &#39;result&#39; is not defined
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>response_time</th>
+      <th>resolution_time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>3358.000000</td>
+      <td>3358.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>8.922587</td>
+      <td>18.402760</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>83.857372</td>
+      <td>164.904065</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.236806</td>
+      <td>0.148333</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>1.241319</td>
+      <td>1.362917</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>3356.318056</td>
+      <td>5569.472222</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="query-tweets-topics">
+<h2>Query Tweets Topics<a class="headerlink" href="#query-tweets-topics" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">queries</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">)]</span>
+<span class="n">queries</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">queries</span> <span class="o">=</span> <span class="n">queries</span><span class="p">[</span><span class="n">queries</span><span class="p">[</span><span class="s1">&#39;inReplyToTweetId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;nan&#39;</span><span class="p">]</span>
+<span class="n">queries</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2286, 28)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">(</span><span class="s1">&#39;./../../data/config.json&#39;</span><span class="p">)</span>
+<span class="n">queries</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess_individual</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+<span class="n">id2word</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">(</span><span class="n">queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">id2word</span><span class="o">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
+                                        <span class="n">id2word</span><span class="o">=</span><span class="n">id2word</span><span class="p">,</span>
+                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                        <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                        <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                        <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                        <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                        <span class="n">alpha</span><span class="o">=</span><span class="s1">&#39;symmetric&#39;</span><span class="p">,</span>
+                                        <span class="n">eta</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">coherence_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">lda_model</span><span class="p">,</span> 
+                                                    <span class="n">texts</span><span class="o">=</span><span class="n">queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
+                                                    <span class="n">dictionary</span><span class="o">=</span><span class="n">id2word</span><span class="p">,</span> 
+                                                    <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
+<span class="n">coherence_model_score</span> <span class="o">=</span> <span class="n">coherence_model</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Coherence Score: &#39;</span><span class="p">,</span> <span class="n">coherence_model_score</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pyLDAvis.gensim_models</span>
+
+<span class="kn">import</span> <span class="nn">pyLDAvis</span>
+<span class="c1"># Visualize the topics</span>
+<span class="n">pyLDAvis</span><span class="o">.</span><span class="n">enable_notebook</span><span class="p">()</span>
+<span class="n">LDAvis_prepared</span> <span class="o">=</span> <span class="n">pyLDAvis</span><span class="o">.</span><span class="n">gensim_models</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">lda_model</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">id2word</span><span class="p">)</span>
+<span class="n">LDAvis_prepared</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Coherence Score:  -5.18592817717386
+</pre></div>
+</div>
+<div class="output text_html">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.3.1/pyLDAvis/js/ldavis.v1.0.0.css">
+
+
+<div id="ldavis_el896557736242567073338184"></div>
+<script type="text/javascript">
+
+var ldavis_el896557736242567073338184_data = {"mdsDat": {"x": [0.13590934341484087, -0.049905044752763264, -0.025168925349368525, -0.060835373312709176], "y": [-0.012835383361795037, -0.09721310718215073, 0.1005949644642992, 0.00945352607964662], "topics": [1, 2, 3, 4], "cluster": [1, 1, 1, 1], "Freq": [37.81765794381883, 21.979945913221286, 21.83103446427043, 18.371361678689453]}, "tinfo": {"Term": ["postpaid", "kyc", "order", "dm_registered", "order_help", "membership", "wallet", "cashback", "mobile_number", "gold", "offers", "recharge", "thanks", "zomato", "account", "number", "offer", "action", "query", "apply", "balance", "food", "month", "limit", "option", "st", "share_registered", "working", "cash", "use_postpaid", "order_help", "dm_registered", "use_postpaid", "activate", "hold", "reason", "allow", "problems", "fast", "rejected", "suddenly", "kyc", "suspended", "delhi", "pls", "keeps", "zero", "spend", "clix", "unable_pay", "lic_premium", "office", "ph", "increase_limit", "select", "facing_problem", "clarify", "type", "gt", "tap", "postpaid", "mobile_number", "recharge", "close", "balance", "limit", "option", "account", "wallet", "pay", "credit_card", "able_use", "charging", "bank_account", "unable_use", "know", "working", "service", "showing", "time", "payment", "money", "use", "hey", "customer", "kindly", "app", "refund", "help", "dont", "bank", "able", "issue", "zomato", "st", "pass", "coupon_code", "delivered", "membership", "apply", "convenience_fee", "kiya", "offers", "sim", "kit", "msgs", "subscribe", "order", "placed", "codes", "food", "seriously", "restaurant", "public", "location", "life", "uber", "crap", "jio", "claiming", "impossible", "locatn", "dominos", "mera", "th_april", "discount", "removed", "ride", "sunday", "offer", "bad", "cashback", "dues", "day", "benefits", "code", "recharged", "cash", "getting", "expired", "wallet", "got", "saying", "money", "app", "plz", "payment", "transaction", "hai", "card", "voucher", "customer_care", "refund", "showing", "paid", "team", "rs", "help", "received", "days", "share_registered", "action", "dm_assist", "future", "queries", "keen_help", "regret_inconvenience", "language", "desk", "assist_better", "kindly_follow", "activated", "apologize", "caused", "test", "ivr", "pan_details", "logged", "errors", "tax", "elaborate", "better_assistance", "push_notification", "promise", "level", "gst", "testing", "ensuring", "eliminated", "submitted", "query", "password", "hrs", "thanks", "raised", "coupons", "kya", "connect", "mail", "free", "concern", "customer_service", "contact", "email", "priority", "resolved", "number", "dm", "complaint", "response", "need", "details", "better", "help", "request", "sms", "unable", "app", "machine", "message", "times", "days", "look", "payment", "didnt", "customer_care", "card", "account", "received", "refund", "issue", "use", "getting", "got", "service", "postpaid", "transaction", "dont", "money", "price", "public_best", "premium_wallet", "look_matter", "acc", "experience_provide", "regret_unpleasant", "gas", "mind", "requested", "locker", "buying", "cards", "gaana", "personal_details", "join", "cylinder", "definitely", "resume", "gon", "plans", "remaining", "thats", "agency", "platform", "true", "play", "crediting", "fine", "blank", "gold", "avoid_sharing", "stickers", "android", "ill", "pay_lic", "promo_code", "trying_book", "screen", "month", "cashback", "fool", "payment_gateway", "address", "number", "access", "registered_mobile", "applied", "insurance", "im", "able", "paid", "received", "cash", "receiving", "giving", "support", "want", "app", "working", "bank", "money", "use", "details", "dont", "voucher", "credit", "account", "help", "payment", "postpaid", "need", "time", "offer", "issue", "pay"], "Freq": [438.0, 128.0, 67.0, 79.0, 76.0, 55.0, 172.0, 72.0, 96.0, 49.0, 45.0, 96.0, 59.0, 31.0, 239.0, 90.0, 77.0, 25.0, 33.0, 27.0, 76.0, 27.0, 67.0, 60.0, 102.0, 18.0, 18.0, 77.0, 45.0, 31.0, 75.26587379913911, 78.6620406188168, 30.300117524438534, 19.247955803734992, 20.273830803849158, 23.58607227040679, 14.10504740423508, 12.699603819173596, 11.388953542112692, 11.58566288778423, 8.87780607673768, 118.53257741161957, 8.405922047744799, 8.886671228863237, 32.351076818776875, 10.249514471324375, 8.094062437123815, 8.762276400494246, 8.849783842595796, 11.717294162934126, 8.760888414079815, 7.206097597103231, 7.242520018549604, 7.424288317508067, 7.1077269826164535, 7.3895062919504175, 7.957272443707727, 10.519221699738338, 6.7907697633914745, 6.799041886099532, 391.40230630144504, 86.95030477990859, 85.7677998703105, 27.946126574419083, 67.31779171723751, 53.05063047557175, 82.74944592841578, 171.69187043156887, 116.09837657594167, 79.83326309060816, 50.436425018925235, 32.99498348407865, 14.391160717089756, 27.806352303934293, 21.358509240648218, 31.44428807724603, 51.28759015175893, 69.9033022020696, 51.65842271195385, 62.871678004423565, 113.13425825632969, 101.05604724012763, 69.7470655199772, 36.408061207145636, 46.472684410079076, 41.52532692961079, 81.47356120387315, 50.11126210053807, 61.980548215289524, 44.68302790574327, 39.15257584468511, 37.85911704407125, 37.16543841876898, 30.318616161125092, 17.681891355168776, 11.116987761814423, 10.629732714919868, 9.54679801445294, 49.997980928641624, 24.539254961419683, 6.258683808461082, 6.77051755384375, 39.78381976536499, 4.518485271082212, 4.652685668999515, 5.269484311823441, 4.328860343549129, 57.47051308082746, 4.111218009918593, 9.947750580468309, 22.955396243214455, 4.2861760804676585, 4.1081341680397285, 3.697436846995622, 3.531851679134567, 3.6328787714726167, 7.147063140558252, 3.595284005669243, 12.697769123937427, 3.481592314424361, 3.5261228676161833, 3.3567478325848183, 3.253554793016275, 10.187539129999283, 5.597584086107426, 5.403749567707151, 9.578478351415026, 5.083620528646976, 5.4508308920634745, 41.889845647238616, 14.33602823358414, 38.61343861303046, 13.149438766597351, 18.79898026074498, 10.324361642844135, 20.690834019038242, 8.97943411362349, 22.54149617401974, 27.31244077048894, 12.961989360565996, 51.14386430052232, 31.30673778013056, 14.715988437806176, 46.220776504153385, 49.434381260643384, 17.843968324742196, 43.810575407565565, 25.091753416348933, 19.226504209054415, 24.429354681582407, 18.662448682206577, 21.02198397082805, 25.774113580090397, 21.904674950423978, 21.72139004353079, 20.99723417084761, 16.85229001839802, 24.04830609891459, 20.370742041673154, 17.74074285619045, 17.38970849493188, 24.108238082961126, 8.57612040875593, 7.104872855889339, 7.196058863616582, 7.02312017962152, 6.223545336287381, 6.880069867680875, 6.044311425048228, 5.914110468862407, 5.811495381286205, 16.03106581477116, 5.557620602980432, 5.417409615831294, 5.544273077015863, 5.1908556697673935, 5.7451718707879635, 5.579378125540069, 4.792390362388504, 5.101991184298376, 4.777009357162602, 4.677224084971194, 4.794767714066786, 4.361996455082648, 4.444448532876465, 4.410531546681289, 3.988778009017004, 3.9885853668422997, 3.9884439527618234, 4.157666912772495, 27.683853536391517, 5.436009401852062, 7.173008675254069, 43.91381687495425, 19.16085328704523, 5.7476185491087355, 8.67618390778246, 8.479469866474247, 8.855327019525257, 15.652812291228441, 13.205745005047033, 14.79733502013343, 21.152842086623835, 13.170307434042922, 12.041827979926317, 12.710053376147734, 40.20534212602913, 18.359091280167075, 15.971653495667976, 22.799466412664714, 28.01429744404129, 24.535886532522387, 10.686553470272376, 49.37379182225373, 23.728396795252372, 15.573728383941402, 25.013393721745743, 57.598689962936646, 13.472004711953963, 20.17284557647657, 17.900634806895724, 31.09734526205517, 14.451347220323411, 45.50003499551289, 21.29630283682842, 21.8177766146124, 24.866394245223653, 38.76926465375846, 24.464380702120543, 25.652182902864197, 23.45419458645459, 24.627851698089994, 20.289288568433882, 21.503198078420787, 21.186987605335183, 22.192388342139044, 18.98440655223819, 18.879219016768563, 19.114962730778007, 9.62850757103228, 7.082322393607655, 6.653305789187049, 6.527220949704055, 5.647624102564423, 5.530335195412938, 5.52987570255768, 5.078351176206893, 5.027353148398352, 5.5982647605116025, 5.609040126109473, 5.605530426749868, 14.05017530757233, 4.890430472940538, 7.420490548850222, 4.298139535955081, 4.350622396855447, 4.221479348464447, 4.1479253843037736, 4.210231841050696, 4.0181622787002285, 3.8152559129431545, 4.133566232576938, 3.4559025556526253, 7.380720151517313, 3.3947076585881435, 3.3830140817059164, 3.3088625186913525, 3.2992348526634148, 3.345726236501671, 37.88217288203303, 6.826216048325548, 7.904769171519351, 6.5585217062611, 5.679250118108899, 8.924131870694223, 9.349049179304995, 6.213406432074308, 9.01795411632877, 32.11359838543005, 30.723513752927797, 6.015424900414214, 5.498271370945699, 5.37365587603132, 30.650253038139915, 9.341684902802287, 10.145734412843993, 17.358303928405537, 10.265284128100172, 20.113338417943282, 21.58886807015938, 22.0505045370305, 22.27128827256178, 15.260156294472804, 9.864781894910957, 12.525833058172763, 14.171323438423881, 16.43415124654491, 30.898812858629533, 18.90598738228403, 17.872902884112456, 27.102422999525555, 21.7567657269027, 14.912674373939375, 18.142535356714703, 13.811599389144503, 12.430572445016024, 22.359618287865715, 19.288997909926994, 19.819006913660612, 22.156142460738586, 13.20498001933658, 14.739513717008965, 12.662378846232444, 12.837839032575577, 13.164885395584454], "Total": [438.0, 128.0, 67.0, 79.0, 76.0, 55.0, 172.0, 72.0, 96.0, 49.0, 45.0, 96.0, 59.0, 31.0, 239.0, 90.0, 77.0, 25.0, 33.0, 27.0, 76.0, 27.0, 67.0, 60.0, 102.0, 18.0, 18.0, 77.0, 45.0, 31.0, 76.03243652987321, 79.466968275221, 31.476981715622774, 20.118645586043076, 21.408567760103978, 25.047787641750237, 15.017293482513823, 13.52264397457434, 12.149454032608181, 12.363076056320141, 9.627178074636209, 128.70670530881605, 9.130267439979507, 9.662671138233684, 35.209243112102406, 11.177263604967072, 8.840430961094755, 9.572973333535874, 9.681569589818407, 12.879635787959634, 9.633954112501776, 7.9268108563504045, 7.968675595984301, 8.171980978362328, 7.830417275287509, 8.143427990770483, 8.783383539063639, 11.65888003782744, 7.531712516209604, 7.549460175992438, 438.17074450443056, 96.84117409695658, 96.40712669756385, 31.140748667210175, 76.72314671140718, 60.73939203837867, 102.71773603852608, 239.27332852798688, 172.70449230000355, 113.64061785927152, 67.9233427828196, 43.41276518628201, 16.87709496522467, 35.982511926977836, 26.80827902965577, 42.81177492424235, 77.60635873102564, 114.35508398552794, 79.63524892817199, 105.42172698474242, 222.26387557306876, 193.49420947458458, 122.4969061552186, 54.1978012093704, 78.83994342474605, 68.46269616386118, 219.4054452860827, 103.4713931212372, 154.69164404638482, 86.49313506272651, 70.26326344630557, 71.65537628789446, 87.59775398721133, 31.527759325046517, 18.47963571233898, 11.887938114126143, 11.449064637570014, 10.36870829911159, 55.35635473920148, 27.350054269005643, 7.071302557295634, 7.652922720063137, 45.39010986679578, 5.250925231590051, 5.4103303405943795, 6.138648414700166, 5.065557390877977, 67.26592005654668, 4.846544270722367, 11.73859233854838, 27.27206756235002, 5.096164616786799, 4.925390196324875, 4.434967196699862, 4.264041034102097, 4.387794669811044, 8.670494254009823, 4.364310842729602, 15.424998671362982, 4.233674787562213, 4.291259645884401, 4.092396283003184, 3.9895311387922137, 13.107326538891767, 7.025651487692356, 6.821203767414398, 12.828477404737605, 6.429972424924292, 6.971280182324457, 77.57258505689941, 22.160557467579295, 72.5636808297849, 20.969374423384586, 33.67763280322728, 15.672078841744781, 38.90537049100813, 13.272364473231068, 45.81717619991902, 67.45874726019007, 23.388364904578957, 172.70449230000355, 90.45053929570614, 29.01972604573618, 193.49420947458458, 219.4054452860827, 42.854753849777325, 222.26387557306876, 82.90432355537266, 49.8681384478085, 84.80263994753943, 48.60371620777061, 63.62546260424156, 103.4713931212372, 79.63524892817199, 80.74127211302914, 76.41622932701983, 40.55958972622816, 154.69164404638482, 84.41470256809947, 92.50568119566863, 18.155883499642464, 25.78197931461812, 9.315004919569178, 7.845147808293853, 7.94935468019081, 7.776153543890027, 6.973138025985236, 7.738792425359666, 6.803052263919951, 6.659690019775235, 6.553404864394357, 18.169637762053796, 6.300733819276766, 6.169742739519141, 6.32702226765317, 5.927678162825983, 6.5657222217193425, 6.406803287656283, 5.526297027353152, 5.89334707068477, 5.527184712138856, 5.419532124042723, 5.573442734032827, 5.106658654737498, 5.244221005560593, 5.207833459653828, 4.7228497214566465, 4.722857625288103, 4.722856627790524, 4.957837489974452, 33.389142614291096, 6.522976791557861, 8.740141373250376, 59.95638358970926, 25.512665003149674, 6.96443031152652, 11.069088863912866, 10.963648270332913, 11.566275291757668, 22.64070871292377, 18.591531936146662, 21.45419987422349, 33.01282705265566, 19.658792251818195, 17.774378820139958, 19.146997314200433, 90.47262384442115, 31.521729819258418, 26.681222138818928, 43.666531211822786, 60.45328809810832, 51.840224764561164, 15.5918625548973, 154.69164404638482, 51.907226302282865, 27.716689169233273, 57.68060112110523, 219.4054452860827, 22.33889179053766, 42.657305042199916, 36.002828979496435, 92.50568119566863, 26.281560770676972, 222.26387557306876, 56.28952553888451, 63.62546260424156, 84.80263994753943, 239.27332852798688, 84.41470256809947, 103.4713931212372, 87.59775398721133, 122.4969061552186, 67.45874726019007, 90.45053929570614, 114.35508398552794, 438.17074450443056, 82.90432355537266, 86.49313506272651, 193.49420947458458, 10.39606104795348, 7.874577125424555, 7.487124326759286, 7.413897418395411, 6.458471327092189, 6.324536086636997, 6.32456026959089, 5.821101082054252, 5.776183981676971, 6.436837738189679, 6.449410502946066, 6.475809802225497, 16.233376584247686, 5.670550835374562, 8.679432624073902, 5.04691576439543, 5.1386439169375375, 4.995855441277328, 4.9140303204518805, 4.993157479722816, 4.798795448151058, 4.619239928154856, 5.0201807152391495, 4.20844166193115, 9.009572053089371, 4.147359521851372, 4.133822578430719, 4.0599855882191545, 4.049246983815273, 4.111290283129557, 49.86371053452883, 8.767523302582743, 10.366547371834521, 8.538685654669223, 7.385685276135083, 12.426075044417695, 13.181397362367287, 8.207678719977372, 12.812639760809443, 67.1376441306737, 72.5636808297849, 8.113410331656198, 7.220631246676729, 6.987054053679291, 90.47262384442115, 15.833955036596175, 18.275412947121012, 42.661674291145246, 19.23198220878899, 60.00260592833949, 71.65537628789446, 80.74127211302914, 84.41470256809947, 45.81717619991902, 19.763641389168697, 32.39229911573862, 42.31455130305617, 57.28176778477453, 219.4054452860827, 77.60635873102564, 70.26326344630557, 193.49420947458458, 122.4969061552186, 51.840224764561164, 86.49313506272651, 48.60371620777061, 39.511604642191074, 239.27332852798688, 154.69164404638482, 222.26387557306876, 438.17074450443056, 60.45328809810832, 105.42172698474242, 77.57258505689941, 87.59775398721133, 113.64061785927152], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4"], "logprob": [30.0, 29.0, 28.0, 27.0, 26.0, 25.0, 24.0, 23.0, 22.0, 21.0, 20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -4.7982, -4.7541, -5.7081, -6.1618, -6.1099, -5.9586, -6.4727, -6.5777, -6.6866, -6.6695, -6.9357, -4.344, -6.9903, -6.9347, -5.6426, -6.792, -7.0281, -6.9488, -6.9388, -6.6582, -6.9489, -7.1443, -7.1393, -7.1145, -7.158, -7.1192, -7.0451, -6.766, -7.2037, -7.2024, -3.1495, -4.6539, -4.6676, -5.789, -4.9098, -5.148, -4.7034, -3.9735, -4.3648, -4.7393, -5.1985, -5.6229, -6.4526, -5.794, -6.0578, -5.671, -5.1818, -4.8721, -5.1746, -4.9781, -4.3907, -4.5036, -4.8744, -5.5244, -5.2804, -5.3929, -4.719, -5.205, -4.9924, -5.3196, -5.4518, -5.4854, -5.5039, -5.1648, -5.704, -6.1681, -6.2129, -6.3204, -4.6646, -5.3763, -6.7426, -6.664, -4.8931, -7.0684, -7.0391, -6.9147, -7.1113, -4.5253, -7.1629, -6.2792, -5.443, -7.1212, -7.1636, -7.2689, -7.3148, -7.2866, -6.6099, -7.297, -6.0352, -7.3291, -7.3164, -7.3656, -7.3968, -6.2554, -6.8543, -6.8895, -6.3171, -6.9506, -6.8808, -4.8415, -5.9138, -4.923, -6.0002, -5.6428, -6.2421, -5.5469, -6.3816, -5.4612, -5.2692, -6.0146, -4.6419, -5.1328, -5.8877, -4.7432, -4.6759, -5.6949, -4.7967, -5.354, -5.6203, -5.3808, -5.6501, -5.531, -5.3272, -5.4899, -5.4983, -5.5322, -5.7521, -5.3965, -5.5625, -5.7007, -5.7139, -5.3872, -6.4208, -6.609, -6.5963, -6.6206, -6.7414, -6.6412, -6.7707, -6.7924, -6.8099, -5.7953, -6.8546, -6.8802, -6.857, -6.9229, -6.8214, -6.8507, -7.0028, -6.9402, -7.006, -7.0271, -7.0023, -7.0969, -7.0781, -7.0858, -7.1863, -7.1864, -7.1864, -7.1448, -5.2489, -6.8767, -6.5995, -4.7876, -5.6169, -6.821, -6.4092, -6.4321, -6.3888, -5.8191, -5.9891, -5.8753, -5.518, -5.9918, -6.0814, -6.0274, -4.8758, -5.6597, -5.799, -5.4431, -5.2371, -5.3697, -6.2008, -4.6704, -5.4031, -5.8242, -5.3504, -4.5163, -5.9692, -5.5655, -5.685, -5.1327, -5.899, -4.7521, -5.5113, -5.4871, -5.3563, -4.9122, -5.3726, -5.3252, -5.4147, -5.3659, -5.5597, -5.5016, -5.5164, -5.47, -5.6262, -5.6317, -5.6193, -6.1325, -6.4396, -6.5021, -6.5213, -6.666, -6.687, -6.6871, -6.7723, -6.7824, -6.6748, -6.6729, -6.6735, -5.7546, -6.81, -6.393, -6.9391, -6.9269, -6.9571, -6.9746, -6.9597, -7.0064, -7.0582, -6.9781, -7.1572, -6.3984, -7.175, -7.1785, -7.2006, -7.2036, -7.1896, -4.7628, -6.4765, -6.3298, -6.5165, -6.6604, -6.2085, -6.162, -6.5705, -6.198, -4.928, -4.9722, -6.6029, -6.6928, -6.7157, -4.9746, -6.1628, -6.0802, -5.5432, -6.0685, -5.3959, -5.3251, -5.3039, -5.294, -5.672, -6.1083, -5.8695, -5.746, -5.5979, -4.9665, -5.4578, -5.514, -5.0976, -5.3173, -5.695, -5.499, -5.7717, -5.8771, -5.29, -5.4377, -5.4106, -5.2991, -5.8167, -5.7067, -5.8586, -5.8449, -5.8197], "loglift": [30.0, 29.0, 28.0, 27.0, 26.0, 25.0, 24.0, 23.0, 22.0, 21.0, 20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.9623, 0.9622, 0.9343, 0.9282, 0.9179, 0.9123, 0.9097, 0.9096, 0.9078, 0.9074, 0.8914, 0.89, 0.8897, 0.8887, 0.8877, 0.8857, 0.8842, 0.8839, 0.8826, 0.8778, 0.8774, 0.8771, 0.8768, 0.8764, 0.8756, 0.8752, 0.8736, 0.8695, 0.8688, 0.8677, 0.8595, 0.8647, 0.8555, 0.8642, 0.8416, 0.837, 0.7562, 0.6405, 0.5752, 0.6193, 0.6747, 0.698, 0.8131, 0.7146, 0.7451, 0.6638, 0.5582, 0.4802, 0.5396, 0.4555, 0.2971, 0.3228, 0.4092, 0.5745, 0.4438, 0.4724, -0.0182, 0.2473, 0.0578, 0.3119, 0.3876, 0.3344, 0.115, 1.4759, 1.4709, 1.448, 1.4408, 1.4325, 1.4132, 1.4066, 1.393, 1.3925, 1.3832, 1.3648, 1.3642, 1.3624, 1.3579, 1.3577, 1.3505, 1.3495, 1.3427, 1.3419, 1.3336, 1.3332, 1.3266, 1.3262, 1.3218, 1.3212, 1.3205, 1.3195, 1.3187, 1.3169, 1.3111, 1.263, 1.2878, 1.2821, 1.2229, 1.2801, 1.269, 0.8989, 1.0795, 0.8842, 1.0484, 0.932, 1.0977, 0.8836, 1.1243, 0.8057, 0.6109, 0.9248, 0.2981, 0.4541, 0.836, 0.0832, 0.0248, 0.6389, -0.109, 0.3199, 0.5619, 0.2705, 0.5579, 0.4076, 0.1251, 0.2243, 0.2021, 0.2232, 0.6368, -0.3463, 0.0934, -0.1364, 1.4787, 1.4547, 1.4392, 1.4227, 1.4223, 1.42, 1.4081, 1.4042, 1.4036, 1.4031, 1.4017, 1.3966, 1.3963, 1.3918, 1.3898, 1.3891, 1.3883, 1.3836, 1.3793, 1.3776, 1.376, 1.3745, 1.3713, 1.3642, 1.3564, 1.3557, 1.3529, 1.3529, 1.3528, 1.3458, 1.3345, 1.3396, 1.3242, 1.2104, 1.2355, 1.3298, 1.2783, 1.2649, 1.2548, 1.1527, 1.1798, 1.1504, 1.0767, 1.1213, 1.1325, 1.1121, 0.7108, 0.9813, 1.0087, 0.872, 0.7527, 0.7738, 1.1441, 0.3798, 0.7391, 0.9454, 0.6863, 0.1844, 1.0161, 0.773, 0.8231, 0.4317, 0.9238, -0.0643, 0.5499, 0.4515, 0.295, -0.2981, 0.2833, 0.1272, 0.2041, -0.0824, 0.3204, 0.0852, -0.1641, -1.461, 0.0478, -0.0002, -0.7929, 1.6177, 1.5883, 1.5763, 1.567, 1.5602, 1.5602, 1.5601, 1.5579, 1.5555, 1.5548, 1.5548, 1.5501, 1.5499, 1.5464, 1.5377, 1.5338, 1.5279, 1.526, 1.5249, 1.5238, 1.5168, 1.5032, 1.5001, 1.4974, 1.495, 1.4941, 1.4939, 1.4898, 1.4895, 1.4883, 1.4196, 1.4441, 1.4233, 1.4305, 1.4317, 1.3633, 1.3508, 1.416, 1.3432, 0.9569, 0.8349, 1.3952, 1.4219, 1.4318, 0.612, 1.1667, 1.1059, 0.7951, 1.0666, 0.6014, 0.4947, 0.3965, 0.3619, 0.595, 0.9995, 0.7442, 0.6005, 0.4458, -0.2658, 0.2822, 0.3254, -0.2712, -0.0338, 0.4484, 0.1326, 0.4362, 0.5379, -0.676, -0.3875, -0.7228, -1.2901, 0.1731, -0.2731, -0.1182, -0.226, -0.4611]}, "token.table": {"Topic": [1, 2, 3, 4, 1, 2, 3, 4, 3, 4, 1, 2, 3, 4, 1, 3, 1, 2, 3, 2, 4, 4, 1, 1, 4, 3, 1, 2, 3, 4, 1, 2, 3, 4, 2, 4, 3, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 4, 1, 2, 3, 4, 3, 4, 4, 1, 2, 3, 4, 1, 4, 1, 2, 3, 4, 1, 2, 3, 4, 3, 1, 3, 2, 1, 1, 1, 3, 1, 2, 4, 2, 3, 1, 2, 3, 1, 2, 3, 4, 2, 3, 1, 2, 3, 4, 2, 2, 3, 2, 1, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 4, 1, 2, 3, 1, 2, 3, 4, 1, 2, 3, 4, 2, 3, 1, 2, 3, 4, 3, 1, 2, 1, 2, 3, 4, 1, 2, 4, 3, 3, 1, 2, 3, 4, 3, 3, 4, 1, 2, 3, 1, 1, 4, 2, 3, 3, 4, 1, 2, 3, 4, 3, 4, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 3, 4, 4, 1, 2, 3, 4, 3, 1, 1, 2, 3, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 2, 3, 1, 4, 1, 2, 3, 4, 2, 1, 2, 4, 1, 2, 3, 4, 3, 2, 4, 4, 3, 1, 1, 2, 3, 3, 2, 2, 1, 2, 3, 4, 3, 4, 1, 2, 3, 3, 3, 1, 2, 1, 2, 4, 2, 2, 4, 3, 1, 2, 3, 4, 1, 2, 3, 4, 1, 3, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 4, 1, 3, 1, 2, 3, 4, 1, 2, 3, 4, 2, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 4, 1, 1, 2, 3, 4, 1, 2, 3, 1, 1, 2, 3, 4, 3, 2, 3, 1, 2, 3, 4, 1, 2, 4, 1, 2, 3, 4, 3, 4, 1, 4, 1, 2, 4, 1, 4, 4, 1, 2, 1, 2, 3, 4, 1, 2, 3, 4, 4, 4, 1, 3, 4, 1, 3, 2, 4, 2, 4, 3, 3, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 3, 4, 1, 2, 3, 4, 2, 4, 1, 2, 3, 4, 3, 4, 3, 4, 1, 4, 2, 4, 1, 2, 3, 4, 4, 1, 2, 3, 4, 1, 2, 3, 2, 4, 2, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 4, 1, 2, 1, 2, 3, 4, 3, 1, 2, 3, 4, 2, 1, 2, 3, 4, 1, 2, 1, 4, 3, 2, 1, 1, 2, 1, 2, 3, 4, 1, 1, 3, 1, 2, 3, 4, 3, 3, 2, 3, 1, 2, 3, 4, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 4, 2, 4, 1, 2, 1, 2, 1, 2, 3, 4, 1, 4, 1, 2, 1, 2, 3, 4, 1, 3, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2], "Freq": [0.5303161042281731, 0.1256011825803568, 0.055822747813491905, 0.3070251129742055, 0.7601450830970717, 0.1382081969267403, 0.09213879795116021, 0.9290124080648962, 0.37893248945904673, 0.5683987341885701, 0.7188431784609952, 0.025075924830034714, 0.16299351139522567, 0.09194505771012729, 0.03878678156540953, 0.9308827575698287, 0.9443975698434136, 0.11007374094033293, 0.8805899275226634, 0.14312183537114803, 0.7156091768557402, 0.7128529372611937, 0.9322585335567716, 0.11711404312596617, 0.8197983018817632, 0.9522700326814812, 0.36917953378223645, 0.22333082907814303, 0.2643507772761693, 0.14129093268209048, 0.16408169900291286, 0.30472315529112387, 0.11720121357350918, 0.39848412614993123, 0.9140749687042181, 0.07312599749633746, 0.9009428340033311, 0.11405729594187897, 0.7984010715931528, 0.22562609299495093, 0.6317530603858625, 0.045125218598990186, 0.045125218598990186, 0.8732697089708712, 0.05213550501318634, 0.039101628759889755, 0.02606775250659317, 0.5550553459533427, 0.0853931301466681, 0.09962531850444613, 0.2561793904400043, 0.7781557901466862, 0.05558255643904902, 0.05558255643904902, 0.11116511287809804, 0.19142323301801412, 0.6380774433933804, 0.1276154886786761, 0.12827203888940217, 0.12827203888940217, 0.7054962138917119, 0.06413601944470108, 0.9225888666326842, 0.7296979277552664, 0.9265250498768542, 0.28301005740914276, 0.28301005740914276, 0.29480214313452374, 0.14150502870457138, 0.12320295716793335, 0.8624207001755335, 0.04365175172021044, 0.5019951447824201, 0.13095525516063133, 0.32738813790157834, 0.013780998821514224, 0.5374589540390547, 0.027561997643028448, 0.42721096346694093, 0.8104065616826174, 0.829526647142003, 0.11850380673457185, 0.7086042623806318, 0.9108107330643617, 0.9296013333896626, 0.8991434438274362, 0.09633679755293958, 0.35984749208944566, 0.5397712381341685, 0.10281356916841304, 0.851890900679887, 0.08518909006798871, 0.2623567977351229, 0.11243862760076695, 0.5996726805374237, 0.0537879290116887, 0.1075758580233774, 0.6992430771519531, 0.1075758580233774, 0.18242102908498994, 0.7296841163399598, 0.24233004908182967, 0.03029125613522871, 0.6361163788398029, 0.09087376840568612, 0.8484999689073769, 0.9607771768449614, 0.861520574061839, 0.9165250011152394, 0.6580345251844522, 0.025309020199402007, 0.30370824239282407, 0.7361239590323417, 0.10305735426452783, 0.14722479180646833, 0.7389188790977705, 0.583460591190146, 0.17757496253613142, 0.08878748126806571, 0.13952318484981754, 0.26718862707124275, 0.33005653932329987, 0.3457735173863141, 0.06286791225205712, 0.27966552167759007, 0.6991638041939752, 0.7784154856139299, 0.14846649196557712, 0.5641726694691931, 0.20785308875180797, 0.08907989517934628, 0.34592469982803964, 0.1945826436532723, 0.33511455295841336, 0.12972176243551486, 0.8006636795273824, 0.9314194668582275, 0.9644402862463416, 0.8819570638639739, 0.09645019910133729, 0.15432031856213965, 0.48225099550668643, 0.28935059730401186, 0.2664794179094311, 0.3020100069640219, 0.3730711850732035, 0.053295883581886215, 0.733008449899345, 0.146601689979869, 0.031724147302, 0.063448294604, 0.5710346514360001, 0.31724147302000005, 0.966183064605, 0.9941237436716632, 0.7519680623192772, 0.5202725044868026, 0.057808056054089174, 0.21967061300553886, 0.20810900179472103, 0.1907543791835434, 0.619951732346516, 0.1907543791835434, 0.9046196681321237, 0.8469450409447015, 0.1526034743931198, 0.0508678247977066, 0.6612817223701858, 0.1017356495954132, 0.8469448620645201, 0.9047649764845838, 0.9486861831142518, 0.3420504183442839, 0.5558319298094614, 0.08551260458607098, 0.8595888620779345, 0.9053904784920263, 0.7408784922211256, 0.8433537335376894, 0.1466702145282938, 0.24650546665889364, 0.739516399976681, 0.08833645736797806, 0.17667291473595612, 0.7066916589438245, 0.04416822868398903, 0.8922712702238234, 0.8817485540925815, 0.8589440261421319, 0.19271036786169, 0.40024461017427926, 0.2964774890179846, 0.08894324670539538, 0.24697228101703333, 0.18522921076277502, 0.18522921076277502, 0.4013299566526792, 0.02005466479089108, 0.2206013126998019, 0.7620772620538611, 0.8010963035401901, 0.298505682887418, 0.3427287470188874, 0.24322685272308137, 0.12161342636154068, 0.7680737164482763, 0.929403503510621, 0.34089902950341794, 0.38100479768029066, 0.2807403772381089, 0.40079734352948687, 0.15514735878560781, 0.3167591908539493, 0.12282499237193953, 0.6642335887562882, 0.11070559812604805, 0.14760746416806406, 0.07380373208403203, 0.9342054183218683, 0.046710270916093415, 0.1144146252668805, 0.8009023768681635, 0.1353970501872371, 0.8123823011234226, 0.34998479941154703, 0.19999131394945546, 0.1333275426329703, 0.33331885658242577, 0.9321272377065931, 0.8565854495421019, 0.41597376251440227, 0.5199672031430028, 0.4223852589348552, 0.15982144932670195, 0.26256380960815323, 0.14840563151765182, 0.8435005853314211, 0.8427877549276506, 0.12965965460425394, 0.7925632577858489, 0.9001879863213509, 0.8946733613364986, 0.6134727720841672, 0.13145845116089297, 0.2483104077483534, 0.9155546046909004, 0.9241579876342079, 0.914683220522871, 0.7240998546511118, 0.09343223930982088, 0.11679029913727611, 0.04671611965491044, 0.813075051673092, 0.18068334481624265, 0.9245827535906075, 0.015539205942699285, 0.06215682377079714, 0.9045338878791118, 0.7627443610325897, 0.9341958550872578, 0.911619686199276, 0.8725803505986943, 0.03292756039995073, 0.08231890099987682, 0.9380772764637108, 0.7330668372610448, 0.9303175844147651, 0.9365044829080279, 0.0760989812382624, 0.380494906191312, 0.5326928686678368, 0.9441727616343266, 0.17905991208097108, 0.17905991208097108, 0.5819447142631561, 0.08952995604048554, 0.1729165137047391, 0.7781243116713259, 0.018064773316654723, 0.903238665832736, 0.018064773316654723, 0.05419431994996417, 0.15258641753264057, 0.762932087663203, 0.2578690798473543, 0.1640985053574073, 0.4688528724497351, 0.11721321811243378, 0.8656233970145069, 0.8983782033961745, 0.09293567621339736, 0.5219794446265655, 0.23773321240417838, 0.09819415294955194, 0.13953905945462644, 0.25321114882899315, 0.10426341422370307, 0.16384250806581913, 0.47663275073692835, 0.8145115442719517, 0.24812546135880698, 0.06616678969568186, 0.463167527869773, 0.21504206651096602, 0.13263680757878185, 0.08842453838585458, 0.4421226919292729, 0.34264508624518647, 0.2836053482536778, 0.5414283921206576, 0.01289115219334899, 0.16758497851353688, 0.02203123109714105, 0.881249243885642, 0.11015615548570525, 0.8830789742374251, 0.8080396161464208, 0.038941668248020284, 0.11682500474406085, 0.038941668248020284, 0.014866369168211128, 0.8473830425880342, 0.13379732251390014, 0.9864211042419039, 0.4334833856841362, 0.272475271001457, 0.02477047918195064, 0.272475271001457, 0.9138370155459914, 0.9253076432934129, 0.7665212003315846, 0.703973645224889, 0.10559604678373337, 0.07919703508780002, 0.11439571734904448, 0.16095186878003626, 0.08047593439001813, 0.7242834095101631, 0.5084047045821061, 0.19796289381958113, 0.20696120717501662, 0.08998313355435505, 0.13849204672517332, 0.6924602336258666, 0.11521490439666847, 0.8065043307766793, 0.8784395745169434, 0.8253303336490123, 0.8335425094106005, 0.11099306316742327, 0.7769514421719629, 0.7257205511560343, 0.9088522550205205, 0.05680326593878253, 0.3033502431391879, 0.4200234135773371, 0.16334243861340886, 0.11667317043814919, 0.8923462027165221, 0.004564430704432338, 0.05020873774875572, 0.05020873774875572, 0.9349383948362813, 0.9619027777802971, 0.11252151314192885, 0.675129078851573, 0.16878226971289326, 0.9613504596026465, 0.7832910461499438, 0.2275934726438761, 0.6827804179316284, 0.9019232437562269, 0.8889366233266269, 0.8971115769197298, 0.8805746229242318, 0.029949855602820534, 0.11979942241128214, 0.8385959568789749, 0.029949855602820534, 0.07839243762864795, 0.11758865644297191, 0.7447281574721555, 0.039196218814323974, 0.9581684555643645, 0.039923685648515186, 0.20138671917117365, 0.23692555196608667, 0.28431066235930397, 0.26061810716269534, 0.35418574250372165, 0.15179388964445215, 0.5059796321481738, 0.8920502347278562, 0.010372677147998327, 0.010372677147998327, 0.09335409433198494, 0.6781007271275613, 0.3013781009455828, 0.48322534849236165, 0.25127718121602804, 0.25127718121602804, 0.019329013939694467, 0.43774660650063546, 0.5471832581257943, 0.8604447492135019, 0.9486825556629751, 0.9706322233507144, 0.8659433288189882, 0.7795157355390409, 0.23385472066171226, 0.2889771052810099, 0.07706056140826929, 0.4623633684496158, 0.17338626316860592, 0.9321347288905659, 0.15668253098751103, 0.05222751032917035, 0.6789576342792145, 0.1044550206583407, 0.13740500638565697, 0.32061168156653297, 0.5267191911450184, 0.81211839885998, 0.8139957914692254, 0.7776083114475986, 0.15552166228951972, 0.22189573565089793, 0.41913638956280724, 0.14793049043393197, 0.19724065391190929, 0.13783727639936535, 0.5168897864976201, 0.2756745527987307, 0.06891863819968268, 0.1560958582568975, 0.07804792912844875, 0.7024313621560387, 0.8939498054709966, 0.7849040014963359, 0.6121284472919346, 0.11368099735421644, 0.1836385341875804, 0.08744692104170496, 0.9363355961352569, 0.6529771765628818, 0.2762595746996807, 0.012557253395440034, 0.06278626697720016, 0.9522131394900728, 0.2886347626570185, 0.03607934533212731, 0.577269525314037, 0.10823803599638192, 0.9401467743017059, 0.9740451749263259, 0.1929282651458206, 0.7717130605832824, 0.8068033710440583, 0.7896465662797887, 0.9348533838499805, 0.1434456762382726, 0.717228381191363, 0.16542772602895175, 0.18906025831880202, 0.30722291976805327, 0.3308554520579035, 0.8762065353058219, 0.9272186138898061, 0.8484143119402318, 0.4449316630698764, 0.27481073307257076, 0.23555205691934636, 0.03925867615322439, 0.9483134002348833, 0.846946279452292, 0.8540133268083241, 0.14233555446805402, 0.15010912034969257, 0.050036373449897524, 0.733866810598497, 0.06671516459986336, 0.7967840655332762, 0.5975997719058228, 0.1043428173168897, 0.16125708130792046, 0.14228565997757686, 0.19442916566324528, 0.22220476075799458, 0.49996071170548784, 0.08332678528424797, 0.3859871069164067, 0.3015524272784427, 0.22917984473161648, 0.08443467963796397, 0.72335180593671, 0.12183712766022559, 0.7310227659613535, 0.9434868498784024, 0.08577153180712749, 0.11533367887736416, 0.8073357521415491, 0.20804221465731607, 0.2947264707645311, 0.43342128053607515, 0.06934740488577203, 0.9317033647192143, 0.07764194705993453, 0.7833401008982878, 0.18650954783292564, 0.5714430037220811, 0.048980828890464095, 0.2040867870436004, 0.17959637259836836, 0.9530774033874502, 0.03176924677958167, 0.1851710260492614, 0.39091661054844073, 0.16459646759934346, 0.28804381829885106, 0.6716675313720117, 0.2953021043101086, 0.005790237339413895, 0.02316094935765558, 0.4888117298545103, 0.017457561780518226, 0.2094907413662187, 0.2793209884882916, 0.6571626453543569, 0.012885542065771704, 0.09019879446040192, 0.24482529924966237, 0.9049332589334897, 0.9515424071436367], "Term": ["able", "able", "able", "able", "able_use", "able_use", "able_use", "acc", "access", "access", "account", "account", "account", "account", "action", "action", "activate", "activated", "activated", "address", "address", "agency", "allow", "android", "android", "apologize", "app", "app", "app", "app", "applied", "applied", "applied", "applied", "apply", "apply", "assist_better", "avoid_sharing", "avoid_sharing", "bad", "bad", "bad", "bad", "balance", "balance", "balance", "balance", "bank", "bank", "bank", "bank", "bank_account", "bank_account", "bank_account", "bank_account", "benefits", "benefits", "benefits", "better", "better", "better", "better", "better_assistance", "blank", "buying", "card", "card", "card", "card", "cards", "cards", "cash", "cash", "cash", "cash", "cashback", "cashback", "cashback", "cashback", "caused", "charging", "charging", "claiming", "clarify", "clix", "close", "close", "code", "code", "code", "codes", "codes", "complaint", "complaint", "complaint", "concern", "concern", "concern", "concern", "connect", "connect", "contact", "contact", "contact", "contact", "convenience_fee", "coupon_code", "coupons", "crap", "credit", "credit", "credit", "credit_card", "credit_card", "credit_card", "crediting", "customer", "customer", "customer", "customer", "customer_care", "customer_care", "customer_care", "customer_care", "customer_service", "customer_service", "cylinder", "day", "day", "day", "day", "days", "days", "days", "days", "definitely", "delhi", "delivered", "desk", "details", "details", "details", "details", "didnt", "didnt", "didnt", "didnt", "discount", "discount", "dm", "dm", "dm", "dm", "dm_assist", "dm_registered", "dominos", "dont", "dont", "dont", "dont", "dues", "dues", "dues", "elaborate", "eliminated", "email", "email", "email", "email", "ensuring", "errors", "experience_provide", "expired", "expired", "expired", "facing_problem", "fast", "fine", "food", "food", "fool", "fool", "free", "free", "free", "free", "future", "gaana", "gas", "getting", "getting", "getting", "getting", "giving", "giving", "giving", "giving", "gold", "gold", "gold", "gon", "got", "got", "got", "got", "gst", "gt", "hai", "hai", "hai", "help", "help", "help", "help", "hey", "hey", "hey", "hey", "hold", "hold", "hrs", "hrs", "ill", "ill", "im", "im", "im", "im", "impossible", "increase_limit", "insurance", "insurance", "issue", "issue", "issue", "issue", "ivr", "jio", "jio", "join", "keen_help", "keeps", "kindly", "kindly", "kindly", "kindly_follow", "kit", "kiya", "know", "know", "know", "know", "kya", "kya", "kyc", "kyc", "kyc", "language", "level", "lic_premium", "life", "limit", "limit", "limit", "location", "locatn", "locker", "logged", "look", "look", "look", "look_matter", "machine", "machine", "machine", "machine", "mail", "mail", "membership", "membership", "membership", "membership", "mera", "mera", "message", "message", "message", "message", "mind", "mobile_number", "mobile_number", "money", "money", "money", "money", "month", "month", "month", "month", "msgs", "need", "need", "need", "need", "number", "number", "number", "number", "offer", "offer", "offer", "offer", "offers", "offers", "offers", "office", "option", "option", "option", "option", "order", "order", "order", "order_help", "paid", "paid", "paid", "paid", "pan_details", "pass", "password", "pay", "pay", "pay", "pay", "pay_lic", "pay_lic", "pay_lic", "payment", "payment", "payment", "payment", "payment_gateway", "payment_gateway", "personal_details", "personal_details", "ph", "placed", "plans", "platform", "platform", "play", "pls", "pls", "plz", "plz", "plz", "plz", "postpaid", "postpaid", "postpaid", "postpaid", "premium_wallet", "price", "priority", "priority", "priority", "problems", "promise", "promo_code", "promo_code", "public", "public_best", "push_notification", "queries", "query", "query", "query", "query", "raised", "raised", "raised", "raised", "reason", "reason", "received", "received", "received", "received", "receiving", "receiving", "receiving", "recharge", "recharge", "recharge", "recharge", "recharged", "recharged", "refund", "refund", "refund", "refund", "registered_mobile", "registered_mobile", "regret_inconvenience", "regret_unpleasant", "rejected", "remaining", "removed", "removed", "request", "request", "request", "request", "requested", "resolved", "resolved", "resolved", "resolved", "response", "response", "response", "restaurant", "resume", "ride", "ride", "rs", "rs", "rs", "rs", "saying", "saying", "saying", "saying", "screen", "screen", "screen", "select", "seriously", "service", "service", "service", "service", "share_registered", "showing", "showing", "showing", "showing", "sim", "sms", "sms", "sms", "sms", "spend", "st", "stickers", "stickers", "submitted", "subscribe", "suddenly", "sunday", "sunday", "support", "support", "support", "support", "suspended", "tap", "tax", "team", "team", "team", "team", "test", "testing", "th_april", "th_april", "thanks", "thanks", "thanks", "thanks", "thats", "time", "time", "time", "time", "times", "times", "times", "times", "transaction", "transaction", "transaction", "transaction", "true", "trying_book", "trying_book", "type", "type", "uber", "uber", "unable", "unable", "unable", "unable", "unable_pay", "unable_pay", "unable_use", "unable_use", "use", "use", "use", "use", "use_postpaid", "use_postpaid", "voucher", "voucher", "voucher", "voucher", "wallet", "wallet", "wallet", "wallet", "want", "want", "want", "want", "working", "working", "working", "working", "zero", "zomato"]}, "R": 30, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [3, 4, 1, 2]};
+
+function LDAvis_load_lib(url, callback){
+  var s = document.createElement('script');
+  s.src = url;
+  s.async = true;
+  s.onreadystatechange = s.onload = callback;
+  s.onerror = function(){console.warn("failed to load library " + url);};
+  document.getElementsByTagName("head")[0].appendChild(s);
+}
+
+if(typeof(LDAvis) !== "undefined"){
+   // already loaded: just create the visualization
+   !function(LDAvis){
+       new LDAvis("#" + "ldavis_el896557736242567073338184", ldavis_el896557736242567073338184_data);
+   }(LDAvis);
+}else if(typeof define === "function" && define.amd){
+   // require.js is available: use it to load d3/LDAvis
+   require.config({paths: {d3: "https://d3js.org/d3.v5"}});
+   require(["d3"], function(d3){
+      window.d3 = d3;
+      LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.3.1/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+        new LDAvis("#" + "ldavis_el896557736242567073338184", ldavis_el896557736242567073338184_data);
+      });
+    });
+}else{
+    // require.js not available: dynamically load d3 & LDAvis
+    LDAvis_load_lib("https://d3js.org/d3.v5.js", function(){
+         LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.3.1/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+                 new LDAvis("#" + "ldavis_el896557736242567073338184", ldavis_el896557736242567073338184_data);
+            })
+         });
+}
+</script></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">queries_topic_sents_keywords</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">dominant_topics</span><span class="p">(</span><span class="n">ldamodel</span><span class="o">=</span><span class="n">lda_model</span><span class="p">,</span> 
+                                                         <span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span> 
+                                                         <span class="n">texts</span><span class="o">=</span><span class="n">queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                                                         <span class="n">tweets</span><span class="o">=</span><span class="n">queries</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">queries_topic_sents_keywords</span><span class="p">[</span><span class="s1">&#39;Topic_Keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;postpaid, account, kyc, wallet, payment, money, mobile_number, recharge, option, app&#39;,
+       &#39;app, help, payment, thanks, number, account, days, need, query, refund&#39;,
+       &#39;order, wallet, membership, app, money, payment, offer, offers, cashback, got&#39;,
+       &#39;gold, month, app, cashback, number, money, account, received, postpaid, paid&#39;],
+      dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">select</span> <span class="o">=</span> <span class="n">queries_topic_sents_keywords</span><span class="p">[</span><span class="s1">&#39;Topic_Keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">queries_topic_sents_keywords</span><span class="p">[</span><span class="n">queries_topic_sents_keywords</span><span class="p">[</span><span class="s1">&#39;Topic_Keywords&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">select</span><span class="p">][</span><span class="s1">&#39;Text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;@HAMPIREDDY97 \n  \n   Hi! Please  share  your Paytm  registered mobile number and  Email Id  to assist you better Via  DM.Thanks!\n   https://t.co/5m1Urzybmc&#39;,
+       &#39;@mdminhaz484 Hi, If you wish to close your Paytm wallet account, please share your registered mobile number with us over DM. Our team will reach out to you.   https://t.co/5m1Urzybmc&#39;,
+       &quot;@Paytmcare Paytm your service is really pathetic on 1 Jan 2018 my 3000rs automatically transferred from wallet to my paytm bank when I ask to Cc he said sir we can&#39;t help you is this your security and u also chargers me 120rs which I didn&#39;t initiate 😡😡😡😡😡&quot;,
+       &#39;@Paytm  I am trying to reset my password by calling the customer care number with my registered number, but the auto response say &quot;It seems you have not entered the key&quot; no matter how many times I press it&#39;,
+       &#39;@Paytm amount deducted have been not yet resolved on 28.12.18 ,no response till now.&#39;,
+       &#39;@mdriyaz13007230 Hi, we are keen to help you. Please share your paytm registered mobile number along with the screenshot of the error message you get while trying to login via DM for better assistance. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytm @Paytmcare PayTm forcing for full KYC for fastag. 6th Dec, 2018 full fastag payment done and till date my fastag not activated fully. Today they asked to complete full KYC and reinstall the PayTm app to be able to use fastag received with my new car.&#39;,
+       &#39;.@Paytm, the most used banking app in #India, just sent a dummy notification to his users in the middle of the night. Imagine the reaction of the guy (hacker?) when he realised that he just sent a notification to millions of people https://t.co/zG6NYpWNLE&#39;,
+       &#39;We apologize for the test push notification some of you may have received from Paytm App. It was a testing error by us. We are ensuring that such errors are eliminated completely in future.&#39;,
+       &quot;@zk34911 @fs0c131y @Paytm Fawas - I&#39;m not sure about the current issue. But paytm is not loyal as they seem. When I made a recharge of bsnl landline,  it took a whole 7 days to reach bsnl. I raised a complaint against bsnl believing paytm, but bsnl confirmed that they didn&#39;t get&quot;,
+       &#39;@zk34911 Hi! We apologize for the test push notification you  have received from Paytm App. It was a testing error by us. We are ensuring that such errors are eliminated completely in future. Thanks.  https://t.co/5m1Urzybmc&#39;,
+       &#39;@sumitk2209 Hi! We apologize for the test push notification you\xa0 have received from Paytm App. It was a testing error by us. We are ensuring that such errors are eliminated completely in future. Thanks.\n  https://t.co/5m1Urzybmc&#39;,
+       &#39;@MultiMinionaire Hi! We apologize for the test push notification you  have received from Paytm App. It was a testing error by us. We are ensuring that such errors are eliminated completely in future. Thanks.&#39;,
+       &#39;@SameerVis Hi! We apologize for the test push notification you have received from Paytm App. It was a testing error by us. We are ensuring that such errors are eliminated completely in future. Thanks.  https://t.co/5m1Urzybmc&#39;,
+       &#39;@mad_babaji We are keen to help! Please elaborate your concern along with Query reference no. order / transaction details via DM. You can visit https://t.co/Zi1bepdgb0 to create Query reference no. or via the Help section of the Paytm app. Thanks!&#39;,
+       &#39;@USChandel Hi, we are glad your concern is resolved. For any other query please feel free to contact us. Continue using Paytm #Paytmkaro\u200b.\n  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytm Need Help Regarding My Paytm 5 times password attempt!! please DM me! i m unable to login after 1 Hour!&#39;,
+       &#39;@Tarun158331 Hi, we are keen to help you. Please share your paytm registered mobile number via DM for better assistance. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;Hello \nI have already called the customer care and shared all the details the executive name was Pampa and the complaint ID that was shared is 10365387. But there still no response from @Paytm more than a week now. #shamefull customer service. Also, not received last few cashback https://t.co/6f9Wgq5MkN&#39;,
+       &#39;@Paytm is paytm palaging a spoil game ...\n\nWhy does the balance mis match...\n\nHad a doubt from long but had cross checked it today... As an example... https://t.co/Vk8YJGXuHC&#39;,
+       &quot;#What&#39;s this @Paytm \nAre you #joking with #consumers ? It looks like a #fake #promotion https://t.co/UZZLOjbb0E&quot;,
+       &#39;@Paytmcare After multiple mail and tweets I didn’t get PayTm calendar. Please do the needful. \n\nCc @Paytm @PaytmMall @vijayshekhar&#39;,
+       &#39;@Paytm  Issue related to fastag unresolved from past 19 days. Car registration number wrongly inserted by Car company. Struggling to get it corrected. Please help. No response from @Paytmcare.&#39;,
+       &#39;@Paytm my account has been fraudulently debited by 6k and I am not able to speak or chat with anyone. Can you please help? I only get this message when I try to raise the query on the app https://t.co/a0QNILytgo&#39;,
+       &quot;@Paytmcare please don&#39;t use any paytm cashback offer. They made user fool by there hidden policy. Very upset by paytm customer support as well&quot;,
+       &#39;@alkarthii Hi, we regret the inconvenience caused to you. Please share your Paytm registered mobile number/email id and query reference number if any via DM for better assistance. Thanks!&#39;,
+       &quot;Dear @Paytm @Paytmcare my friend transferred 170 bucks through Paytm....... I received a SMS for the same but the balance didn&#39;t show in my account...... Transaction ID was 22619273453...... Please check immediately......&quot;,
+       &quot;@Paytm I have make a payment for Grofer where I am suppose to get 400 cash back it&#39;s been more than 72hrs I have raised multiple queries through your app but no response. Please help me&quot;,
+       &#39;@Paytmcare customer tried sending der money from Paytm wallet to my merchant account its not getting  done.I tried calling ur customer support team to convey my problem but it a cumbersome processI carefully followed all the instructions gn by system but still i failed to reach&#39;,
+       &#39;@_HimanshuG Hi, It seems your concern has been resolved now. Please feel free for contacting us regarding any issue related to Paytm. Thanks!&#39;,
+       &#39;Forced to post here, @Paytm is a sheer fraud, from the last few days not able to use despite having limits, customer care does not pick up calls, local area manager is also helpless, want to close my account and take my money back but not finding a way out.&#39;,
+       &#39;@HPCL @Paytmcare this problm is issued in paytm cashless.\nPlease resolve. https://t.co/blHxbBLYYh&#39;,
+       &#39;Unable to add money. Kindly help \u2066@Paytm\u2069 \u2066@Paytmcare\u2069 @paytm https://t.co/AJRVDOqX7T&#39;,
+       &#39;@Paytm pl resolve my issue on priority i transfered money from my Paytm wallet to my saving account amount debited from my wallet but its not credited in my Paytm Saving account. Pl resolve this on priority&#39;,
+       &#39;@AfcGoenka Hi, We regret for the inconvenience caused to you. Please share your paytm registered mobile no. and screen shot for the transaction via DM so that we may assist you in a better way. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytm kya sabhi petrol pump par payment karne par cash back milta hai?&#39;,
+       &#39;@Paytmcare 109107969 is the query number pending since last 1 week but paytm team is giving ambiguous replies and not at all resolving the issue. Kindly help.&#39;,
+       &quot;@Paytm @Paytmcare have been trying to get through your IVR to lodge a complaint but it&#39;s going on and on about something else. Also unable to change the language. Need to report a fraud transaction.&quot;,
+       &#39;@JobeeRandhawa Hi, Paytm postpaid is only one time facility. It can not be activated again once the account is deactivated. We request you to please re-consider your closure request. For more details please check your DM. Thanks!&#39;,
+       &#39;@MaKpateL15 @Paytm @crpfindia Ya Pan daal do.... CDPPK4091N&#39;,
+       &#39;@Akash94784810 @Paytm @crpfindia Irctc की sight से टिकट बनाने में जो आप टिकट किराये से एक्स्ट्रा पैसे डेबिट कार्ड से भुगतान करने के बाद भी अवैध रूप से प्रतिदिन लाखो रुपया ले रहे हो उसका कुछ हिस्सा आपको crpf फण्ड के लिए देना चाहिए @IRCTCofficial&#39;,
+       &#39;@in1991AD @vijayshekhar @Paytm They will ensure it reaches the association. We cannot be sure the association ensures it reaches the families.&#39;,
+       &#39;@Msc_Maths Hi, we are keen to help you. Please elaborate your concern and share your paytm registered mobile number via DM for better assistance. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytm i have submit driving licen, pan n voter crd but u refuse to complete kyc. On asking alwys giv msg contact fala fala. Cn u guid&#39;,
+       &#39;My answer to Can I use my Paytm in Oman country? https://t.co/1E8Mu0n19K&#39;,
+       &#39;In iPhone BRTS ticket booking not work from starting. Many times I have reported this issue on @Paytmcare but still I can’t get any solution for it.\n@Paytm please check this issue why we can’t book ticket on iPhone. https://t.co/8VfpJ672jp&#39;,
+       &quot;@Paytm @Paytmcare my account is registered with paytm(dm for number)\nI was continuously receiving login otp&#39;s(which i was not generating).\nSo someone was trying something bad\nI brought this to notice of paytm care and &#39;MY ACCOUNT WAS BLOCKED&#39;\nWHAT AN AMAZING SOLUTION!\nCan u help?&quot;,
+       &#39;@paytm what a third class  customer service you have thanks for westing my time&#39;,
+       &quot;@Paytm I have forwaded the PayTm app to my boss and he install the app by the link but i didn&#39;t get cash back 2days over.&quot;,
+       &#39;@DushyantT92 Hi, please share the screenshot of the error with us that you receive when you try to add money in your Paytm account via DM so that we will look into this issue and get it resolved at the earliest. Thanks.\u200b\u200b\u200b\n  https://t.co/5m1Urzybmc&#39;,
+       &#39;Hello, @Paytmcare ,@Paytm My fastag amount deducted even I was in non-fastag lane, as there was no sms of deduction I paid cash also. This double charge break all trust in fastag usage. Filed complaint but no action si far. Please be careful while using fastag. Very bad.&#39;,
+       &#39;@Paytm help!!! https://t.co/Wz0u76yQlw&#39;,
+       &#39;@ShankarraoChav1 This is unfortunate as Paytm KYC is free. If you have been charged, please share your registered mobile  / email along with agent details (if available) in DM. We would take prompt action.&#39;,
+       &quot;@Paytm I don&#39;t understand the meaning of 24x7 helpline. Does that mean we have to be on hold for 24 hours to get our problems solved?\nI hope social media helps me to get my Captain Marvel movie tickets\nDeeply disappointed with the service. #complain #captainmarvel #Paytm https://t.co/e8NOItjqSC&quot;,
+       &#39;@Vwin11 Hi, we regret the inconvenience caused to you. Please share your Paytm registered mobile no. and transaction details or screenshot of transaction via DM.  Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@tarunjain9999 Hi, we regret the inconvenience caused to you. Please elaborate your concern along with your Paytm registered mobile no. and transaction details via DM.  Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@IquyanSabigh Hi! We are keen to help, please share your registered Paytm number, Email ID, Paytm app version, OS version and device model details through DM. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@IRCTCofficial Already raised the issues, the same kinda things happening with PAYTM network. What is the solution and how i will get my money back or ticket. Kindly do the needful.&#39;,
+       &#39;@Paytm Query reference Number:  112473385 &amp;amp; KYC details Submitted : 17 Feb 2019 but as of now not able to use my balance in PAYTM Wallet. Sorry state of affairs.&#39;,
+       &#39;@paytm\nI need ur help&#39;,
+       &quot;@Paytmcare @Paytm guys I have been sending my query on a cashback offer by @ZEE5India @ZEE5helps for a long time now and you guys don&#39;t seem to correct your system nor respond on my query. Why this delay?&quot;,
+       &#39;@SurajChakravar1 Hi, we are keen to help you. Please share your paytm registered mobile number along with a screenshot of the error message that you get while booking movie ticket via DM for better assistance. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytm when i will receive my refund.. https://t.co/rKceS5o0Rk&#39;,
+       &#39;@Paytm @DelhiPolice @cmohry @police_haryana @FBDPolice \nFraud from my paytm account. no action taken by payment .He is deny ing to share merchant details. https://t.co/ftF3cN7eDA&#39;,
+       &quot;@Paytmcare @Paytm \n\nWhats the point of customer support if there&#39;s no way of getting in touch with them?\nI&#39;m facing issues with my PayTM First subscription and nobody&#39;s available to assist me with it since yesterday.\n\nKinda regretting signing up on #PaytmFirst\nIt&#39;s disappointing.&quot;,
+       &#39;@dress2goody  Hi, request you to share your Paytm registered contact number along with your area pincode via DM/Messages. Kindly follow us back over DM. Thanks.\n\n  https://t.co/5m1Urzybmc&#39;,
+       &quot;#Paytm #golidenabandkaro #paytmnomore booked a flight two years back paying more than 5k to paytmnomore and the flight got cancelled, still didn&#39;t get any refund even after several follow up.&quot;,
+       &#39;@Paytm  waited 40 min in queue to connect the call but still not connected. What a third grade customer service? Need lot of scope to improve.  Complaint about deducted rs 199 twice from my account while payment through paytm. Kindly resolve the issue &amp;amp; call me back @ 9811809578&#39;,
+       &#39;@Prasann30992312 Hi, we regret any inconvenience caused. Please share your Query reference number or Paytm registered mobile number through DM. Kindly follow us back over DM where we can assist you better. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@i_AmImmortal @Paytm Yes but Paytm is fake promise on zomato gold I have shared the screen shot of what they offer and what zomato gold provides&#39;,
+       &#39;@Paytm  its becoming fraud. I could open account from desk but now second time they are forcing me to go for KYI Verify at their places, If not our money gets blocked imagine if we are 5 mil of 500 rs depo with month KYI not verification  n death cases who willuse funds CONT=D&#39;,
+       &#39;@Paytm can’t login into my account, is the app down?&#39;,
+       &quot;#Paytm my money is stuck. No notification of KYC expiry. Now, my hard earned money cannot be used by me. I can&#39;t even transfer it back.&quot;,
+       &#39;Fucking bullshit service your support is providing ...from last 5 days I am facing the otp issue and I am trying to contact the customer service but every time it is saying that mention your adhaar number and passcode Its very urgent\nRegistered contact number 9675327436 @Paytm&#39;,
+       &#39;@Paytmcare @Paytm  आज मैंने अपने अकाउंट में पैसे एड(जोड़े) लेकिन बैंक से रूपए डेबिट हो जाने का बाद भी पेटीएम एकाउंट में बैलेंस नी आया \nPlease help @Paytmcare @Paytm&#39;,
+       &#39;@Paytm my payment saving account not opening please help&#39;,
+       &#39;@RGupta26857811 @SalilAgarwal82 @RajivPereira1 @Paytm @Paytmcare @vijayshekhar @RBI @PMOIndia @EconomicTimes @moneycontrolcom Try gpay it is better than paytm&#39;,
+       &#39;@RBI @Paytm @Paytmcare\nHi @RBI please help me i have raised a complaint at paytm care on 16/03/2019 but issue was not yet resolved i have purchased a paytm voucher but i am unable to redeem that voucher&#39;,
+       &#39;Payment in @bigbasket_com  using @Paytm  is horrible. Always fails. Seems like 3rd grade service. Faced it so many times. Looks like @Paytmcare has given up to @amazonpay ...&#39;,
+       &#39;@Paytmcare Unable To Login into my  Paytm account plz Help....&#39;,
+       &quot;@AmitShr07666845 @HDFCBank_Cares @HDFC_Bank @Paytm @PhonePe_ Yes it&#39;s reached.. thanks buddy..&quot;,
+       &#39;@Paytm @Paytmcare @PaytmMoney How come I have 1500 rs in my wallet and can’t transfer money to anyone. Any help here would be helpful https://t.co/F0fhS5C0ut&#39;,
+       &#39;Most pathetic customer service is from paytm. No one will give response to you problem  #Paytm @Paytm&#39;,
+       &#39;@TheOfficialSBI @Paytmcare\nDidnt receive refund for unsuccessful transaction on Paytm using SBI card for Rs1500 on 1 Feb 2019. Its been more than a month i have raised a complain with SBI. Please resolve on priority\nSBI complain number - PG429250942682\nPaytm number - 9637637912&#39;,
+       &#39;@Paytmcare hi team,\n\nI have use Paytm gateway to order something, the amount got deducted but the order is not confirmed. Could you please help?\nThank you!\nAjay. @Paytm&#39;,
+       &#39;@Paytmcare\n\nMy Paytm mobile number is 9425007116.\n\nIam unable to add money on my Paytm saving account by any of the modes available and mny times I raised the complaints to customer support through required attachments .My last case number is 11401219&#39;,
+       &#39;Yesterday I raised ticket regarding saving account opening issue\nbut still not getting any response from Paytm Bank. @PaytmBank #Paytm&#39;,
+       &#39;Dear @Paytm - Do you have any customer care e-mail where I can send a mail for my queries/grievances. The customer care number provided is of very little help&#39;,
+       &quot;@Paytm @SupportPaytm kindly assist on query I&#39;d 117609740.&quot;,
+       &#39;I made a transaction using paytm for Rs 17. But it got failed but I didn’t get my money back. If i contact customer care, just like that they are saying we didn’t deduct it. @Paytm @Paytmcare @PaytmMoney https://t.co/kg8Q8TJ8Zq&#39;,
+       &#39;@kr_gupta19 Hi, kindly share the screenshot of the error which you are facing while linking your bank account with Paytm BHIM UPI. Thanks!   https://t.co/BEb65ht5Kd&#39;,
+       &#39;@kr_gupta19 Hi, In case you fail to receive the UPI registration SMS, please ensure that you have sufficient balance in your mobile number and you have provided access to Paytm for sending SMS from your device. Please feel &amp;gt;&amp;gt;  https://t.co/5m1Urzybmc&#39;,
+       &quot;@Paytmcare @paytm - since when you have started collecting rs. 50 for kyc verification. Just went to kyc center (Mayur mobile, kaikondrahalli, bangalore - 560035) and he asked for 50 rs  (without receipt :). Hope this is not official charges ? if not why can&#39;t you take action&quot;,
+       &#39;@kr_gupta19 Hi Rakesh, As checked your device binding with Paytm BHIM UPI on 07 Apr 2019, 04:03 PM is successful. Please DM us if still issue occurs. Thanks  https://t.co/5m1Urzybmc&#39;,
+       &#39;@vijayshekhar you need to check @Paytm app personally.. this needs a major update.. there are a lot of repeat advertisements.. the app is lagging not working with a proper speed.&#39;,
+       &#39;@DynamicBharat_ Hi! Once this movie tickets are live, it will be updated on Paytm App/Web. We request you stay connected and keep checking our official website and Paytm App for updates. Thanks!&#39;,
+       &#39;@GohilChandresh4 Thanks for reaching out to us. Continue enjoying Paytm! # PaytmKaro&#39;,
+       &quot;@Paytm Can you stop the fraud because Social Media platforms are full of some contest message apparently from #Paytm and the party which is organising the loot is collecting people&#39;s personal information? https://t.co/u1Fx6M5FKE&quot;,
+       &#39;@Paytm I am realy disappointed with customer support. Its been 20 day but no solution on ticket #116797786. They keep asking documents which i have already shared on the first day. @Paytmcare @vijayshekhar please look into this case.&#39;,
+       &#39;@vikramendra79 Hi, we are keen to help you. Please follow us on twitter and share your paytm registered mobile number along with the number with which you wish to change it via DM for better assistance. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytmcare Hi care team, I made the payment to AR&amp;amp;sons of Rs. 9500 through paytm via netbanking, Though the Amount hae been deducted but money is nt yt credit to merchant account, I tried to reach on your toll free number multiples times but nobody picked up the call.. Pls help.&#39;,
+       &#39;@MayankK01312729 Hi! Once this movie tickets are live, it will be updated on Paytm App/Web. We request you stay connected and keep checking our official website and Paytm App for updates. Thanks!&#39;,
+       &#39;@Paytm I have tried atleast 30 times to login into my account through your app but unable to do that. However easily logged in Google app. Wtf. I need to do important transaction.poor service.&#39;,
+       &quot;Hello @Paytm @Paytmcare @PaytmTickets \nWhy are the tickets not being booked (Avengers) from yesterday night \nIt&#39;s getting struck at the payment page..Solve the issue soon 🙏🙏&quot;,
+       &#39;Wow #paytm what a scheme you did.. you are not allowing #paytmfirst #user to book ticket as you will have to give discount and is available for non paytmfirst users... Wow ... #badwork #badcustomerhandling&#39;,
+       &#39;@DassTeerth Hi, we regret the inconvenience caused to you. Kindly elaborate your concern along with paytm registered mobile number via DM. Kindly follow us back to assist you better.  Thanks!\n  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Krishna0521 Hi! We apologize for the inconvenience caused and are working hard to make sure your Paytm experience is great. We request you to try booking from an alternate nearby cinema or wait for some time. Thanks!&#39;,
+       &#39;@The_FlawedQueen @Paytm @PaytmTickets @Marvel_India Thanks rted will wait for surprise \nPlease do hit my place on my funeral on 26th april if i don’t get surprise from paytm&#39;,
+       &#39;@The_FlawedQueen @Paytm @PaytmTickets @Marvel_India It didn’t 😍 check my tl lol&#39;,
+       &#39;&amp;lt;Rant&amp;gt;\nPaytm is shite. Paytm deals are shite. Paytm customer care is shite. Their deals are not transparent and there are always some hidden terms and conditions. The customer care is non existent. IvR is dark pattern hell.\n&amp;lt;/Rant&amp;gt;\n@Paytm @Paytmcare @vijayshekhar&#39;,
+       &#39;@vijayshekhar @Paytm Worst Cx Service. They don’t have answers for my queries and said straight away that they can’t help and don’t know anything about the issue. Is Paytm running a monopoly now?Case Id:120923519.Had a word with floor supervisor and apparently highest escalation&#39;,
+       &quot;@Paytm @zomatocare @ZomatoIN  Have ordered using Paytm Food Delivery at 11.30 AM and now it&#39;s been 2.5 hrs since I have ordered,I haven&#39;t received the order.pls refund me the amount.&quot;,
+       &#39;I wish @vijayshekhar hired people who learnt &quot;how to read time on a clock&quot; in school (for Paytm, 48 hrs is infinity). \nReally sad customer service despite being &quot; @Paytm First&quot; member. Had to resolve my complaint myself. Thankyou @gaana for helping when Paytm failed. https://t.co/zmIj5bCvOU&#39;,
+       &#39;@javedmistry1 Hi, kindly log out and log in again into your Paytm app and initiate a fresh transaction. In case you will continue to face the issue kindly write back to us. Thanks.&#39;,
+       &quot;Hi, @Paytmcare someone tried to access my friend paytm..need help it&#39;s urgent!&quot;,
+       &quot;Dear @Paytm @PhonePe_\n\nCan you please open an option to accept help from people across the country to Odisha Govt as it&#39;s a Cyclone time for Odisha and people need help. Almost each year Cyclone hits Odisha #CycloneFoni #StandwithOdisha&quot;,
+       &#39;@GooglePayIndia @Paytm @MobiKwik @FreeCharge  Can you please start #helpforOdisha campaign to help the victims of Odisha @vijayshekhar @sundarpichai @BipinSingh @PMOIndia&#39;,
+       &#39;@7chinmaya Moreover, you can click on the following link https://t.co/pH7nMHQujJ which will take you directly to the page of Odisha Cyclone Relief Fund inside Paytm App and contribute. (2/3)&#39;,
+       &#39;@moha_chandan @Paytm Yes got it... You are correct no one will reach  there.  @Paytm Please add the donation tab on the front page. #CycloneFani #Odisha&#39;,
+       &#39;I had booked train tickets through @Paytm but trains cancelled due to Fani, @IRCTCofficial customer care @Paytm both say auto refund but no sign of any refund from both sides whatsoever PNR 6228730420 and 6228570173. My money is stuck, urgent action required please.&#39;,
+       &quot;@paytmbankcare How to open a current account in Paytm bank as advertised on website? My friend filled the form but didn&#39;t get any response.&quot;,
+       &#39;@Paytmcare is there no helpline number to assist Paytm first?? @Paytm #callcenter#poorservice&#39;,
+       &#39;@Paytmcare \nI am trying to get response from Paytm team on my complain since last 2 month now.\nI have dispute over Paytm wallet under Order id 7589664106\nPlease help.&#39;,
+       &#39;@Paytmcare Received this sms n mail: Your Paytm Account was signed in from a new device at 10:10 AM, 07 May.\nIf you have not made this request, please contact our customer support immediately.\nIT AUTOMATICALLY LOGGED ME OUT &amp;amp; ASKED TO LOGIN AGAIN, I DID NOT USE ANY NEW DEVICE??&#39;,
+       &#39;@Paytmcare @Paytm #Paytm So it has been more than 10 days I had applied for KYC and the person was supposed to come and collect the documents, till date no clue, unable to make any payments or use the app for 15 days now https://t.co/BDUYyWKyRp&#39;,
+       &#39;@Paytm plz help I forget my password,so iam unable to do any transaction, iam in Maldives so unable to contact to your costumer no.plz guide me to restore my password.thank you&#39;,
+       &#39;@Paytm pnr 93453836 and pnr 93454176\nby mistake we have selected AM Timing\nwe want transfer of tickets not cancellation\nnot proper response rediculos service&#39;,
+       &#39;@Paytmcare . Dear team I have a Paytm account registered with no9582648683. I have add money in my wallet , however the money is showing in Paytm voucher . I have raised the request to transfer the money I my wallet . But I not received a proper resolution .&#39;,
+       &#39;@Paytmcare not satisfied with your customer support. 10 days and still 3 of my queries aate unanswered. If this happens to pautm first member, i doubt what would happen to normal paytm customer.&#39;,
+       &#39;How to #deactivate an #inadvertently activated @Paytm #Postpaid #account?&#39;,
+       &quot;&amp;amp; even nt gttng the appropriate support frm @Paytm.@vijayshekhar Sir,is this right to direct ny1 to how &amp;amp; where they can use their own hard earned money?Even I m not able to use it for Elec.Bill pymts.Should I use Rs.4k for Moblie Recharges &amp;amp; all.Rlly didn&#39;t xpcted dis frm @Paytm https://t.co/uoprrxca1E&quot;,
+       &#39;@Paytm  @vijayshekhar \nI had raised a complaint of  phising attack on my account on 8th may but still i had got nothing any revert from your side. https://t.co/mFdqXdN6eC&#39;,
+       &#39;@googlechrome Third party app advertising and fraud payment taken from peoples from paytm support as per below photo \n@ZeeNews, @rtiindia @Paytm https://t.co/U4ASk33K0G&#39;,
+       &#39;@Paytm I made a payment for Paytm ADC On Apr 16th, 2019. Still waiting for any communication or adc from you. If this continues for next 24 hrs, I will be forced to choose consumer court.&#39;,
+       &#39;@Paytmcare Hi Paytm,\n\ni am planning to the LIC Premium through Paytm, i would like to know how i am going to get the premium receipt the same i can submit to the tax deductions.\n\nPlease provide your inputs on the same so that i can move forward on the transaction.&#39;,
+       &quot;@vijayshekhar @renusatti @paytmca\n@Paytmcare @PaytmMoney @PaytmBank @paytm @BigBazaar  @BigBazaarHelps\n\nPaytmorderID-8015854304. Tried by all method but no response, It&#39;s been long time till problem not solved. Who has my money ? https://t.co/goiCdsekUb&quot;,
+       &#39;@Paytm Not able to do Delhi metro card recharge since two days. It gets stuck on deals page and nothing happens on clicking &quot;Proceed to pay&quot; button. Please have a look.&#39;,
+       &quot;@paytm asked whether I want its postpaid facility, and i pressed &#39;No&#39;. Still it activated postpaid and allocated Rs.2500 to my account! @paytm what trade practice is this?&quot;,
+       &quot;@Paytm You call yourself India leading mobile app but you don&#39;t have time to resolve a customer&#39;s issue . My postpaid account has been closed since 4 months. And I have raised queries after queries but I have got no valuable and helpful response.\n#damnyou&quot;,
+       &#39;@kaleen_bhaiya_ Hello! We never want our merchant to face this. Please DM us your paytm registered contact details.  Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytmcare Order: 1596448177 has been refunded. Refund ref no (RRN) 20190517111212801017708012934004736 has been issued by PAYTM. Contact PAYTM with RRN if you do not receive the refund... Where is my refund?&#39;,
+       &quot;@Paytmcare @Paytm   i was just got the paytm postpaid. but i can&#39;t able to use. whenever i was try it showed error. i was complained many times to customer care but they  didn&#39;t provide the  any solution. https://t.co/h0havjjaeB&quot;,
+       &#39;@Paytmcare @Paytm \nError since 2 days with your electricity payment portal https://t.co/EfgNUyQhyu&#39;,
+       &#39;@Yogeshsardiwal Hi! Please share with us your Paytm registered mobile number and name and contact details of the KYC agent who is charging fee through DM to assist you better.  Thanks!&#39;,
+       &#39;Am I the only one facing difficulty in making @TsspdclCorporat payment through @Paytm from last 4-5 days? \n\nApparently, All other eCommerce players @FreeCharge @PhonePe_ @GooglePayIndia do not get the choice to do biz with TSSPDCL? I raised this point long back.. Something fishy!&#39;,
+       &#39;@Paytm @Paytmcare @PaytmMoney  Paytm issued a swiping machine for my company and told it would be activated within 48 hours, which never got activated! So I put a request about the activation and paytm executive mentioned it wouldn’t get activated so my money would be refunded...&#39;,
+       &#39;@PaytmBank I need some information about paytm first card, will you please help me out. I am not getting any response from your inbound team.&#39;,
+       &#39;@Paytm @Paytmcare Click on locker once in Gold Section. Year shown is 2018 rather than current year.\n\nDid developer hard coded 2018 or you are displaying year based on first transaction. https://t.co/GaMp0nrc3A&#39;,
+       &#39;@Sanjay3sahni Hi Sanjay, as discussed over the call your concern related to paytm postpaid is resolved now.   https://t.co/5m1Urzybmc&#39;,
+       &quot;@Paytm  is totally fraud and cheaters I suggest everyone to don&#39;t use paytm they&#39;re totally #fraud and doing the fraud with their customers\nI never used #PaytmPostpaid but I get this letter from @Paytm to pay postpaid money otherwise legal action will be taken\n@Paytm  @Paytmcare https://t.co/8CKV4YMjld&quot;,
+       &#39;@Paytmcare  why i see this when i go to use paytm pst paid....and query reference no:124667592 https://t.co/rO4DD2aOMc&#39;,
+       &#39;@Paytm @PaytmTickets when will i receive tickets of godzilla imax special screening as I have already filled the Google form.&#39;,
+       &quot;@Paytm not able to transact....it&#39;s showing that there is some technical error\n\nAnd when contacted @Paytmcare then they are saying that you need write a query.....they have no on call solution for postpaid..... https://t.co/xm0b3modLj&quot;,
+       &#39;Two months passed unable to complete kyc on paytm&#39;,
+       &#39;@Paytm hello. Why is amex card not supported for paytm postpaid bill payment?I need to pay the bill but it does error. I used amex for partial payment a couple of days back but not now.&#39;,
+       &#39;Dear @Paytm why would you disable the option to settle my PayTM Postpaid balance using my AMEX card? This doesn’t make any sense. You are becoming yet another wallet/payment gateway/payments bank whatever. 🤷🏻\u200d♂️ https://t.co/Lww1XDEyjq&#39;,
+       &#39;@HarshJa01654219 Hi Harsh, We have marked your query on priority and Paytm callback team will connect with you on call to get your query resolved  https://t.co/5m1Urzybmc&#39;,
+       &#39;Getting postpaid payment reminder messages every 3-4 hours that too when due date is 7 june ... Its so disgusting n irritating .. are itna to credit card wale msg ni bhejte jinki 1 lakh ki limit hai .. dont wanna use your postpaid service in future #paytm #paytmcare&#39;,
+       &#39;@Paytm kya Sahara Paytm postpaid branch chalu Hoga ya nahin is 10 level par aa gaya hai&#39;,
+       &#39;@zingoy_cashback  i just bought a gift card with order id 8140170 , i received a gift card which is already used by some one else , i need a replacement or refund to my original payment methods , do it as soon as possible, @Paytm this is really so worst experience i had with&#39;,
+       &#39;@vijayshekhar @Paytmcare @Paytm despite giving numerous reminders no one is responding me need resolution @consumercomplai @consumercourtin https://t.co/Rh0i0UMWft&#39;,
+       &#39;@Paytm I need to close my Merchant account, your app is very annoying no support or any tab. Please look into it ASAP.&#39;,
+       &#39;@HarshJa01654219 Hi Harsh, we have marked your query on priority and paytm callback team will connect with you on call to get your query resolved  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytmcare @vijayshekhar @Paytm issue with incorrect bill happening from 3 months and their is no customer care https://t.co/YKx9fudgb4 call. I raise query they closed query without https://t.co/cw8xqbpG9O asked me to file case on consumer forum for this fraud. I want a solution.&#39;,
+       &#39;@Paytm can you please explain this. When I have to buy 1.489gms of gold I need to pay 5166 but when I need to sell the same gold I will get only 4849rs? When there is no GST when selling. https://t.co/qvfdAr87sT&#39;,
+       &#39;@Paytmcare Worst App. &amp;amp; services. I have done so many payments though Paytm but did not get any cashback offer. But when I make payment through Phonepay I got lot cashback offer immeditely into my Account.\n#worstappPaytm&#39;,
+       &#39;Hey  @Paytm @PaytmCare,\nI have a concern to share. Find additional info in dm by @SpeakUp_IN, reference id: 1undefined272.\n#SpeakUp&#39;,
+       &#39;You are the worst service provider in emergency time.\n\nNot receiving OTP during tatkal ticket booking time.\n\n@Paytm @Paytmcare&#39;,
+       &quot;@mdawg_cosmonaut Hi Miraj, I understand your concern regarding excess amount in your Paytm Postpaid kindly allow me some time while I&#39;m getting this resolved on priority and will get back to you at the earliest.  https://t.co/5m1Urzybmc&quot;,
+       &#39;@Paytm @Paytmcare\n I have received a mail &amp;amp; message from your side about paytm postpaid bill due payment. According to your side I have done a payment on 23/5/2019 but I have not done any payment on these date nor does my passbook shows it I have asked your customer care details&#39;,
+       &#39;@Paytm  when i try to sell gold then every time loss indicate. Why this happend.\n#NeverBuyGold_paytm&#39;,
+       &quot;@vijayshekhar Hi Mr. Vijay\nYou must improve PayTM customer service or people will stop believing.\nI&#39;ve raised issue 5 months back and resolution is still pending!&quot;,
+       &#39;Everytime I initiate payment or bill payments this shit shows to me. .my payment from the bank gets deduct and after 5 days it is released so what should I do for this shit?? \nPlease help me out of this otherwise #paytmboycott \n#paytmsepaymentbandkaro\n@paytm\n@vijayshekhar https://t.co/A0KPsG1joz&#39;,
+       &#39;@Paytmcare I am not able to use my paytm postpaid despite of paying all my dues since one month. I even raised queries thrice and still no response from u guys. I need this to be resolved right now&#39;,
+       &#39;@Paytmcare I have been chasing you for last one month. Where is the excess amount of Rs 4248? It just disappeared in the name of account upgradation. Please look into this. Thanks. @Paytm @CEOPAYTM https://t.co/cu1mfK9hDB&#39;,
+       &quot;Yay, I&#39;m applying my verification of paytm postpaid for the credit increase but while I enter my pan details, it&#39;s says incorrect pan number only! Now when I tap the paytm postpaid again I didn&#39;t enter my pan details its just says (could not verify your pan) @Paytmcare&quot;,
+       &#39;Important: Paytm neither charges nor will charge any convenience or transaction fee from customers on using any payment method which includes Cards, UPI and Wallet. Read our blog for more. ⬇️\n https://t.co/rfPp21MAx1&#39;,
+       &#39;@ecstasy_path @Paytm @vijayshekhar Retweet\n#lootbypaytm&#39;,
+       &quot;@VandraAmit Hi Amit, I am glad that your concern has been resolved. Please feel free to contact Paytm Care for further support, we&#39;ll be happy to help.   https://t.co/5m1Urzybmc&quot;,
+       &#39;@Paytm not able to order my gold delivery for last 7 days. Is my gold safe ???&#39;,
+       &quot;@Paytmcare @Paytm thank you for your pathetic customer service. Despite of saying. The issue is getting repeated all I&#39;m getting is a timeline of 48 hours. How can you guys be so careless about customer service. Even your associates could not understand the issue. https://t.co/z6LghpQCj3&quot;,
+       &#39;@Paytm Fake message. Please take action https://t.co/Yb9xo02oCK&#39;,
+       &#39;@DEVsscscam Hi Devashish, request you to kindly send us a confirmation by replying to this message in order to proceed with your Paytm saving bank account closure request. Thanks!  https://t.co/BEb65ht5Kd&#39;,
+       &#39;@Paytmcare @vijayshekhar \nPlease check your paytm email id. https://t.co/9Dxjr4jVxv&#39;,
+       &#39;@Paytmcare hello paytm care my transaction steel pending last 3 hours what happens to paytm&#39;,
+       &quot;Be aware!!!\nNowadays @Paytm  has become cheater company. Their executives (Dinesh Bind - 7045027778) telling lies while selling their product. Their officers don&#39;t even bother to respond. Complaint no 17107638. @Paytmcare \nPlease help @MumbaiPolice @CMOMaharashtra @Dev_Fadnavis&quot;,
+       &#39;@Paytmcare @Paytm @WesternRly @IRCTCofficial \nPlz look into the matter or I should go one level up for this. https://t.co/hGi5QiqqGf&#39;,
+       &#39;@Paytm hello...my one refund query is pending with you guys from last 2 days and when I first asked then you said that revert will be received in 24 hours which was already gone and when i called customer care they always say that they forwarded query to team etc. Pls resolve&#39;,
+       &#39;@anujks1 Hi, we were unable to verify your details. We will notify you if there are any changes in your Paytm Postpaid account in the future.\n  https://t.co/5m1Urzybmc&#39;,
+       &#39;@anujks1 Hi, we are really sorry for the inconvenience this might have caused, we were unable to verify your details. We will notify you if there are any changes in your Paytm Postpaid account in the future.  https://t.co/5m1Urzybmc&#39;,
+       &#39;You are screwing urselves @Paytm What kind of rubbish help being offered without any option to appeal? Verification has shown failed despite correct PAN details, being Full KYC customer, @PaytmBank A/c holder! I was previously interested in #PaytmFirst card, but now reconsidering https://t.co/D2RG5cyNmb&#39;,
+       &quot;@Paytm what a terrific customer care you have. I&#39;m getting answer to my query THE QUERY itself.&quot;,
+       &quot;@Paytm @Paytmcare @vijayshekhar Why u have send a legal notice for not paying postpaid infact that number don&#39;t belongs to me and you are sending letter to me.This nonsense will not be tolerated.&quot;,
+       &quot;@paytm@paytmcare@renusatti@vijaysekharsharma\nIf my issue doesn&#39;t get resolved will never use paytm again,\nQuery reference no. 131543836\nWorst customer service&quot;,
+       &#39;@Paytmcare @Paytm @ZomatoIN @Zomato Is anyone bothered to look into this?? https://t.co/tUki3hVC3b&#39;,
+       &#39;I have applied for cKYC in the end of june and paytm said that it will take about 17 days to give my cKYC id. But now its more than 20 days but no reply from paytm. What are you trying to do paytm.😠😠😠 @Paytm @Paytmcare @PaytmBank&#39;,
+       &#39;Should i recived any information regarding my query plz wake up paytm people and plz provide the current status of my compaintHey  @Paytm @PaytmCare,\nI have a concern to share. Find additional info in dm by @SpeakUp_IN, reference id: 1undefined480.\n#SpeakUp&#39;,
+       &quot;@Paytmcare  @Paytm \n\nIt&#39;s been 1 week and my issue is not getting resolved.. Either don&#39;t get reply or they provide stupid response.  132130318\n\nI want to close my Paytm account completely&quot;,
+       &#39;@dash_rosalin Hi! This is unfortunate as Paytm KYC is free. If you have been charged, please share your registered mobile/email id along with agent details (if available) via DM and follow us to assist you better. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &quot;I purchased a @dominos @dominos_india voucher on @Paytm and when I applied the voucher, the app says the coupon has expired. So, I want to know since when did you start fraudulently selling shit on your app? I&#39;m sure you&#39;re both in on it. #FraudSquad #Paytm #Dominos #Fraudster https://t.co/AkCjoYEERW&quot;,
+       &#39;@Paytmcare really in Paytm such an idiots are working I have done the transaction of LIC bill payment 16176.28 and that transaction got failed and refunded amount of 16081.88.\nI asked simply why refunded 94.40 less amount...pls contact on 9494240042 to get more details&#39;,
+       &#39;@vijayshekhar @Paytm \nMy Case No.-18180759\xa0is pending from last two months. No needful action is taken by  customer support of @Paytm_Retail . I have paid money for EDC Machine to company on 3rd May, 2019 but EDC Machine is still to be received. So Frustrated&#39;,
+       &quot;@Paytmcare @Paytm can you elaborate how much more time will you take to verify my cKYC ? As it&#39;s been almost a month since I can see this message. https://t.co/CWsusaruCS&quot;,
+       &#39;@Paytm @Paytmcare any solution plz already 17 days taken but same problem kindly plz resolve \nMy paytm no - 9304142844 https://t.co/6FcJDnmF6M&#39;,
+       &#39;@ManojTappetla We are glad that your concern has been resolved.Continue enjoying Paytm! #PaytmKaro\n  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytmcare @Paytm mere paytm Postpaid se na to kisi patrol pump par Payments ho rha h na restaurant\nKisi bhi marchent ko pay nhi ho rha h https://t.co/gspuqTcSWR&#39;,
+       &quot;@vkb_kino We&#39;re sad to hear that you think that way :( \nBe rest assured, Paytm Postpaid is going nowhere, just coming to you in a new avatar. \nIt&#39;s the transition that is taking longer than expected due to external factors. \nWe can only request you to hang in there a little longer.&quot;,
+       &#39;@Paytmcare  @TheOfficialSBI  @UPI_NPCI @IRCTCofficial \n UTS ticket failed  not refund yet payment via paytm getway and using SBI UPI\ndate of payment 28-06-2019\ncust ref no. 917931744658\nUPI ID : xxxxxx7887@sbi\nDispute Status : Open&#39;,
+       &quot;@Paytmcare @Paytm Order: 1152855557 has been refunded. Refund ref no (RRN) 20190801111212800203045138673434624 has been issued by PAYTM. Contact PAYTM with RRN if you do not receive the refund.\n\nYes,I didn&#39;t receive the refund...\n\nPlease help me....&quot;,
+       &#39;@Paytmcare I need an explanation . My PAN details was already verified  with paytm account . Once I tried to upgrade my postpaid account after I entered the pan details correctly it shows verification was failed . The status was same for the last one month I need an explanation https://t.co/myR91zBqaH&#39;,
+       &#39;@sudipmaitra Hi! We are keen to help. Please elaborate your concern along with your Paytm registered mobile number over DM. Kindly follow us back so that we may assist you better. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@OfficialDMRC @Paytm @DelhiMetro_ \n\nReminder 2\n\nPls help resolve this matter. https://t.co/yDkQwihocc&#39;,
+       &#39;@Paytm your representative in lucknow Mr syed abbas cheated me of rs 2000/- by forcefully selling a card swap machine on my second no. which never worked. Raised many tkts, just getting routed from dept to dept. Seems like consumer forum is last hope..&#39;,
+       &#39;@idea_cares Dear I received refund from \n@MobiKwik\n and I still did not receive refund from \n@Paytm \n .. Seeking help from you both\n@idea_cares\n and \n@Paytm https://t.co/mkN0icLUWt&#39;,
+       &quot;@Paytm @Paytmcare \nMy postpaid account is blocked since last one month and I&#39;m not getting any support from 24*7 helpline. All refund stuck there and not able to get back. \n@vijayshekhar Many people are facing this issue. It is not good to loose valued customers. Please resolve&quot;,
+       &#39;@piyushp758 Hi, we are keen to help. Please share your Paytm registered mobile number. Kindly follow us back over DM to assist you better.Thanks!&#39;,
+       &#39;@Paytmcare  need help from Paytm, my money is stuck and recharge not done&#39;,
+       &#39;@Paytm @Paytmcare @PaytmCareOne why do you guys have a customer care team, if everything will be shared by me what do you guys will do.\nYou have my account go and check where I got that offer. #lazy #customersupport https://t.co/of1dSsffyb&#39;,
+       &quot;@Paytm offers are always misleading and #fraud . Look at the picture of SMS I received. When I used this code, it said minimum card value required is rs750. Whereas SMS doesn&#39;t talk about T&amp;amp;C.  therefore use @GooglePay. @vijayshekhar @Pehredaar_Awaaz @ndtvindia @aajtak https://t.co/IRJRn6b6re&quot;,
+       &#39;Just bought a @Chai_Point voucher on @Paytm but the Jayanagar store of @Chai_Point is not honouring my voucher saying the same is not activated. 🤷\u200d♂️ @ChaiPoint_cares @amuleekbijral&#39;,
+       &#39;@piyushp758 Hi Piyush! In absence of an important information from your end, we are unable to take the required action. Thus, to resolve an issue faster and better, would request you to kindly share your Paytm Order/Transaction ID via DM. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@IRCTCofficial @PiyushGoyal Sir, I want to book two seats in train 14887, 12 seats are available. But I am unable to book my seats. IRCTC website showing errors. Money already deducted from my card via @Paytm \nPls help 🙏 https://t.co/K5lzSH8xqV&#39;,
+       &quot;@HDFC_Bank @HDFCBank_Cares I tried booking for a railway ticket on UTS app of @IRCTCofficial (IRCTC) using @Paytm payment gateway. The ticket didn&#39;t get booked, the session got times out and the money got deducted from my bank account. This is the second time it&#39;s happening. https://t.co/Wba2yunVvI&quot;,
+       &#39;@Paytmcare @vijayshekhar Sir Paytm harassing customers. MOther dairy offer activated but it got deactivted when I went to make the payment.  Paytm should be shunted out of India&#39;,
+       &quot;@PaytmMall   It has been 51 days over on this discussion  on 28 June 2019 i had submitted my request ,still i am not able to access my excess money. I have submitted detail on 28 June 2019 and still facing same issue.I don&#39;t want your PAYTM POSTPAID i want my excess amount. https://t.co/XidwK5qivu&quot;,
+       &quot;@Paytmcare  I have done LIC online payment through paytm upi ref no.-922411093961 on 12th Aug &#39;19 but merchant has not yet got the payment but amount has been deducted from my bank account.\nAlready 7days gone but nothing happens also not get refund. Please check immediately.&quot;,
+       &#39;@CyberDost\n@rsprasad\nPLS follow up below no asking Bank details-using abuse language\n&amp;amp; Threat-&quot;Dhamki&quot;bhi Di when I don\&#39;t GVN any details\nasking abt paytm online transaction Bz payment leak &amp;amp; gvn my data detail\n9801824027\nSo immediate action against Payt\n@PMOIndia\n@narendramodi&#39;,
+       &#39;@AnandSid3 Hi Anand, I regret any unpleasant experience you may have had. Please provide me some more details such as your Paytm registered mobile number/e-mail via DM so that I can check and resolve this for you. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;Dear @Paytm please stop this shi* just because I use paytm that does not mean you can spam with link to your paytm money app everytime I pay with paytm - bloody scam company, do you guys even care about user experience after acquisition of such a large user base? Cc @Paytmcare https://t.co/6RCB3NbBWr&#39;,
+       &#39;Hey @Paytmcare @Paytm there seems to be some technical issues with buffet deal. Looking for village the soul of India @ growels Kandivali for rs. 1179 (buy2 get 1 free) but on payment page it becomes 2x i.e. For 6 pax. @nearbuy allows to buy for 3 pax. https://t.co/H7KXDRTIRo&#39;,
+       &#39;@Hemantsagar0017 Hi Hemant, request you to please share your Paytm registered mobile number and order id via DM, so that we can assist you in a better way.   https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytm @Paytmcare @PaytmMoneyCare @PaytmBank I have raised a query no.136816747, regarding money deduction. They have simply closed it. Hope I will get help here. The amount does not matter but trust matters here. I have provided proofs of money deduction, still they closed it.&#39;,
+       &#39;@Paytm Didnt understand why PayTm is charging 17 Rs on school fee payment through UPI.. @_DigitalIndia whats the use of digitization.. Daily we drop and pick up our kids at school we can pay by cash.. and Govt wants to see cash free transactions.. From whose pocket 17rs will go..&#39;,
+       &quot;@Paytm @PaytmMoney @PaytmMoneyCare IT VERY SAD TO NOTE THAT YOU HV ONE OF THE PATHETIC CUSTOMER SUPPORT ON CALL N ON APP AS IT DOESN&#39;T GV ANY OPTION TO RAISE OUR CONCERN.. HOPEFULLY YOU MAY B LITTLE SENSIBLE TO FIX MY CONCERNS&quot;,
+       &#39;@Paytm @Paytmcare pls let me know where should i complaint regarding this fraudulent transaction happened \n\nimmediate action required https://t.co/8hECalR656&#39;,
+       &#39;@Paytmcare @Paytm \nएक बार Paytm द्वारा ठगा सा महसूस कर रहे है समय से पहले ही बिना किसी सूचना के खत्म कर दिया गया मैने 16 अगस्त को रीचार्ज किया उस दिन तक 100 से अधिक दिन और बाकी दिखा रहा था और 16 अगस्त का रीचार्ज भी एडेड नही किया ऐ तो धोखा है https://t.co/Dd5HDwcGjC&#39;,
+       &#39;@Paytm @paytmgold why this error is comming continuously... https://t.co/GpXZM9PvLN&#39;,
+       &#39;@Paytmcare @Paytm raised a concern two days back regarding unavailability of paytm first after subscription. Seems to be not responsive. Get back to me at the earliest&#39;,
+       &quot;@Paytmcare Once upon a time purchased gold from PayTm. Order ID is 3153657006 . Today I want to know the current value of this, so that I can encash this. But I could not find that gold balance in PayTm app and due to this couldn&#39;t place my order to sale this. Please check......&quot;,
+       &#39;Hi, i have return the edc pos device in june and refund not received yet .\nPlease check and revert\n\nCalled more than 10 times to customer care but no response.\nRefund immediately.\n#FRAUD\n#Donotusepaytm\n\n@Paytm @Paytmcare @PaytmBank&#39;,
+       &#39;@Paytmcare go get fucked! Paytm first codes are given by coolwinks and how can u take them back ? without our prior permission? #fuckoffpaytm #paytmfirstmembership we need our memberships back ! If it is bug from your end u have to stop it.but once availed u dont have access !&#39;,
+       &#39;@Paytmcare @Paytm कम्पनी 420 की हद पार कर रही है फ़ोन और मेल केवल कर रही है निवारण कुछ नही हो रहा है फर्जी कम्पनी है 24 से 48 घण्टे कह कर केवल झोल दे रही है सबूत पेश है...... https://t.co/RqOyfd0fij&#39;,
+       &#39;@Paytmcare @Paytm why did you stop Paytm Postpaid without any prior notification ?&#39;,
+       &quot;@Paytmcare @vijayshekhar @FinMinIndia  @Paytm  is a cheater. I am following last 20 days. Paytm not refund my money. Wrost  customer service. No one didn&#39;t listen my issue. Really frustrating.&quot;,
+       &#39;@Paytm @Paytmcare @vijayshekhar Paytm social media team is third class, one of the worst customer service amongst popular merchants, yesterday i msg them but they are sleeping yet, no response just for a normal query.&#39;,
+       &#39;@Paytm I have asked query on the postpaid bill payment and without studying the query you are replying with the template that too after 2 days time&#39;,
+       &#39;@Paytmcare paytm postpaid working me nahi hai , kya ye service band ho gai hai , ya temporary block hai , aur kb tk start ho sakti hai ???&#39;,
+       &#39;@Paytmcare Is there any way I can use the additional amount in my paytm postpaid account ? I am trying to get it resolved from last 30 days still unable to get a solution. Pathetic customer service.&#39;,
+       &#39;@Paytm  @Paytmcare  i made a bill payment at 7.15 pm it is still in the awaiting confirmation status.. for how long will this be in the same status.?&#39;,
+       &quot;@Paytmcare @Paytm pathetic payment service. Unabl to use PaytmPostpaid while I have 5357 extra credit over the limit, no support or ownership frm u, can&#39;t book flight, bus, movie or any ticket u liars claim  can b bookd via paytmpostpaid. I&#39;ll sue u guys if you don&#39;t sort this. https://t.co/5cCdBNlt7a&quot;,
+       &#39;@Paytmcare cant able to use use my paytm postpaid anywhere pl. Resole my issue&#39;,
+       &#39;@Paytmcare @vijayshekhar @Paytm @PaytmCybercell my paytm postpaid some times not work i have already complain on paytm app 24*7 help Section but not any action taken. Please solve my problem i am not use our excess amount on paytm postpaid.\n\n#Paytm&#39;,
+       &#39;@Paytmcare My paytm account is getting logged out. Since last couple of days I’ve to login every time When I make payment. Kindly address the issue. \nI’m using IOS app and my number is 8858068066.&#39;,
+       &#39;I have already complained before but it is not right @Paytm @Paytmcare https://t.co/RgJJeo57Gp&#39;,
+       &#39;@ljkamat111 @Paytm @ShatruganSinha @HRDMinistry Hi, We have dropped you a mail regarding your concern via Paytm care query reference number ****0152, So we request you to please check your registered email for the same. Thanks!&#39;,
+       &#39;@Paytmcare Hi Team...Please check when i am opening paytm postpaid....My paytm gold is getting opened...Kindly check below video. https://t.co/EczCv5QIBT&#39;,
+       &#39;@Paytm @payrm0401 are your customer care executive are mad??\nI am doing follow up since yesterday night but you guys are not giving any proper response even after I am a Paytm First member, pathetic customer service https://t.co/oY758dXciR&#39;,
+       &#39;@Paytmcare @Paytm \nI have swiped my card on paytm machine on 9 oct but the payment  was reversed  immediately  ,48 hrs have passed but money has not reached my bank ..pleasee image and update me https://t.co/c9PemtfB5q&#39;,
+       &quot;#paytmchorhai They can&#39;t help you stop using #paytm @Paytmcare @paytm #paytmmovies Flop show\n\nWhy 300 why not 990??? https://t.co/Vu2baJUI2O&quot;,
+       &#39;@Paytm @Paytmcare @vijayshekhar \nI have excess limit in my paytm postpaid. I am writing on 24*7 helpline regarding this but no one is responding..&#39;,
+       &quot;@PaytmBank @RBI @vijayshekhar @Paytmcare rubbish service frm @Paytm bought card swipe machine 2 day back.\nSale rep promised it&#39;ll get activated in 2 hrs, all documents verified, waiting for activation code from 48 hrs.\nHe is not even answering phone calls mostly.\nFake Promises!&quot;,
+       &#39;@ABPNews  Paytm membership in a nahin chahie company ka Paisa wapas nahin kar rahi hai kya 1 sal ka membership Diya ja raha hai Mera aap sabhi se anurodh Hai Paytm band kar de apps&#39;,
+       &quot;@Paytm need details about this machine and on who&#39;s name it&#39;s registered and every detail about it https://t.co/HMnSR28ftf&quot;,
+       &quot;@Paytmcare I&#39;m facing problem with my paytm postpaid account. There is support in your app customer care executive said we don&#39;t have any knowledge about it. Kindly provide me help to get my issue resolve.&quot;,
+       &quot;@Paytmcare Just when you want to make a payment quickly, Paytm app says you&#39;re logged out, login again. May be safe but very irritating, either you ask everytime, better a PIN than password, or enable fingerprint authentication&quot;,
+       &#39;@Paytmcare @Paytm_Retail @renusatti @vijaysekhar @amitsins @paytm\nI have taken Edc machine from your paytm with business before a month but till now my machine is not active.While complaining to your costumer care they are not taking any action. Kindly help me in resolve.&#39;,
+       &#39;@Paytm @Paytmcare Do your app know the function of this setting or it has been kept just for fun??\n@GoogleIndia @GooglePlay https://t.co/1lfEw8vRzZ&#39;,
+       &#39;@Paytmcare  I have buy a gold from Paytm gold and the amount was deducted from my bank while i sold a gold amount is still not credited. Surprisingly no one is responding on this.  Hw we can trust on you while doing transaction in thousands.@Paytm @rsprasad&#39;,
+       &#39;Dear @Paytm , when i called your customer service today, they muted me in live call. Can you look into this. That is horrible.&#39;,
+       &#39;@ErosNow I had 12months free from Paytm First. Some how on your app section in apple app store the coupon didn’t apply. And money got deducted from my app store connected cc. Please refund my money and apply coupon. @Paytmcare&#39;,
+       &#39;@Paytm @Paytmcare I recharge my metro card and status in paytm order section is successful but when tapping on AVM machine, it reads There is no top up available on this card and when trying to raise a complain for same through paytm app , its displays something went wrong.&#39;,
+       &#39;@Paytm POS machine failure, reported to the helpdesk several times. False commitments and No resolution recieved! Kindly help.&#39;,
+       &#39;@Paytmcare @Paytm got this msg! I am sure this is a fraud...can you track this and stop this? https://t.co/3hfrkFiPYA&#39;,
+       &quot;@Paytm Paytm is not responding to my 10 mails as promised by them bcoz they have to refund my Paytm gold balance (fraud scheme) as their current version doesn&#39;t support redemption of Paytm gold. They are ignoring my 100 msgs also. I&#39;m in urgent need of money. Pls help!! https://t.co/dTyyGMhDI9&quot;,
+       &#39;@Paytmcare - Just subscribed to PaytmFirst. Have an issue. Pl let me know where / whom can I contact?\n@Paytm @PaytmFirst&#39;,
+       &#39;@PaytmCybercell \nHi iam not sell the gold in my paytm&#39;,
+       &#39;@Paytm @Paytmcare Ye paytm postpaid ke option ko hata kyun nhi dete , 3 mahine se tum isko use to waise bhi krne nhi de rahe ho , or agar tumse pucho to ek hi jawab dete ho system upgrade kr rahe h https://t.co/kafUSzSlfl&#39;,
+       &#39;@paytmbankcare @Paytm does Paytm first credit card have airport lounge access??&#39;,
+       &#39;@Paytmcare @Paytm  paytm support is very unresponsive now. Its been more than 24 hrs &amp;amp; i didnt get solution.\npls help.\n#noreply #unresponsive https://t.co/pKzXB1HMBb&#39;,
+       &#39;@Paytm @Paytmcare @PaytmCybercell i made upi transaction and i got scratch card for it. Before I could use it, i accidentally clicked on home button, now thr is no option to get back my earned scratch card. Pathetic. Every othr apps like @GooglePayIndia @PhonePe_ have tht option&#39;,
+       &#39;@Paytm  promise  priority to @PaytmFirst customer . I am PaytmFirst user and trying to reach @Paytmcare for last 2 hours thanks for priority. 😊&#39;,
+       &#39;I m a @PaytmFirst user. @Paytm saying priority @Paytmcare service 24*7 help desk. My 3 #Paytm First coupons are not working, I raised a query on 17th November, till now no reply. \n\nThanks a lot #Paytm 🤣😂😡 https://t.co/dEgWSqVpzW&#39;,
+       &#39;@RisingSurbhi Hi, we regret the inconvenience to you, kindly share your Paytm registered mobile no. via DM and the Team will look into it. Thanks.  https://t.co/5m1Urzybmc&#39;,
+       &#39;Paytm Fraud....Hi Friends, Kindly be careful while making online payments, mainly via Paytm where we have seen multiple incidents and neither Paytm nor banks will support to get your funds back...PAYTM has many Fraud merchants registered without proper KYC. https://t.co/oeNBleuJHl&#39;,
+       &quot;@Paytm @Paytmcare Okay, so far the promise of giving your #First users priority service has failed miserably. Something that should&#39;ve taken a few hrs to resolve has gone beyond a week and still counting.&quot;,
+       &quot;@Paytmcare I&#39;m unable to view my paytm first CC card passbook, under the app there is no option to contact the customer care too. How its possible to check the card details or reset passbook password? @Citi @PaytmMoney @Paytm&quot;,
+       &quot;@Paytmcare @PaytmMall @Paytm @oyorooms @OYOLIFE_Support \n@PMOIndia\nFake companies and cheaters...Almost 7 months are completed but still didn&#39;t back money of amount 10300.&quot;,
+       &#39;@Paytm for the last 10 mins this was happening, we ended up paying google pay, when you will be improving? @vijayshekhar https://t.co/bzFTbAsU4Z&#39;,
+       &#39;Worse service provided by @Paytm.. I am not able to use my paytm postpaid service since from  Long time.. Payment option not available... Need resolution on priority... @Paytmcare @Paytm&#39;,
+       &#39;#paytm\nUnable to install paytm. The download getting stuck at 50%. Tried atleast 10 times. Any issues, seeking solution.\n@PaytmBank @PaytmAshaKiran \n@Paytmcare \n#PAYTM https://t.co/dk00iSQZBP&#39;,
+       &#39;@Paytmcare @PaytmTickets there is no option in your help numbers to complain about app issue. This experience sucks ... #Paytm https://t.co/16ED2lQUbX&#39;,
+       &#39;@deepakrocks1596 Hi Deepak, we request you to uninstall the paytm app then again install it, to get this resolved. Please feel free to reach out to us if you have any concerns.  https://t.co/5m1Urzybmc&#39;,
+       &#39;@SURESHA91904320 Hi Suresh! In absence of an important information from your end, we are unable to take the required action. Thus, to resolve an issue faster and better, would request you to kindly share  your Paytm Order/Transaction ID via DM. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytm Transaction ID 25673446307 done by me according to you was contravening your policies hence a charge of 1.99%+gst was charged. This transaction according to the history available on my account was not available and not done by me. Please explain&#39;,
+       &#39;Never ever buy paytm fastag ... Worst service ever... They say 24*7 help but not reachable from last 24 hours.... Fastag not working at all ... Whom should we reach to consumer court ?? @paytm #paytm&#39;,
+       &#39;Pnr no 2752913005\nWhy not check my PNR number...\n@Paytmcare @Paytm&#39;,
+       &#39;@Paytmcare hey paytm plz verify whether this is genuine or no?! https://t.co/T08vCTdsE0&#39;,
+       &#39;@Paytmcare why the  hell you give an option which does not work, got a message for PayTM first card, after filling all the details, it says, some problem try again when this link is available, wasting people time is fun for you guys, PAYTM now sucks in everything&#39;,
+       &#39;@Paytm i have not received any reply from the Customer care since the last 10 days! Hossible #Paytm customer care service. I am also a Paytm First Customer and yet they do not refund money or respond to queries!!&#39;,
+       &#39;#Paytm postpaid still they dont give service of postpaid in their helpline desk they said its working only on movis recharges paytm mall but on the pyment option its disable ..&#39;,
+       &#39;Govt is encouraging  digital Transactions and Paytm is promoting hefty amount of extra charge per transaction as convenience fee for own gain. Is it own fee or transaction tax which government never intended. Please take remedial action immediately. @Paytm @PMOIndia @nsitharaman https://t.co/Ruw9HOEbZ8&#39;,
+       &#39;मित्रानो सावधान\nPayTM मधून फोन करतो या नावाने फोन येतो आपण अनवधानाने आपले डिटेल देतो.\nलागलीच आपल्या अकाउंट मधून पैसे गायब होतात\nअसा फोन या नंबर वरून आला होता\n9330447195\n8338910051\nहे fraud क्र आहे मित्राचे 9500 रु गेले\nकृपया काळजी घ्या&#39;,
+       &#39;@Paytmcare your PAYTM first membership is an absolute scam, just like acche din. I paid 750 bucks and cant even book a ticket with the coupon code. Atleast have the decency to help.&#39;,
+       &#39;Paytm number - 9064977642\nCalled me to update my kyc on my number confirming me he is a paytm agent because paytm sent me a message to call me on that number..\n\nKINDLY SAY ME WHAT SHOULD I DO \nREFUND IT!!!!!! https://t.co/WMigrIAH27&#39;,
+       &#39;@Paytm What is the use of purchasing PayTM first membership if you cant notify me that certain benefits need to be availed before a certain date. And this is the kind of support your team provides over chat. How useless is #PayTM First membership then? https://t.co/ft9pldXk7N&#39;,
+       &#39;@Paytm cannot use my paytmpostpaid from last 3-4 months tried to contact customer care still issue not resolve.Kindly help....&#39;,
+       &#39;Introducing All-in-One Paytm QR for merchants with Unlimited Payments at 0% Fee.\n\nBlog: https://t.co/qlU0AzMuXN https://t.co/s3BpH2XwNX&#39;,
+       &#39;@Paytm @PaytmFirst @Paytmcare My Paytm First Card application is pedning for a week. No update so far. 😬&#39;,
+       &#39;@Paytm @PaytmFirst Your Current Account team is not responding from last 1 year, filled form multiple times.&#39;,
+       &#39;@Paytm\nU people makes customer fool.. I have booked ticket from your app in single sleeper and they have given double sleeper.\nWill not recommend anyone to use paytm. I need my refund\nI have called your customer care 5 times they people dont know who to talk\nPNR\n107377170&#39;,
+       &#39;@Paytm @PaytmFirst there is no helpline no. or IVR option for queries and complain related to paytm first credit card.&#39;,
+       &#39;Hey @Paytm pretty lazy job for a company with few hundred engineers. https://t.co/90ETP2x5Ul&#39;,
+       &#39;@Paytm @PaytmMall @paytminsider @PaytmTickets \nThe film tanhaji is tax free in uttar pradesh but why you are collecting charges from people. Can you explain why see the picture https://t.co/lbCisqR5CH&#39;,
+       &#39;@Paytm i want to buy a ticket B/w india and aus match... So plzz help me&#39;,
+       &#39;@Paytm Two complaints raised for deduction of toll from fasttag tag account and payment made in cash. All details uploaded when raising the request including tool receipt, rc copy and screenshot of toll deduction fro https://t.co/eYNNH1E2Hf why do you guys need vehicle photo...&#39;,
+       &quot;@Paytm I don&#39;t want to see a message everyday that is rejected. Thanks https://t.co/AueQNTjahc&quot;,
+       &quot;@Kakarot17281728 Hi, this is not official communication from Paytm. Please be aware of such fake callers/messages. Moreover, thanks for highlighting this to us, we&#39;ll take an appropriate action against it.\n  https://t.co/5m1Urzybmc&quot;,
+       &#39;@Kakarot17281728 Hi, Paytm has no relation whatsoever with such links/messages and/or offers. We would suggest you to not to respond to those and immediately report the situation to local law enforcement agencies also. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;Let me know guys if it is a fraud message. I called to given number he is telling to download third party app for verification. #paytm https://t.co/oMUsASsUp9&#39;,
+       &#39;@Paytmcare @Paytm Unable to Do any postpaid transaction. Kindly co-ordinate asap.\nGot No response even after frequent complains over mail and IVR.&#39;,
+       &quot;@Paytmcare I had applied for Paytm payment bank machine on 25-dec&#39;19, documents submitted, all formalities done , near about 15 to 20 otp asked by the sale executive but still my machine has not been activated. No response from the sales person &amp;amp; TL Vipul Kumar.\nPaytm9999222906&quot;,
+       &#39;@Paytm two time i tried to book the ticket from irctc app through your respective wallet deduct my amount but not confirmed the ticket kindly return my amount i have no money in my hand to book the another ticket. Plz help me sir as soon as possible. I attach screen short. https://t.co/2GtizEAZsA&#39;,
+       &#39;Hello @Paytm, i dont know where to complain...and i have tried the humble way to get things perfect but you people force me to come here and make ruckus\n\nThis person say he is soo busy he is watching whole MP and CG alone\n\nKindly appoint someone so your customers can live https://t.co/23zAdYJibZ&#39;,
+       &#39;@Paytmcare i m not getting help frm fastag team amout I also paid through cash and also i was deducted frm my wallet I have given complaint on dec 24 till now there is no resolution. This is how @Paytm is giving service to their customer&#39;,
+       &#39;Hi @Paytmcare I need an urgent help on Paytm Gold order issue.&#39;,
+       &#39;Rs 27 per ticket as booking/internet handling/convenience charges for a base ticket of Rs 212 on booking a movie ticket through paytm . . . Probably the biggest mockery of cashless Digital India @narendramodi @PMOIndia @rsprasad https://t.co/8WTOtWbYMK&#39;,
+       &quot;What the fuck happened to @Paytm @Paytmcare @PaytmTickets . From last 12 hours not able to book movie ticket. Payment page is not loading, tried many times but didn&#39;t work. When  you guys are planning to fix it?&quot;,
+       &#39;@Paytmcare Its been 10 days of receiving paytm first credit card but still paytm first membership is not activated. Your so called 24x7 team is just giving me robotic replies on app. Why are you cheating customers on false promises ? @vijayshekhar&#39;,
+       &#39;@Paytmcare @Paytm Im a paytm First user. I can\&#39;t use provided First benefit paytm coupons. Raised ticket, its been 5 days and still its not resolved. I just want to know what do you mean by &quot;Priority Support&quot;??&#39;,
+       &quot;@Paytm applied for the paytm first credit card but still no response from citi bank no one&#39;s coming to collect the documents. Has been a week&quot;,
+       &#39;@Paytmcare transacted on paytm citi card. Paytm membership not yet started.&#39;,
+       &#39;@Paytm i have worst experience with Paytm credit card i apply on 22 January but still no representative call me and no action taken and I am also Paytm first member.&#39;,
+       &quot;@Paytmcare @PaytmBank @Citibank : I got the Paytm first card though no one to explain it&#39;s benefit or it&#39;s usage. \nHow to avail the Paytm first membership through this..&quot;,
+       &#39;@Paytm please improve your app for contacting customer care. The UX is CRAP. Can you tell how to contact someone to talk about my PayTM first Credit Card? Thank you!&#39;,
+       &quot;@Paytm Had a problem with Airtel&#39;s customer query dept. ,they tried to resolve the issue. But then the problem was via your app and you are saying that you cannot do anything in this regard. Have put the complaint, to get no solution from the last 1 hour. Never using Paytm again!&quot;,
+       &#39;Dear @Paytm plz take action\nMy account no is 9560019589\nRegard-Manish https://t.co/TWibjojoeK&#39;,
+       &#39;Hello @Paytm , is there any kind of customer satisfaction department for voucher related queries??\nAll ur executives are so secured to connect that i would have to use another level of communication skill&#39;,
+       &quot;@Paytm @airtelindia \nI mistakenly happened to recharge for Rs.598 from Paytm to my other number which I don&#39;t use. When tried contacting both Paytm and Airtel, their responses are really amazing.&quot;,
+       &quot;@Paytm \n I recently got a Paytm first credit card for my mother, even got a transaction for 100 rs done as per the requirement. Still, Paytm first has not been activated on my mother&#39;s Paytm account. Please help.&quot;,
+       &#39;@Paytm @Paytmcare YES I TWEETED CONCERNS 1 HOUR BACK BUT STILL NO RESPONSE FROM THESE SHAMELESS CUSTOMER SUPPORT OF #Paytm https://t.co/64awbFB8i3&#39;,
+       &#39;@Paytmcare \n@Paytm \n@DGPPunjabPolice \nमैंने paytm  के द्वारा pos मशीन ली गयी जो कि 15 dec को मिली,pos मशीन काम न करने का कारण 17 dec के कारण को वापस करने की request की,जो कि कंपनी कर्मचारियों द्वारा जानबूझकर 29 jan को पिकप कराया गया,अब कंपनी अधिकारी का कहना है कोई रिफंड नही होगा https://t.co/Opw4ulNDTC&#39;,
+       &#39;Moving a small chunk of my banking away from @ICICIBank and @HDFC_Bank to @KotakBankLtd - clear malafide intent. My OTP never reaches for @Paytm loading. Thank God, Kotak has OTP over IVR. If only there were consumer agencies to collate / file class action lawsuit / RBI complaint&#39;,
+       &#39;@Paytm @Paytmcare Its impossible to reach ur customer care, I had applied for paytm first credit card which i received and made a transaction as well 5 days back still my paytm first membership is not activated.&#39;,
+       &#39;@ArvindK15505910 Hello! We are glad to inform you that your issue regarding EDC has been resolved. Continue enjoying Paytm! #PaytmKaro    https://t.co/5m1Urzybmc&#39;,
+       &quot;@Paytm @Paytmcare Customers can&#39;t reach out to customer care executives. All we get is automated responses. We have to keep tracking app everyday to check if any response has been received, else they close the query. Not a single notification is sent when reply is received. (2/3) https://t.co/pPwJapiqGR&quot;,
+       &quot;@mani32022 Hi, this is not official communication from Paytm. Please be aware of such fake callers/messages. Moreover, thanks for highlighting this to us, we&#39;ll take an appropriate action against it.\n  https://t.co/5m1Urzybmc&quot;,
+       &#39;food delivery is not available since last 5 updates and pop shown to update your app but after update, again its show to update your app\n@Paytm \n@Paytmcare \n@vijayshekhar \n@PaytmFirst&#39;,
+       &#39;@vijayshekhar @Paytmcare @Paytm @PaytmBank @PaytmMall I just received call means at midnight from paytm is this your call why team just asking send below action sms on given number after that it will get accept, this was fraud call behalf paytm find frauder number https://t.co/bLPacxexF3&#39;,
+       &#39;@Paytm, I’m unable to reach your customer care for Paytm First Credit Card. People don’t respond for chat too.\nCan you check and tell me when will my Paytm First get activated?&#39;,
+       &quot;@Paytm @PaytmBank @paytmbankcare what is this stupid message from you #paytm. You didn&#39;t offer paytm postpaid. But every month this message coming. @RBI must take action against it. https://t.co/QGWPvxwfJZ&quot;,
+       &#39;@teju2157 @PaytmBank @PhonePe_ @Paytm Paytm ke naam par sabse jyada fraud hota h ...Ye khud ki security to dhang ki kar nhi sakte&#39;,
+       &#39;@im_raghav_ Hi Himanshu, kindly share your Paytm registered mobile number via Direct Message to assist you better.  https://t.co/5m1Urzybmc&#39;,
+       &quot;@Paytmcare My Paytm first membership has expired yesterday. It was valid till yesterday but I&#39;m unable to see my unused coupons for this month. Atleast you should allow me to use current months coupons. This is cheating with us.&quot;,
+       &#39;@Paytm this paytm first card is a sham. First they ll ask you to get a paytm first card which will ensure free 1 year membership of paytm first but even after having issued the card for more than 30 days the membership does not get activated and there is no option to contact them&#39;,
+       &#39;@Paytmcare just activated the paytm credit card - when will the sign up benefits get transferred? (Paytm first membership etc)&#39;,
+       &#39;@Paytmcare i have used paytm credit card and its been 10 days but still my complimentary paytm first membership is not activated. can you pls help in this??&#39;,
+       &#39;Dear @Paytm @Paytmcare \n\nWe are getting this type of sms in your name.\n\nIs that you who sent such a fishy sms? https://t.co/0PMTuik8E9&#39;,
+       &#39;@pratapabhimaan Hi Abhimaan, kindly share your Paytm registered mobile number with Jio number on which you are trying to recharge via Direct Message to assist you better.  https://t.co/5m1Urzybmc&#39;,
+       &#39;@coolsanjubaba01 Hi Sanju, Paytm Food Ordering service is currently disabled. We will notify you once the service resumes. We are sorry for the inconvenience caused.  https://t.co/5m1Urzybmc&#39;,
+       &#39;Visual representation of *Jale Par Namak Chidakna* ft. @Paytm \n\n#21daylockdown https://t.co/ArUhbetL81&#39;,
+       &#39;@Paytm पेटियम से मैं एक आग्रह करता हूं जिन ग्रहकों की पूर्ण केवाइसी है कृपया उन्हें पेटियम पोस्टपेड का विकल्प अवश्य दे ₹300 से ₹500 के पेटियम पोस्टपेड लोंगों बहुत कल्याण हो सकता है।&#39;,
+       &quot;@Paytmcare  Paytm first credit card seems like bluff, it&#39;s been more than 10 days to cross the eligibility criteria and still my membership is not activated.\n\nWould you care to check and activate ?&quot;,
+       &#39;@Paytmcare @Paytm @PaytmCybercell why are u guys sending all dis? Just for ppl to get into frauds or to get benifit direct https://t.co/aDMkHg0Ypv&#39;,
+       &#39;@Paytm @Paytmcare  \nI have purchased paytm first credit card and using it since last one month. But still my paytm first membership is not activated. Please look into it immediately.&#39;,
+       &#39;To avoid contact, go digital! You can book your LPG refill through SMS/IVRS, WhatsApp 7588888824 or through IndianOil One app or https://t.co/LTyePkztZi or Paytm app. We hope you stay safe &amp;amp; continue to practice social distancing.#IndiaFightsCorona #Covid19Pandemic @dpradhanbjp https://t.co/chRTpzKSkx&#39;,
+       &#39;@Paytmcare \n@Paytm\nIs this SMS from Paytm Ind private Ltd.\nUnstrusted links https://t.co/jf03KXvZLc&#39;,
+       &#39;@Paytmcare @Paytm Complimentary Paytm First membership not activated even after one month from the stipulated minimum spend. Fix the issue. Details DM.&#39;,
+       &quot;@Paytm I tried paying my electricity bill using Paytm payment desk with UPI option, I used SBI UPI, the payment got debited but the Paytm Payment desk never refreshed &amp;amp; the bill wasn&#39;t cleared. Pls Help. Also kindly share cust care email.\n@vijayshekhar @Paytmcare @Paytm&quot;,
+       &quot;So Paytm has disabled the screenshots on their app. Then they ask me to click photo of error from another phone &amp;amp; now they&#39;re asking me to share the video of error. 🤷🏻\u200d♂️ @vijayshekhar So much hassle just to solve small issue. https://t.co/ytIUmeWdUz&quot;,
+       &#39;@Paytm \nDespite my repeated request I have not received receipt for contribution towards PM Cares fund made in March via Paytm.\n@PMOIndia&#39;,
+       &#39;@Paytm @Paytmcare I have not got my receipt for contribution to #PMCaresFunds and despite over a month no link has been provided to me. Pl give me my receipt so that I can avail tax exemption&#39;,
+       &#39;@Paytm I have no active payment reminder in my Paytm account still getting notification through SMS, e-mail and paytm message. This is happening since last 2 months. Kindly resolve the issue. https://t.co/unSam5LIdS&#39;,
+       &#39;@Paytm Is it possible to open a donation portal for cyclone relief in the impacted areas of Eastern India, especially Bengal and Odisha.\n#PrayForBengal #prayforwestbengal  #prayforOdisha  #Amphan #AmphanSuperCyclone \nShow the spirit you showed for other parts of India https://t.co/BxUvBt6bIX&#39;,
+       &quot;@Paytm hey what is this notification guys are you my childhood friend or my 8th class teache. I don&#39;t like the language here. Should I tweet in same casual language here. https://t.co/eQ0wK46j1N&quot;,
+       &#39;@Paytm @PaytmMall @vijayshekhar I request you to check on your content writing team as they’re writing shit  and it is totally not acceptable . What is this Sunn yash aj ky karna hai ? I’m not your chadi buddy friend that you’ll send such creepy notifications . https://t.co/g8NgPMF0i9&#39;,
+       &#39;Thanks for rubbing that salt on my wound @Paytm https://t.co/VIlDnSkg3D&#39;,
+       &quot;@Paytm @Paytmcare How do I stop receiving bill reminders for an electricity payment I did for someone else, just once ? I don&#39;t need those reminders. But ut keeps coming through sms,app notification &amp;amp; email Please help.&quot;,
+       &#39;@Paytm help sar https://t.co/DaJFC1bXu0&#39;,
+       &#39;@Paytm @PaytmBusiness @PaytmBank @Paytmcare Kindly tell me Wats the benefit of this “sticker” and where can I see this in the app? \nLooking forward to your reply asap https://t.co/WMLU9AgRkT&#39;,
+       &#39;@Paytmcare are you aware that the credit card payment is not working? When pressed on proceed, it does not go further, but stays on the sense screen. My money is lying idle in @PaytmBank. I may have to rethink about using @Paytm for Bill payments. Please resolve ASAP.&#39;,
+       &#39;@Paytmcare  hi sir I am Successful registration on paytm service agent but cannot login on PSA app\nSoo please access my login or refund my paid amount\nPaytm- 8018700976\nName- Ritesh Jayswal https://t.co/CiDJm7fXUH&#39;,
+       &#39;Hello @Paytm I have applied for paytm service agent now I am paying the fee of 1000 but when I click on proceed to pay the app is showing something went wrong. Kindly help me what to do.&#39;,
+       &#39;Hey @Paytm @Paytmcare I got this SMS... \nlooks like fraud.. https://t.co/FMWMg3X2WL&#39;,
+       &quot;Just received this SMS and I am. Sure it&#39;s a fraud SMS and see how paytm is spelt. \n@Paytm @PaytmCybercell https://t.co/ATFDUB7kvO&quot;,
+       &#39;@Paytmcare @Paytm  I am unable to find E-Newspapers section in the Paytm mini programs. Is it removed ? Please help&#39;,
+       &quot;@Paytm @Paytmcare is fraud. You do not resolve the user query. Contacted several times for cashback related voucher and raised a complaint before the expiration time but still, you people are just fooling me. One says to resolve it, &amp;amp; others say we can&#39;t. #paytm\n#paytmmatkaro&quot;,
+       &#39;@Paytmcare hello sir please help to paytm postpaid KYC details verification failed . I am enter same pan card number https://t.co/QffsY2rC58&#39;,
+       &#39;@vkthakran Hi, kinldy share your registered Paytm number via DM so that I can assist you better. Please avoid sharing your order details in public, best is to DM by following us.&#39;,
+       &#39;@vkthakran Hi, we are happy to be at your service. Keep enjoying Paytm #Paytmkaro\n  https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytm Dear sir, i would like to resign from Paytm Service Agent and request you to refund my Rs. 999/- . Kindly help...&#39;,
+       &#39;Hey @Paytm why Kannada is not in the list of preferred language?\n#ServeInMyLanguge #kannada https://t.co/FjqhtfqOpy&#39;,
+       &#39;@Paytm  I have never seen you app Page loading for Hot Deals and cashback offer while making any payment.\nMarketing tricks or whatever it is?\nDo you have a reason for it?\nThis is How digital india work... Fooling people.\nEverytime I wait that page to load... it never happens.&#39;,
+       &#39;@Anjan27068855 Hi Anjan, this is with reference to your query related to Paytm Service Agent. We would request you to write an email to distribution.helpdesk@paytm.com. Our team will get back to you within 48 hours and solve your problem.    https://t.co/5m1Urzybmc&#39;,
+       &#39;@Paytm  I know my recharge will expire soon. There is no need to send notification more than 100 times a day. Btw i received 100+ notification in a single day. https://t.co/z2crON6Mp3&#39;,
+       &#39;@Paytm Hello, I noticed a mistake in paytm app. Hope you’ll change it. Instead of sticker it is showing as sitcker https://t.co/Df8gog6aLk&#39;,
+       &#39;We connect, we inspect, we respect! \nHelping you enhance your Paytm experience, we are here to give you 24x7 support. Feel free to connect anytime, anywhere. :) #PaytmKaro https://t.co/wkOC1ZjFQX&#39;,
+       &#39;@Paytmcare I am a paytm first member but am unable to see that option in my app. Pls help&#39;,
+       &#39;@VodafoneIN Please look when after unsuccessful recharge on @Paytm the website of @VodafoneIN is also not updated. You all are making fun of @_DigitalIndia https://t.co/AO2Ds1TTlK&#39;,
+       &quot;Hey @Paytm. I am based out of Bengaluru. Why are you sending the  Telugu messages? Don&#39;t be ignorant of Kannadigas and that the Kannada is the official language  of Bengaluru. https://t.co/3BZB590qrr&quot;,
+       &#39;@DKDayal1 Hi! Thanks for sharing your valuable feedback. Continue enjoying Paytm! #PaytmKaro&#39;,
+       &#39;@ravalpreet222 Hi, please share registered Paytm number viA DM so that I can assist you better. It is advisable to share your confidential details via DM (Direct Message) only. Also,  https://t.co/5m1Urzybmc&#39;,
+       &#39;@officialybiswas Hi Ajoy, as checked the cylinder booking is accepted, I request you to check the updated status in Paytm App. For any further query please DM us via the link below.  https://t.co/5m1Urzybmc&#39;,
+       &#39;@AshwinMathulkar Hi Ashwin! We would suggest you to kindly re-login your Paytm and try once again. Thanks!&#39;,
+       &quot;At heart we&#39;ll always be a Binod, a Prem, a पिंकू कुमार. 🇮🇳 \n\nThanks everyone ❤️ #PaytmKaro https://t.co/9mKBHvzbX6&quot;,
+       &#39;Azaadi – is lafz se humein pyar to hai... lekin ye azaadi hoti kya hai? \n\n#AzaadiKiGoonj #IndependenceDay 🇮🇳 https://t.co/P6fHxz1uRo&#39;,
+       &#39;I had applied for Paytm First Card on Jan-2020 but status still in pending status. @Paytm @PaytmBank @PaytmFirst @Paytmcare&#39;,
+       &#39;@Paytm @Paytmcare @PaytmBank Please report the source of this message https://t.co/0efmxrvrHU&#39;,
+       &#39;@Paytm @ICICIBank @ICICIBank_Care @RBI Since 10 day’s running behind you guys for my payments reverse which was made by mistakenly in wrong credit card I.e. 4375 51XX XXXX 8009. Alas! No one is bother from your end.&#39;,
+       &#39;@Paytm i want to become a service agent please contact me&#39;,
+       &quot;@Paytm  I&#39;ve gotten fed with you, unable to reach customer service agent, fucking ivr. After requesting call back too no response. I&#39;ve got fraudulent charge on my acct, I don&#39;t courage anymore, informed to F &amp;amp;F to nt to use @Paytm&quot;,
+       &quot;I Don&#39;t have any @Paytm  Account still Everyday Iam Getting this Message Plz Look in to this Matter @Paytmcare @PaytmMoney @PaytmCybercell https://t.co/97Lzu5oZk3&quot;,
+       &#39;@Rohitsh13569115 Hi Rohit, we are unable to fetch details from the given information. Kindly share the Paytm order/ transaction id via DM so that we may assist you in a better way.  Moreover, please avoid sharing your personal details in public, best is to DM us. Thanks!  https://t.co/5m1Urzybmc&#39;,
+       &#39;Hey @Paytm @Paytmcare I had received this mail...\nI would like to clarify that I had not taken such kind of loan...I had deactivated my paytm account 8 months ago....Someone is misusing my account and personal details..Plz look forward to it https://t.co/0bUYjwptFU&#39;,
+       &#39;@Paytmcare Hello!\nI took the paytm first credit card and used it over a months ago. My paytm first is still not activated. Not sure which option to use on the app for support.\nCan you please help me?&#39;,
+       &quot;Dear @Paytmcare I didn&#39;t use your post paid but getting message like overdue some amount,pls look into it.\n@Paytm @PaytmMall @vijayshekhar&quot;,
+       &quot;@PinkChakrabort1 Hi Pinaki! Kindly follow these steps to resolve your issue. Open your Paytm App -&amp;gt; Click on the three bar on the top left corner-&amp;gt; Scroll down to &#39;Settings&#39; -&amp;gt; Scroll down to &#39;Notification Settings&#39;. (1/2)&quot;,
+       &#39;@Paytm please get in touch&#39;,
+       &#39;@parthgupta11029 @Paytm Lol.. epic.. 😂😂😂😂&#39;,
+       &#39;@rancho_grl @Parulshrivastv @Paytm GPay PPay Paytm 😬😬😬 https://t.co/ALcVG6GFTU&#39;,
+       &#39;@vjangid143 Hi, helping you out is our priority. It is advisable to share your confidential details via DM (Direct Message) only. Also, please share the registered Paytm number in DM so that we can assist you properly.\n  https://t.co/5m1Urzybmc&#39;,
+       &#39;Paytm First Game faltu hai jyada balance dehk kar blocked kar deta hai&#39;,
+       &quot;@PaytmFirstGames @Paytmcare It&#39;s been two days and my issue has not been solved.\n\nI have mailed to care@paytmfirstgames.com\n\nAs well as complained on the APP itself.\n\nBut no replies.\nIs the 24*7 team working properly?\n\nPaytm Social Media Team, it&#39;s your responsibility now.&quot;,
+       &quot;@Paytm @Paytmcare @PaytmBank @vijayshekhar dude,\nI have linked my aadhar and as well as pan! But in post paid Paytm, it&#39;s saying PAN details didn&#39;t match 😵. Seriously!? My details don&#39;t match my details!! Then whom will they match.😑😑&quot;,
+       &quot;@Paytm Hii paytm...your service is all good...but before few days my paytm postpaid account has been deactivated automatically.  i&#39;m unable to connect any customer care number to raise complaint.  please look into it or send me toll free number so i can talk.&quot;,
+       &#39;dear @Paytm \nI have taken the benefit of your postpaid service..\nwhich I pay on 11 Oct 2019 rupee 2083 \nafter a msg coming to me to pay this much amount your penalty will me.. \nphir achanak se ab msg aa rha 1689 bharo nhi to legal action lenge yeh kya behaviour hai be1/2&#39;,
+       &#39;Getting daily more than 10 reminders that my Paytm Postpaid bill is due next week from Paytm. What is the sense behind this? Due date is meant for a reason and getting daily mulitple prompts on app and email is irritating &amp;amp; discouraging to use it again.&#39;,
+       &#39;I have receive this type of mail.. But I have not receive any money in my paytm account @TPS_India https://t.co/BHYVHjhZAo&#39;,
+       &quot;@Paytm You promise #cashback on payment, but not give it away. It&#39;s been over 20-days and multiple follow-ups; I am yet to receive it. @swiggy_in asked me to get in touch with you to resolve. @SwiggyCares\n\n#SundayFunday yet #Paytm is troubling! #Foodie&quot;,
+       &#39;@bose1943 Hi, we are unable to fetch details from the given information. Kindly share the Paytm order/ transaction id along with your registered mobile number via DM so that we may assist you in a better way. Thanks!  https://t.co/BEb65ht5Kd&#39;,
+       &#39;I booked LPG via IVRS and @Paytm popped a notification reminding me to make payment. I have never booked LPG via Paytm. Paytm does not have any of my details with regard to LPG, yet somehow they got this info. I feel my privacy is violated. Is Indane selling my info?? @mozilla https://t.co/HwwrBsIRyU&#39;,
+       &#39;@Paytm सर् नमस्कार जी\xa0\n\n\xa0 \xa0 \xa0 आप की कंपनी का कोई संपर्क नम्बर है क्या जी जिस पर हम संपर्क कर सके एक प्राइज निकला था उस की 20 मेल करते है तब एक जवाब आता है और 6,7, महीने हो चुके है अब तक 10 वर्किंग डे नही हुऐ है&#39;,
+       &#39;After sending all complaint giving notification of fraud in my PAYTM postpaid account. PAYTM send people for collection at home big mumzaar PAYTM is a fraud company&#39;,
+       &#39;Penalty Notice: Aapne apna Paytm Postpaid payment nahi kiya hai. Pura payment na karne par penalty badhti rahegi. Abhi pay karein  https://t.co/XHeGOe9T2h\n@Paytm @scam @Paytmcare @PaytmCybercell&#39;,
+       &quot;@Paytm whats the use of cricketer&#39;s sticker??? Kya karu m inka?&quot;,
+       &quot;I booked my Cylinder from laptop.\nI didn&#39;t get any SMS from Indane or make any payment.\nNever used Paytm to book a cylinder.\nAnd yet in 10 min I get this SMS from Paytm .\n\nHow did they know about it?\nIs @Paytm getting customer data from Indane? https://t.co/3hoSDeYlJQ&quot;,
+       &#39;Please take a look. @Paytm @PaytmMall #paytm https://t.co/01JPjdYccr&#39;,
+       &#39;@i_am_kamal_kant Hi, please share with us your Paytm registered mobile number along with order id details via DM. Kindly follow us back to assist you better. Thanks  https://t.co/5m1Urzybmc&#39;,
+       &quot;Paytm PSA facing many problem not clear data daily report successfully working https://t.co/XIyqcOh3hc desk .tellphone , mail not give correct information it is manager not work .it is very difficult and terrible don&#39;t choose this type of Service this my own daily experience.&quot;,
+       &#39;@Crackit2Lets @Paytm 110 me 😅😪&#39;,
+       &#39;@Paytm @Paytmcare Pishing mail received https://t.co/4b24cSKHly&#39;,
+       &#39;@Crackit2Lets @Paytm Due these stupid activities, I gave them 5 star* review on google playstore.\n\n*limited to 1 😂😂&#39;,
+       &quot;Who would&#39;ve thought a day would come when someone would voluntarily request for Soan Papdi. 😁 https://t.co/bctQ15ex2a&quot;,
+       &#39;Hey @Paytm what a great way to start Anuradha chit fund . 6 mahiney paisa double https://t.co/zDXimUYKlI&#39;,
+       &#39;Adding another level of flexibility to your shopping experience, Paytm Postpaid now enables you to convert spends into EMIs. \n\nhttps://t.co/kvn5DQCoCb&#39;,
+       &#39;@Paytm \nFrustrating experience...\nIt has been a month and no resolution... provided all the required details..\nYour mails have automated and twitter handles also have automated response..no resolution this many ...I need immediate response https://t.co/DxTuramBZ8&#39;,
+       &#39;@Paytm \n\nPl verify this msg. It is genuine or some fraudulent. https://t.co/sCDc9a3qwy&#39;],
+      dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">queries_dist</span><span class="p">,</span> <span class="n">fig</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">plot_topic_distribution</span><span class="p">(</span><span class="n">queries_topic_sents_keywords</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+
+/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+</pre></div>
+</div>
+<img alt="../../../_images/response_paytm_32_1.svg" src="../../../_images/response_paytm_32_1.svg" /></div>
 </div>
 </section>
 </section>

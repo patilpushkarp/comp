@@ -1,0 +1,1414 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Join word distribution results &#8212; Comparing Businesses - Fintech and NBFC</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Comparing Businesses - Fintech and NBFC</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Comparing Fintech and NBFC using Twitter Data
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Prelimnary Analysis
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../eda.html">
+   Exploratory Data Analysis
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Fintech
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../individual/fintech/topic.html">
+   Topic Modeling
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/faircent.html">
+     Faircent
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/lendingkart.html">
+     Lendingkart
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/mobikwik.html">
+     Mobikwik
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/paytm.html">
+     Paytm - In Progress
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/pine_labs.html">
+     Pine Labs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../individual/fintech/distribution.html">
+   Words Distribution
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/distribution_faircent.html">
+     Faircent
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/distribution_lendingkart.html">
+     Lendingkart
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/distribution_mobikwik.html">
+     Mobikwik
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/distribution_paytm.html">
+     Paytm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/distribution_pine_labs.html">
+     Pine Labs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../individual/fintech/response.html">
+   Responses and Resolutions
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/response_faircent.html">
+     Faircent
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/response_lendingkart.html">
+     Lendingkart
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/response_mobikwik.html">
+     Mobikwik
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/response_paytm.html">
+     Paytm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/fintech/response_pine_labs.html">
+     Pine Labs
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  NBFC
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../individual/nbfc/topic.html">
+   Topic Modeling
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/aditya_birla_finance.html">
+     Aditya Birla Finance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/bajaj_finance.html">
+     Bajaj Finance - In Progress
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/cholamandalam.html">
+     Cholamandalam - In Progress
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/muthoot_finance.html">
+     Muthoot Finance
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../individual/nbfc/distribution.html">
+   Words Distribution
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/distribution_aditya_birla_finance.html">
+     Aditya Birla Finance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/distribution_bajaj_finance.html">
+     Bajaj Finance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/distribution_cholamandalam.html">
+     Cholamandalam
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/distribution_muthoot_finance.html">
+     Muthoot Finance
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../individual/nbfc/response.html">
+   Responses and Resolutions
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/response_aditya_birla_finance.html">
+     Aditya Birla Finance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/response_bajaj_finance.html">
+     Bajaj Finance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/response_cholamandalam.html">
+     Cholamandalam
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../individual/nbfc/response_muthoot_finance.html">
+     Muthoot Finance
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Extras
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="notes.html">
+   Notes
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/patilpushkarp/comp/main?urlpath=tree/docs/docs/extras/extras.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/patilpushkarp/comp/blob/main/docs/docs/extras/extras.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/patilpushkarp/comp"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/patilpushkarp/comp/issues/new?title=Issue%20on%20page%20%2Fdocs/extras/extras.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/docs/extras/extras.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Join word distribution results</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="join-word-distribution-results">
+<h1>Join word distribution results<a class="headerlink" href="#join-word-distribution-results" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintechs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;faircent&#39;</span><span class="p">,</span> <span class="s1">&#39;lendingkart&#39;</span><span class="p">,</span> <span class="s1">&#39;mobikwik&#39;</span><span class="p">,</span> <span class="s1">&#39;paytm&#39;</span><span class="p">,</span> <span class="s1">&#39;pine_labs&#39;</span><span class="p">]</span>
+<span class="n">nbfcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;aditya_birla_finance&#39;</span><span class="p">,</span> <span class="s1">&#39;bajaj_finance&#39;</span><span class="p">,</span> <span class="s1">&#39;muthoot_finance&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">fintech</span> <span class="ow">in</span> <span class="n">fintechs</span><span class="p">:</span>
+    <span class="n">pre_wd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./../data/fintech/</span><span class="si">{</span><span class="n">fintech</span><span class="si">}</span><span class="s1">/pre_wd.csv&#39;</span><span class="p">)</span>
+    <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;false_cnt&#39;</span><span class="p">]</span>
+    <span class="n">post_wd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./../data/fintech/</span><span class="si">{</span><span class="n">fintech</span><span class="si">}</span><span class="s1">/post_wd.csv&#39;</span><span class="p">)</span>
+    <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;false_cnt&#39;</span><span class="p">]</span>
+    <span class="n">pre_wd_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">post_wd_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pre_wd_df</span><span class="p">,</span> <span class="n">post_wd_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span>
+    <span class="n">result_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Pre-COVID&#39;</span><span class="p">,</span> <span class="s1">&#39;Post-COVID&#39;</span><span class="p">]</span>
+    <span class="n">new_row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Pre-COVID&quot;</span><span class="p">:</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Post-COVID&quot;</span><span class="p">:</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]}</span>
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">new_row</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">result_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Total Tweets&#39;</span><span class="p">))</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">([(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fintech</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Pre-COVID&quot;</span><span class="p">),</span>
+                                        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fintech</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Post-COVID&quot;</span><span class="p">)])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">result_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">fintech_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_9811/213627304.py:13: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_9811/213627304.py:13: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_9811/213627304.py:13: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_9811/213627304.py:13: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_9811/213627304.py:13: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_result</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="2" halign="left">Faircent</th>
+      <th colspan="2" halign="left">Lendingkart</th>
+      <th colspan="2" halign="left">Mobikwik</th>
+      <th colspan="2" halign="left">Paytm</th>
+      <th colspan="2" halign="left">Pine_Labs</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Pre-COVID</th>
+      <th>Post-COVID</th>
+      <th>Pre-COVID</th>
+      <th>Post-COVID</th>
+      <th>Pre-COVID</th>
+      <th>Post-COVID</th>
+      <th>Pre-COVID</th>
+      <th>Post-COVID</th>
+      <th>Pre-COVID</th>
+      <th>Post-COVID</th>
+    </tr>
+    <tr>
+      <th>words</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>harassment</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>9</td>
+      <td>16</td>
+      <td>35</td>
+      <td>244</td>
+      <td>176</td>
+      <td>0</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>fraud</th>
+      <td>2</td>
+      <td>1</td>
+      <td>8</td>
+      <td>51</td>
+      <td>1208</td>
+      <td>1035</td>
+      <td>19309</td>
+      <td>16408</td>
+      <td>33</td>
+      <td>56</td>
+    </tr>
+    <tr>
+      <th>restructure</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>39</td>
+      <td>0</td>
+      <td>8</td>
+      <td>13</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>covid19 relief</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>force</th>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>62</td>
+      <td>38</td>
+      <td>93</td>
+      <td>2793</td>
+      <td>1408</td>
+      <td>5</td>
+      <td>43</td>
+    </tr>
+    <tr>
+      <th>money cut</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>11</td>
+      <td>11</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>unethical</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>12</td>
+      <td>12</td>
+      <td>199</td>
+      <td>180</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>fake</th>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+      <td>5</td>
+      <td>192</td>
+      <td>215</td>
+      <td>9771</td>
+      <td>9005</td>
+      <td>6</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>false promise</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>17</td>
+      <td>1</td>
+      <td>108</td>
+      <td>49</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>shutdown</th>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>6</td>
+      <td>4</td>
+      <td>76</td>
+      <td>69</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>moratorium</th>
+      <td>0</td>
+      <td>9</td>
+      <td>0</td>
+      <td>293</td>
+      <td>0</td>
+      <td>248</td>
+      <td>0</td>
+      <td>51</td>
+      <td>0</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>no response</th>
+      <td>0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>45</td>
+      <td>244</td>
+      <td>249</td>
+      <td>2840</td>
+      <td>1904</td>
+      <td>20</td>
+      <td>74</td>
+    </tr>
+    <tr>
+      <th>scam</th>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>72</td>
+      <td>88</td>
+      <td>108</td>
+      <td>2764</td>
+      <td>3389</td>
+      <td>4</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>no answer</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>8</td>
+      <td>11</td>
+      <td>145</td>
+      <td>98</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>love</th>
+      <td>2</td>
+      <td>3</td>
+      <td>15</td>
+      <td>4</td>
+      <td>111</td>
+      <td>373</td>
+      <td>3353</td>
+      <td>2289</td>
+      <td>27</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <th>responsive</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>12</td>
+      <td>10</td>
+      <td>13</td>
+      <td>150</td>
+      <td>96</td>
+      <td>9</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>very bad</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>11</td>
+      <td>105</td>
+      <td>141</td>
+      <td>1385</td>
+      <td>850</td>
+      <td>12</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>machine learning</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>algorithm</th>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>28</td>
+      <td>17</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>delay</th>
+      <td>2</td>
+      <td>4</td>
+      <td>5</td>
+      <td>13</td>
+      <td>46</td>
+      <td>119</td>
+      <td>3473</td>
+      <td>738</td>
+      <td>3</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>leveraging</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Total Tweets</th>
+      <td>145</td>
+      <td>176</td>
+      <td>1435</td>
+      <td>4055</td>
+      <td>19731</td>
+      <td>33479</td>
+      <td>473540</td>
+      <td>478904</td>
+      <td>3435</td>
+      <td>7048</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fintech_result.to_excel(&#39;./../data/summaries/word_distributions.xlsx&#39;, sheet_name=&#39;Fintech&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">nbfc</span> <span class="ow">in</span> <span class="n">nbfcs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">nbfc</span><span class="p">)</span>
+    <span class="n">pre_wd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./../data/nbfc/</span><span class="si">{</span><span class="n">nbfc</span><span class="si">}</span><span class="s1">/pre_wd.csv&#39;</span><span class="p">)</span>
+    <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;false_cnt&#39;</span><span class="p">]</span>
+    <span class="n">post_wd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./../data/nbfc/</span><span class="si">{</span><span class="n">nbfc</span><span class="si">}</span><span class="s1">/post_wd.csv&#39;</span><span class="p">)</span>
+    <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;false_cnt&#39;</span><span class="p">]</span>
+    <span class="n">pre_wd_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">post_wd_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pre_wd_df</span><span class="p">,</span> <span class="n">post_wd_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span>
+    <span class="n">result_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Pre-COVID&#39;</span><span class="p">,</span> <span class="s1">&#39;Post-COVID&#39;</span><span class="p">]</span>
+    <span class="n">new_row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Pre-COVID&quot;</span><span class="p">:</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Post-COVID&quot;</span><span class="p">:</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]}</span>
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">new_row</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">result_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Total Tweets&#39;</span><span class="p">))</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">([(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nbfc</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Pre-COVID&quot;</span><span class="p">),</span>
+                                        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nbfc</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Post-COVID&quot;</span><span class="p">)])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">result_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">nbfc_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>aditya_birla_finance
+bajaj_finance
+cholamandalam
+muthoot_finance
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_9811/3926350353.py:14: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_9811/3926350353.py:14: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_9811/3926350353.py:14: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+/var/folders/zl/bqtzmz3s0xl5_ddgbjsqxsww0000gn/T/ipykernel_9811/3926350353.py:14: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nbfc_result</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="2" halign="left">Aditya_Birla_Finance</th>
+      <th colspan="2" halign="left">Bajaj_Finance</th>
+      <th colspan="2" halign="left">Cholamandalam</th>
+      <th colspan="2" halign="left">Muthoot_Finance</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Pre-COVID</th>
+      <th>Post-COVID</th>
+      <th>Pre-COVID</th>
+      <th>Post-COVID</th>
+      <th>Pre-COVID</th>
+      <th>Post-COVID</th>
+      <th>Pre-COVID</th>
+      <th>Post-COVID</th>
+    </tr>
+    <tr>
+      <th>words</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>harassment</th>
+      <td>1</td>
+      <td>4</td>
+      <td>197</td>
+      <td>528</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>fraud</th>
+      <td>10</td>
+      <td>49</td>
+      <td>661</td>
+      <td>2735</td>
+      <td>10</td>
+      <td>10</td>
+      <td>9</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>restructure</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>227</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>covid19 relief</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>force</th>
+      <td>1</td>
+      <td>8</td>
+      <td>117</td>
+      <td>610</td>
+      <td>2</td>
+      <td>1</td>
+      <td>12</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>money cut</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>unethical</th>
+      <td>2</td>
+      <td>0</td>
+      <td>44</td>
+      <td>151</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>fake</th>
+      <td>1</td>
+      <td>15</td>
+      <td>180</td>
+      <td>443</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>false promise</th>
+      <td>0</td>
+      <td>0</td>
+      <td>28</td>
+      <td>57</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>shutdown</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>27</td>
+      <td>0</td>
+      <td>1</td>
+      <td>7</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>moratorium</th>
+      <td>0</td>
+      <td>103</td>
+      <td>1</td>
+      <td>7003</td>
+      <td>0</td>
+      <td>38</td>
+      <td>0</td>
+      <td>24</td>
+    </tr>
+    <tr>
+      <th>no response</th>
+      <td>1</td>
+      <td>5</td>
+      <td>396</td>
+      <td>1216</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>scam</th>
+      <td>0</td>
+      <td>7</td>
+      <td>91</td>
+      <td>296</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>no answer</th>
+      <td>0</td>
+      <td>0</td>
+      <td>15</td>
+      <td>41</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>love</th>
+      <td>0</td>
+      <td>3</td>
+      <td>95</td>
+      <td>243</td>
+      <td>4</td>
+      <td>1</td>
+      <td>11</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>responsive</th>
+      <td>0</td>
+      <td>0</td>
+      <td>6</td>
+      <td>30</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>very bad</th>
+      <td>1</td>
+      <td>0</td>
+      <td>127</td>
+      <td>404</td>
+      <td>1</td>
+      <td>6</td>
+      <td>21</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>machine learning</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>algorithm</th>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>delay</th>
+      <td>3</td>
+      <td>0</td>
+      <td>124</td>
+      <td>410</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>leveraging</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Total Tweets</th>
+      <td>260</td>
+      <td>766</td>
+      <td>52044</td>
+      <td>133114</td>
+      <td>1217</td>
+      <td>1386</td>
+      <td>1880</td>
+      <td>3398</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># nbfc_result.to_excel(&#39;./../data/summaries/word_distributions.xlsx&#39;, sheet_name=&#39;NBFC&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="s1">&#39;./../data/summaries/word_distributions.xlsx&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="n">nbfc_result</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;NBFC&#39;</span><span class="p">)</span>
+    <span class="n">fintech_result</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Fintech&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./docs/extras"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Pushkar Patil<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
