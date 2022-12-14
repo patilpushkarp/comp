@@ -277,7 +277,7 @@ class Processor:
         dist_df = pd.DataFrame(df['Dominant_Topic'].value_counts()).reset_index()
         dist_df.columns = ['Topic_Numbers', 'Document_Counts']
 
-        fig = px.bar(dist_df, x='Topic_Numbers', y='Document_Counts', title='Topics Distribution')
+        fig = px.bar(dist_df, x='Topic_Numbers', y='Document_Counts', title='Topics Distribution', text='Document_Counts')
         return dist_df, fig
 
     def word_distribution(self, text, find):
