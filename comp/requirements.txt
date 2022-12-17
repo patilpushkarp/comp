@@ -1,13 +1,13 @@
-scikit-learn
-jupyterlab_widgets==1.1
 jupyter-book==0.13
-jsonschema==3.2
-ipython==8.5
-pandas
-gensim
-nltk
-wordcloud
-spacy
-pyLDAvis
-ipywidgets
-plotly
+# jsonschema==3.2
+# ipython==8.5
+# pandas
+# gensim
+# nltk
+# wordcloud
+# spacy
+# pyLDAvis
+# ipywidgets
+# plotly
+# scikit-learn
+# jupyterlab_widgets==1.1
