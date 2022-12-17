@@ -581,78 +581,78 @@ title="Print to PDF"
 <h1>Exploratory Data Analysis<a class="headerlink" href="#exploratory-data-analysis" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load necessary packages</span>
-<span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">clear_output</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">wordcloud</span> <span class="kn">import</span> <span class="n">WordCloud</span><span class="p">,</span> <span class="n">STOPWORDS</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load necessary packages
+import glob
+import json
+import ipywidgets as widgets
+from IPython.display import display, clear_output
+import pandas as pd
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud, STOPWORDS
 
-<span class="kn">from</span> <span class="nn">utils.helper</span> <span class="kn">import</span> <span class="n">Processor</span>
+from utils.helper import Processor
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_path</span> <span class="o">=</span> <span class="s1">&#39;./data/fintech/&#39;</span>
-<span class="n">fintech_folders</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fintech_path</span><span class="si">}</span><span class="s2">*/&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">fintech</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">fintech_folders</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_path = &#39;./data/fintech/&#39;
+fintech_folders = glob.glob(f&quot;{fintech_path}*/&quot;, recursive=True)
+fintech = [path.split(&#39;/&#39;)[-2] for path in fintech_folders]
 
-<span class="n">nbfc_path</span> <span class="o">=</span> <span class="s1">&#39;./data/nbfc/&#39;</span>
-<span class="n">nbfc_folders</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nbfc_path</span><span class="si">}</span><span class="s2">*/&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">nbfc</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">nbfc_folders</span><span class="p">]</span>
+nbfc_path = &#39;./data/nbfc/&#39;
+nbfc_folders = glob.glob(f&quot;{nbfc_path}*/&quot;, recursive=True)
+nbfc = [path.split(&#39;/&#39;)[-2] for path in nbfc_folders]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./data/config.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">config_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with open(&#39;./data/config.json&#39;) as f:
+    config_data = json.load(f)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_dropdown</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-    <span class="n">options</span><span class="o">=</span><span class="n">fintech</span><span class="p">,</span>
-    <span class="n">value</span><span class="o">=</span><span class="n">fintech</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Fintech company:&#39;</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_dropdown = widgets.Dropdown(
+    options=fintech,
+    value=fintech[0],
+    description=&#39;Fintech company:&#39;,
+)
 
-<span class="n">fintech_out</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
+fintech_out = widgets.Output()
 
-<span class="k">def</span> <span class="nf">on_change_fintech</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">fintech_out</span><span class="p">:</span>
-        <span class="n">clear_output</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;change&#39;</span> <span class="ow">and</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
-            <span class="n">clear_output</span><span class="p">()</span>
-            <span class="n">comp</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
-            <span class="n">stopwords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">STOPWORDS</span><span class="p">)</span>
-            <span class="n">fintech_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./data/fintech/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">])</span>
-            <span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">()</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess_tweet</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;fintech&quot;</span><span class="p">]:</span>
-                <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span> <span class="o">+</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;fintech&quot;</span><span class="p">][</span><span class="n">comp</span><span class="p">]</span>
-            <span class="n">wordcloud</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span>
-                                    <span class="n">background_color</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
-                                    <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span><span class="p">,</span>
-                                    <span class="n">min_font_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+def on_change_fintech(change):
+    with fintech_out:
+        clear_output()
+        if change[&#39;type&#39;] == &#39;change&#39; and change[&#39;name&#39;] == &#39;value&#39;:
+            clear_output()
+            comp = change[&#39;new&#39;]
+            stopwords = list(STOPWORDS)
+            fintech_df = pd.read_csv(f&#39;./data/fintech/{comp}/{comp}.csv&#39;)
+            text = &quot; &quot;.join(fintech_df[&#39;tweet&#39;])
+            processor = Processor()
+            text = processor.preprocess_tweet(text)
+            if comp in config_data[&quot;stopwords&quot;][&quot;fintech&quot;]:
+                stopwords = stopwords + config_data[&quot;stopwords&quot;][&quot;fintech&quot;][comp]
+            wordcloud = WordCloud(width = 1400, height = 800,
+                                    background_color =&#39;white&#39;,
+                                    stopwords = stopwords,
+                                    min_font_size = 10).generate(text)
             
-            <span class="c1"># plot the WordCloud image</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">wordcloud</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            # plot the WordCloud image
+            plt.imshow(wordcloud)
+            plt.axis(&quot;off&quot;)
+            plt.tight_layout(pad = 0)
+            plt.show()
 
-<span class="n">fintech_dropdown</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_change_fintech</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+fintech_dropdown.observe(on_change_fintech, names=&#39;value&#39;)
 
-<span class="n">display</span><span class="p">(</span><span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">fintech_dropdown</span><span class="p">,</span> <span class="n">fintech_out</span><span class="p">]))</span>
+display(widgets.VBox([fintech_dropdown, fintech_out]))
 </pre></div>
 </div>
 </div>
@@ -663,41 +663,41 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nbfc_dropdown</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-    <span class="n">options</span><span class="o">=</span><span class="n">nbfc</span><span class="p">,</span>
-    <span class="n">value</span><span class="o">=</span><span class="n">nbfc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;NBFC company:&#39;</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nbfc_dropdown = widgets.Dropdown(
+    options=nbfc,
+    value=nbfc[0],
+    description=&#39;NBFC company:&#39;,
+)
 
-<span class="n">nbfc_out</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
+nbfc_out = widgets.Output()
 
-<span class="k">def</span> <span class="nf">on_change_nbfc</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">nbfc_out</span><span class="p">:</span>
-        <span class="n">clear_output</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;change&#39;</span> <span class="ow">and</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
-            <span class="n">clear_output</span><span class="p">()</span>
-            <span class="n">comp</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
-            <span class="n">stopwords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">STOPWORDS</span><span class="p">)</span>
-            <span class="n">fintech_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./data/nbfc/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">])</span>
-            <span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">()</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess_tweet</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;nbfc&quot;</span><span class="p">]:</span>
-                <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span> <span class="o">+</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;nbfc&quot;</span><span class="p">][</span><span class="n">comp</span><span class="p">]</span>
-            <span class="n">wordcloud</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span>
-                                    <span class="n">background_color</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
-                                    <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span><span class="p">,</span>
-                                    <span class="n">min_font_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+def on_change_nbfc(change):
+    with nbfc_out:
+        clear_output()
+        if change[&#39;type&#39;] == &#39;change&#39; and change[&#39;name&#39;] == &#39;value&#39;:
+            clear_output()
+            comp = change[&#39;new&#39;]
+            stopwords = list(STOPWORDS)
+            fintech_df = pd.read_csv(f&#39;./data/nbfc/{comp}/{comp}.csv&#39;)
+            text = &quot; &quot;.join(fintech_df[&#39;tweet&#39;])
+            processor = Processor()
+            text = processor.preprocess_tweet(text)
+            if comp in config_data[&quot;stopwords&quot;][&quot;nbfc&quot;]:
+                stopwords = stopwords + config_data[&quot;stopwords&quot;][&quot;nbfc&quot;][comp]
+            wordcloud = WordCloud(width = 1400, height = 800,
+                                    background_color =&#39;white&#39;,
+                                    stopwords = stopwords,
+                                    min_font_size = 10).generate(text)
             
-            <span class="c1"># plot the WordCloud image</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">wordcloud</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            # plot the WordCloud image
+            plt.imshow(wordcloud)
+            plt.axis(&quot;off&quot;)
+            plt.tight_layout(pad = 0)
+            plt.show()
 
-<span class="n">nbfc_dropdown</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_change_nbfc</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+nbfc_dropdown.observe(on_change_nbfc, names=&#39;value&#39;)
 
-<span class="n">display</span><span class="p">(</span><span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">nbfc_dropdown</span><span class="p">,</span> <span class="n">nbfc_out</span><span class="p">]))</span>
+display(widgets.VBox([nbfc_dropdown, nbfc_out]))
 </pre></div>
 </div>
 </div>

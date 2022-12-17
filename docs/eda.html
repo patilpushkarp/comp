@@ -654,43 +654,43 @@ title="Print to PDF"
 <h1>Exploratory Data Analysis<a class="headerlink" href="#exploratory-data-analysis" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load necessary packages</span>
-<span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">wordcloud</span> <span class="kn">import</span> <span class="n">WordCloud</span><span class="p">,</span> <span class="n">STOPWORDS</span>
-<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load necessary packages
+import glob
+import json
+import pandas as pd
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud, STOPWORDS
+import plotly.express as px
 
-<span class="kn">from</span> <span class="nn">utils.helper</span> <span class="kn">import</span> <span class="n">Processor</span>
+from utils.helper import Processor
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_path</span> <span class="o">=</span> <span class="s1">&#39;./data/fintech/&#39;</span>
-<span class="n">fintech_folders</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fintech_path</span><span class="si">}</span><span class="s2">*/&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">fintech</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">fintech_folders</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_path = &#39;./data/fintech/&#39;
+fintech_folders = glob.glob(f&quot;{fintech_path}*/&quot;, recursive=True)
+fintech = [path.split(&#39;/&#39;)[-2] for path in fintech_folders]
 
-<span class="n">nbfc_path</span> <span class="o">=</span> <span class="s1">&#39;./data/nbfc/&#39;</span>
-<span class="n">nbfc_folders</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nbfc_path</span><span class="si">}</span><span class="s2">*/&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">nbfc</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">nbfc_folders</span><span class="p">]</span>
+nbfc_path = &#39;./data/nbfc/&#39;
+nbfc_folders = glob.glob(f&quot;{nbfc_path}*/&quot;, recursive=True)
+nbfc = [path.split(&#39;/&#39;)[-2] for path in nbfc_folders]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./data/config.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">config_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with open(&#39;./data/config.json&#39;) as f:
+    config_data = json.load(f)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stopwords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">STOPWORDS</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>stopwords = list(STOPWORDS)
 </pre></div>
 </div>
 </div>
@@ -701,25 +701,25 @@ title="Print to PDF"
 <h3>Fintech<a class="headerlink" href="#fintech" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">fintech</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wordcloud for company: </span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./data/fintech/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">)</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">])</span>
-    <span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">()</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess_tweet</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;fintech&quot;</span><span class="p">]:</span>
-        <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span> <span class="o">+</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;fintech&quot;</span><span class="p">][</span><span class="n">comp</span><span class="p">]</span>
-    <span class="n">wordcloud</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span>
-                            <span class="n">background_color</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
-                            <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span><span class="p">,</span>
-                            <span class="n">min_font_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for comp in fintech:
+    print(f&quot;Wordcloud for company: {comp}&quot;)
+    df = pd.read_csv(f&#39;./data/fintech/{comp}/{comp}.csv&#39;, engine=&#39;python&#39;)
+    text = &quot; &quot;.join(df[&#39;tweet&#39;])
+    processor = Processor()
+    text = processor.preprocess_tweet(text)
+    if comp in config_data[&quot;stopwords&quot;][&quot;fintech&quot;]:
+        stopwords = stopwords + config_data[&quot;stopwords&quot;][&quot;fintech&quot;][comp]
+    wordcloud = WordCloud(width = 1400, height = 800,
+                            background_color =&#39;white&#39;,
+                            stopwords = stopwords,
+                            min_font_size = 10).generate(text)
 
-    <span class="c1"># plot the WordCloud image</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">wordcloud</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    # plot the WordCloud image
+    plt.imshow(wordcloud)
+    plt.axis(&quot;off&quot;)
+    plt.tight_layout(pad = 0)
+    plt.show()
+    print(&quot;\n&quot;)
 </pre></div>
 </div>
 </div>
@@ -762,25 +762,25 @@ title="Print to PDF"
 <h3>NBFC<a class="headerlink" href="#nbfc" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">nbfc</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wordcloud for company: </span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./data/nbfc/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">)</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">])</span>
-    <span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">()</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess_tweet</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;nbfc&quot;</span><span class="p">]:</span>
-        <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span> <span class="o">+</span> <span class="n">config_data</span><span class="p">[</span><span class="s2">&quot;stopwords&quot;</span><span class="p">][</span><span class="s2">&quot;nbfc&quot;</span><span class="p">][</span><span class="n">comp</span><span class="p">]</span>
-    <span class="n">wordcloud</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span>
-                            <span class="n">background_color</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
-                            <span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span><span class="p">,</span>
-                            <span class="n">min_font_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for comp in nbfc:
+    print(f&quot;Wordcloud for company: {comp}&quot;)
+    df = pd.read_csv(f&#39;./data/nbfc/{comp}/{comp}.csv&#39;, engine=&#39;python&#39;)
+    text = &quot; &quot;.join(df[&#39;tweet&#39;])
+    processor = Processor()
+    text = processor.preprocess_tweet(text)
+    if comp in config_data[&quot;stopwords&quot;][&quot;nbfc&quot;]:
+        stopwords = stopwords + config_data[&quot;stopwords&quot;][&quot;nbfc&quot;][comp]
+    wordcloud = WordCloud(width = 1400, height = 800,
+                            background_color =&#39;white&#39;,
+                            stopwords = stopwords,
+                            min_font_size = 10).generate(text)
 
-    <span class="c1"># plot the WordCloud image</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">wordcloud</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    # plot the WordCloud image
+    plt.imshow(wordcloud)
+    plt.axis(&quot;off&quot;)
+    plt.tight_layout(pad = 0)
+    plt.show()
+    print(&quot;\n&quot;)
 </pre></div>
 </div>
 </div>
@@ -820,16 +820,16 @@ title="Print to PDF"
 <p>When a document contains sentences with different languages, it is said to be mixed-coded. It will be helpful to analyze whether tweets in languages other than English are significant in number and then devise a strategy to deal with them.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s1">&#39;./data/fintech/fintech.h5&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;fintech&#39;</span><span class="p">)</span>
-<span class="n">nbfc_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s1">&#39;./data/nbfc/nbfc.h5&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;nbfc&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_df = pd.read_hdf(&#39;./data/fintech/fintech.h5&#39;, key=&#39;fintech&#39;)
+nbfc_df = pd.read_hdf(&#39;./data/nbfc/nbfc.h5&#39;, key=&#39;nbfc&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of languages in tweets of fintechs: </span><span class="si">{</span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of languages in tweets of NBFCs: </span><span class="si">{</span><span class="n">nbfc_df</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Number of languages in tweets of fintechs: {fintech_df[&#39;language&#39;].nunique()}&quot;)
+print(f&quot;Number of languages in tweets of NBFCs: {nbfc_df[&#39;language&#39;].nunique()}&quot;)
 </pre></div>
 </div>
 </div>
@@ -842,22 +842,22 @@ Number of languages in tweets of NBFCs: 45
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;is_en&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;en&#39;</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
-<span class="n">nbfc_df</span><span class="p">[</span><span class="s1">&#39;is_en&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nbfc_df</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;en&#39;</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_df[&#39;is_en&#39;] = fintech_df[&#39;language&#39;].apply(lambda x: True if x == &#39;en&#39; else False)
+nbfc_df[&#39;is_en&#39;] = nbfc_df[&#39;language&#39;].apply(lambda x: True if x == &#39;en&#39; else False)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isen_df</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;company&#39;</span><span class="p">,</span> <span class="s1">&#39;is_en&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">()[[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>isen_df = fintech_df.groupby([&#39;company&#39;, &#39;is_en&#39;]).count()[[&#39;tweet&#39;]].reset_index()
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isen_df</span><span class="p">[</span><span class="s1">&#39;percentage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;company&#39;</span><span class="p">,</span> <span class="s1">&#39;is_en&#39;</span><span class="p">],</span> <span class="n">group_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="mi">100</span> <span class="o">*</span> <span class="n">x</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span><span class="o">.</span><span class="n">values</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>isen_df[&#39;percentage&#39;] = fintech_df.groupby([&#39;company&#39;, &#39;is_en&#39;], group_keys=False).size().groupby(level=0).apply(lambda x:100 * x/float(x.sum())).values
 </pre></div>
 </div>
 </div>
@@ -878,7 +878,7 @@ To adopt the future behavior and silence this warning, use
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isen_df</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>isen_df
 </pre></div>
 </div>
 </div>
@@ -984,8 +984,8 @@ To adopt the future behavior and silence this warning, use
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">isen_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;company&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;percentage&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;is_en&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;English Tweets Proportion&quot;</span><span class="p">,</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;stack&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig = px.bar(isen_df, x=&quot;company&quot;, y=&quot;percentage&quot;, color=&quot;is_en&quot;, title=&quot;English Tweets Proportion&quot;, barmode=&#39;stack&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>

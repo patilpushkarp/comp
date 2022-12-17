@@ -696,31 +696,31 @@ title="Print to PDF"
 <h1>Paytm - In progress<a class="headerlink" href="#paytm-in-progress" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">gensim</span>
-<span class="kn">import</span> <span class="nn">spacy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">tqdm.notebook</span> <span class="k">as</span> <span class="nn">tqdm</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import glob
+import pandas as pd
+import gensim
+import spacy
+import numpy as np
+import tqdm.notebook as tqdm
+from pprint import pprint
 
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/pushkar/Documents/projects/fin_comp/comp/docs&#39;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">utils.helper</span> <span class="kn">import</span> <span class="n">preprocess_tweet</span><span class="p">,</span> <span class="n">sentence_to_words</span><span class="p">,</span> <span class="n">lemmatization</span>
+import sys
+sys.path.append(&#39;/Users/pushkar/Documents/projects/fin_comp/comp/docs&#39;)
+from utils.helper import preprocess_tweet, sentence_to_words, lemmatization
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/paytm/paytm.csv&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df = pd.read_csv(&#39;./../../data/fintech/paytm/paytm.csv&#39;, engine=&#39;python&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df.shape
 </pre></div>
 </div>
 </div>
@@ -732,23 +732,23 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="s1">&#39;2020-02-01&#39;</span><span class="p">]</span>
-<span class="n">post_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s1">&#39;2020-02-01&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_df = df[df[&#39;date&#39;] &lt; &#39;2020-02-01&#39;]
+post_df = df[df[&#39;date&#39;] &gt;= &#39;2020-02-01&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span> <span class="o">=</span> <span class="n">pre_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="n">post_df</span> <span class="o">=</span> <span class="n">post_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_df = pre_df.sample(frac=0.1, random_state=42)
+post_df = post_df.sample(frac=0.1, random_state=42)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_df.shape
 </pre></div>
 </div>
 </div>
@@ -760,7 +760,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_df.shape
 </pre></div>
 </div>
 </div>
@@ -774,94 +774,94 @@ title="Print to PDF"
 <h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preprocess tweets</span>
-<span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">preprocess_tweet</span><span class="p">)</span>
-<span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">preprocess_tweet</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Preprocess tweets
+pre_df[&#39;preprocessed&#39;] = pre_df[&#39;tweet&#39;].apply(preprocess_tweet)
+post_df[&#39;preprocessed&#39;] = post_df[&#39;tweet&#39;].apply(preprocess_tweet)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create words data</span>
-<span class="n">pre_data</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="c1"># fintech_data_words = list(sentence_to_words(fintech_data))</span>
-<span class="n">pre_data_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sentence_to_words</span><span class="p">(</span><span class="n">pre_data</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create words data
+pre_data = pre_df[&#39;preprocessed&#39;].values.tolist()
+# fintech_data_words = list(sentence_to_words(fintech_data))
+pre_data_words = list(sentence_to_words(pre_data))
 
-<span class="c1"># Create words data</span>
-<span class="n">post_data</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="c1"># fintech_data_words = list(sentence_to_words(fintech_data))</span>
-<span class="n">post_data_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sentence_to_words</span><span class="p">(</span><span class="n">post_data</span><span class="p">))</span>
+# Create words data
+post_data = post_df[&#39;preprocessed&#39;].values.tolist()
+# fintech_data_words = list(sentence_to_words(fintech_data))
+post_data_words = list(sentence_to_words(post_data))
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># For pre-covid period</span>
-<span class="c1"># Build bigram and trigram models</span>
-<span class="n">pre_bigram</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phrases</span><span class="p">(</span><span class="n">pre_data_words</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">connector_words</span><span class="o">=</span><span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">ENGLISH_CONNECTOR_WORDS</span><span class="p">)</span>
-<span class="n">pre_trigram</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phrases</span><span class="p">(</span><span class="n">pre_bigram</span><span class="p">[</span><span class="n">pre_data_words</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># For pre-covid period
+# Build bigram and trigram models
+pre_bigram = gensim.models.phrases.Phrases(pre_data_words, min_count=5, threshold=10, connector_words=gensim.models.phrases.ENGLISH_CONNECTOR_WORDS)
+pre_trigram = gensim.models.phrases.Phrases(pre_bigram[pre_data_words], threshold=100)
 
-<span class="n">pre_bigram_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phraser</span><span class="p">(</span><span class="n">pre_bigram</span><span class="p">)</span>
-<span class="n">pre_trigram_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phraser</span><span class="p">(</span><span class="n">pre_trigram</span><span class="p">)</span>
+pre_bigram_model = gensim.models.phrases.Phraser(pre_bigram)
+pre_trigram_model = gensim.models.phrases.Phraser(pre_trigram)
 
-<span class="c1"># For post-covid period</span>
-<span class="c1"># Build bigram and trigram models</span>
-<span class="n">post_bigram</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phrases</span><span class="p">(</span><span class="n">post_data_words</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">connector_words</span><span class="o">=</span><span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">ENGLISH_CONNECTOR_WORDS</span><span class="p">)</span>
-<span class="n">post_trigram</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phrases</span><span class="p">(</span><span class="n">post_bigram</span><span class="p">[</span><span class="n">post_data_words</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+# For post-covid period
+# Build bigram and trigram models
+post_bigram = gensim.models.phrases.Phrases(post_data_words, min_count=5, threshold=10, connector_words=gensim.models.phrases.ENGLISH_CONNECTOR_WORDS)
+post_trigram = gensim.models.phrases.Phrases(post_bigram[post_data_words], threshold=100)
 
-<span class="n">post_bigram_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phraser</span><span class="p">(</span><span class="n">post_bigram</span><span class="p">)</span>
-<span class="n">post_trigram_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phraser</span><span class="p">(</span><span class="n">post_trigram</span><span class="p">)</span>
+post_bigram_model = gensim.models.phrases.Phraser(post_bigram)
+post_trigram_model = gensim.models.phrases.Phraser(post_trigram)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove stopwords</span>
-<span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">gensim</span><span class="o">.</span><span class="n">parsing</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">remove_stopwords</span><span class="p">)</span>
-<span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">gensim</span><span class="o">.</span><span class="n">parsing</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">remove_stopwords</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Remove stopwords
+pre_df[&#39;preprocessed&#39;] = pre_df[&#39;preprocessed&#39;].apply(gensim.parsing.preprocessing.remove_stopwords)
+post_df[&#39;preprocessed&#39;] = post_df[&#39;preprocessed&#39;].apply(gensim.parsing.preprocessing.remove_stopwords)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;sep_words&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sentence_to_words</span><span class="p">([</span><span class="n">x</span><span class="p">]))[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;sep_words&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sentence_to_words</span><span class="p">([</span><span class="n">x</span><span class="p">]))[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_df[&#39;sep_words&#39;] = pre_df[&#39;preprocessed&#39;].apply(lambda x: list(sentence_to_words([x]))[0])
+post_df[&#39;sep_words&#39;] = post_df[&#39;preprocessed&#39;].apply(lambda x: list(sentence_to_words([x]))[0])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;sep_words&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pre_bigram_model</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
-<span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;sep_words&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">post_bigram_model</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_df[&#39;bigram&#39;] = pre_df[&#39;sep_words&#39;].apply(lambda x: pre_bigram_model[x])
+post_df[&#39;bigram&#39;] = post_df[&#39;sep_words&#39;].apply(lambda x: post_bigram_model[x])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;trigram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">pre_trigram_model</span><span class="p">[</span><span class="n">x</span><span class="p">]])</span>
-<span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;trigram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">post_trigram_model</span><span class="p">[</span><span class="n">x</span><span class="p">]])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_df[&#39;trigram&#39;] = pre_df[&#39;bigram&#39;].apply(lambda x: [pre_trigram_model[x]])
+post_df[&#39;trigram&#39;] = post_df[&#39;bigram&#39;].apply(lambda x: [post_trigram_model[x]])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_id2word</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">(</span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-<span class="n">post_id2word</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">(</span><span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_id2word = gensim.corpora.Dictionary(pre_df[&#39;bigram&#39;].values.tolist())
+post_id2word = gensim.corpora.Dictionary(post_df[&#39;bigram&#39;].values.tolist())
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre_id2word</span><span class="o">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
-<span class="n">post_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">post_id2word</span><span class="o">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_corpus = [pre_id2word.doc2bow(text) for text in pre_df[&#39;bigram&#39;].values.tolist()]
+post_corpus = [post_id2word.doc2bow(text) for text in post_df[&#39;bigram&#39;].values.tolist()]
 </pre></div>
 </div>
 </div>
@@ -873,21 +873,21 @@ title="Print to PDF"
 <h3>Training<a class="headerlink" href="#training" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">pre_corpus</span><span class="p">,</span>
-                                        <span class="n">id2word</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span>
-                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-                                        <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_lda_model = gensim.models.LdaMulticore(corpus=pre_corpus,
+                                        id2word=pre_id2word,
+                                        num_topics=10,
+                                        random_state=42,
+                                        chunksize=100,
+                                        passes=10,
+                                        per_word_topics=True)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">pre_lda_model</span><span class="o">.</span><span class="n">print_topics</span><span class="p">())</span>
-<span class="n">pre_doc_lda</span> <span class="o">=</span> <span class="n">pre_lda_model</span><span class="p">[</span><span class="n">pre_corpus</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pprint(pre_lda_model.print_topics())
+pre_doc_lda = pre_lda_model[pre_corpus]
 </pre></div>
 </div>
 </div>
@@ -937,21 +937,21 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">post_corpus</span><span class="p">,</span>
-                                        <span class="n">id2word</span><span class="o">=</span><span class="n">post_id2word</span><span class="p">,</span>
-                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-                                        <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_lda_model = gensim.models.LdaMulticore(corpus=post_corpus,
+                                        id2word=post_id2word,
+                                        num_topics=10,
+                                        random_state=42,
+                                        chunksize=100,
+                                        passes=10,
+                                        per_word_topics=True)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">post_lda_model</span><span class="o">.</span><span class="n">print_topics</span><span class="p">())</span>
-<span class="n">post_doc_lda</span> <span class="o">=</span> <span class="n">post_lda_model</span><span class="p">[</span><span class="n">post_corpus</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pprint(post_lda_model.print_topics())
+post_doc_lda = post_lda_model[post_corpus]
 </pre></div>
 </div>
 </div>
@@ -1004,12 +1004,12 @@ title="Print to PDF"
 <h3>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_coherence_model_lda</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">pre_lda_model</span><span class="p">,</span> 
-                                                    <span class="n">texts</span><span class="o">=</span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
-                                                    <span class="n">dictionary</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span> 
-                                                    <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
-<span class="n">pre_coherence_lda</span> <span class="o">=</span> <span class="n">pre_coherence_model_lda</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pre-COVID Coherence Score: &#39;</span><span class="p">,</span> <span class="n">pre_coherence_lda</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_coherence_model_lda = gensim.models.CoherenceModel(model=pre_lda_model, 
+                                                    texts=pre_df[&#39;bigram&#39;].values.tolist(), 
+                                                    dictionary=pre_id2word, 
+                                                    coherence=&#39;u_mass&#39;)
+pre_coherence_lda = pre_coherence_model_lda.get_coherence()
+print(&#39;Pre-COVID Coherence Score: &#39;, pre_coherence_lda)
 </pre></div>
 </div>
 </div>
@@ -1021,12 +1021,12 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_coherence_model_lda</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">post_lda_model</span><span class="p">,</span> 
-                                                    <span class="n">texts</span><span class="o">=</span><span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
-                                                    <span class="n">dictionary</span><span class="o">=</span><span class="n">post_id2word</span><span class="p">,</span> 
-                                                    <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
-<span class="n">post_coherence_lda</span> <span class="o">=</span> <span class="n">post_coherence_model_lda</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Post-COVID Coherence Score: &#39;</span><span class="p">,</span> <span class="n">post_coherence_lda</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_coherence_model_lda = gensim.models.CoherenceModel(model=post_lda_model, 
+                                                    texts=post_df[&#39;bigram&#39;].values.tolist(), 
+                                                    dictionary=post_id2word, 
+                                                    coherence=&#39;u_mass&#39;)
+post_coherence_lda = post_coherence_model_lda.get_coherence()
+print(&#39;Post-COVID Coherence Score: &#39;, post_coherence_lda)
 </pre></div>
 </div>
 </div>
@@ -1042,23 +1042,23 @@ title="Print to PDF"
 <h2>Hyper-parameter tuning<a class="headerlink" href="#hyper-parameter-tuning" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_coherence_values</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def compute_coherence_values(corpus, dictionary, k, alpha, beta, texts, coherence=&#39;u_mass&#39;):
     
-    <span class="n">lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
-                                           <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
-                                           <span class="n">num_topics</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> 
-                                           <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                           <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                           <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                           <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
-                                           <span class="n">eta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
+    lda_model = gensim.models.LdaMulticore(corpus=corpus,
+                                           id2word=dictionary,
+                                           num_topics=k, 
+                                           random_state=100,
+                                           chunksize=100,
+                                           passes=10,
+                                           alpha=alpha,
+                                           eta=beta)
     
-    <span class="n">coherence_model_lda</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">lda_model</span><span class="p">,</span> 
-                                                        <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span> 
-                                                        <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span> 
-                                                        <span class="n">coherence</span><span class="o">=</span><span class="n">coherence</span><span class="p">)</span>
+    coherence_model_lda = gensim.models.CoherenceModel(model=lda_model, 
+                                                        texts=texts, 
+                                                        dictionary=dictionary, 
+                                                        coherence=coherence)
     
-    <span class="k">return</span> <span class="n">coherence_model_lda</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
+    return coherence_model_lda.get_coherence()
 </pre></div>
 </div>
 </div>
@@ -1067,88 +1067,88 @@ title="Print to PDF"
 <h3>Pre-COVID<a class="headerlink" href="#pre-covid" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">grid</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>grid = {}
+grid[&#39;Validation_Set&#39;] = {}
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="n">pre_corpus</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>corpus = pre_corpus
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Topics range</span>
-<span class="n">min_topics</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">max_topics</span> <span class="o">=</span> <span class="mi">15</span>
-<span class="n">step_size</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">topics_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_topics</span><span class="p">,</span> <span class="n">max_topics</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Topics range
+min_topics = 2
+max_topics = 15
+step_size = 1
+topics_range = range(min_topics, max_topics, step_size)
 
-<span class="c1"># Alpha parameter</span>
-<span class="n">alpha</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">))</span>
-<span class="n">alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
-<span class="n">alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;asymmetric&#39;</span><span class="p">)</span>
+# Alpha parameter
+alpha = list(np.arange(0.01, 1, 0.3))
+alpha.append(&#39;symmetric&#39;)
+alpha.append(&#39;asymmetric&#39;)
 
-<span class="c1"># Beta parameter</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">))</span>
-<span class="n">beta</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
+# Beta parameter
+beta = list(np.arange(0.01, 1, 0.3))
+beta.append(&#39;symmetric&#39;)
 
-<span class="c1"># Validation sets</span>
-<span class="n">num_of_docs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">corpus_sets</span> <span class="o">=</span> <span class="p">[</span><span class="c1">#gensim.utils.ClippedCorpus(corpus, int(num_of_docs*0.75)), </span>
-               <span class="n">corpus</span><span class="p">]</span>
-<span class="n">corpus_title</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;75% Corpus&#39;</span><span class="p">,</span> <span class="s1">&#39;100% Corpus&#39;</span><span class="p">]</span>
-<span class="n">model_results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Topics&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Alpha&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Beta&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Coherence&#39;</span><span class="p">:</span> <span class="p">[]</span>
-                <span class="p">}</span>
+# Validation sets
+num_of_docs = len(corpus)
+corpus_sets = [#gensim.utils.ClippedCorpus(corpus, int(num_of_docs*0.75)), 
+               corpus]
+corpus_title = [&#39;75% Corpus&#39;, &#39;100% Corpus&#39;]
+model_results = {&#39;Validation_Set&#39;: [],
+                 &#39;Topics&#39;: [],
+                 &#39;Alpha&#39;: [],
+                 &#39;Beta&#39;: [],
+                 &#39;Coherence&#39;: []
+                }
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">iterations</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">topics_range</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus_sets</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>iterations = len(topics_range) * len(alpha) * len(beta) * len(corpus_sets)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Can take a long time to run</span>
-<span class="k">if</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">iterations</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Can take a long time to run
+if 1 == 1:
+    pbar = tqdm.tqdm(total=iterations)
     
-    <span class="c1"># iterate through validation corpuses</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus_sets</span><span class="p">)):</span>
-        <span class="c1"># iterate through number of topics</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">topics_range</span><span class="p">:</span>
-            <span class="c1"># iterate through alpha values</span>
-            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alpha</span><span class="p">:</span>
-                <span class="c1"># iterare through beta values</span>
-                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">beta</span><span class="p">:</span>
-                    <span class="c1"># get the coherence score for the given parameters</span>
-                    <span class="n">cv</span> <span class="o">=</span> <span class="n">compute_coherence_values</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus_sets</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> 
-                                                  <span class="n">dictionary</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span> 
-                                                  <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">b</span><span class="p">,</span>
-                                                  <span class="n">texts</span><span class="o">=</span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-                                                  <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
-                    <span class="c1"># Save the model results</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corpus_title</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Coherence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv</span><span class="p">)</span>
+    # iterate through validation corpuses
+    for i in range(len(corpus_sets)):
+        # iterate through number of topics
+        for k in topics_range:
+            # iterate through alpha values
+            for a in alpha:
+                # iterare through beta values
+                for b in beta:
+                    # get the coherence score for the given parameters
+                    cv = compute_coherence_values(corpus=corpus_sets[i], 
+                                                  dictionary=pre_id2word, 
+                                                  k=k, alpha=a, beta=b,
+                                                  texts=pre_df[&#39;bigram&#39;].values.tolist(),
+                                                  coherence=&#39;u_mass&#39;)
+                    # Save the model results
+                    model_results[&#39;Validation_Set&#39;].append(corpus_title[i])
+                    model_results[&#39;Topics&#39;].append(k)
+                    model_results[&#39;Alpha&#39;].append(a)
+                    model_results[&#39;Beta&#39;].append(b)
+                    model_results[&#39;Coherence&#39;].append(cv)
                     
-                    <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">pre_df_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">model_results</span><span class="p">)</span>
-    <span class="n">pbar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                    pbar.update(1)
+    pre_df_result = pd.DataFrame(model_results)
+    pbar.close()
 </pre></div>
 </div>
 </div>
@@ -1366,7 +1366,7 @@ KeyboardInterrupt
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_df_result
 </pre></div>
 </div>
 </div>
@@ -1492,30 +1492,30 @@ KeyboardInterrupt
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_topics_score</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">pre_df_result</span><span class="p">[(</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;symmetric&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;symmetric&#39;</span><span class="p">)]</span>
-    <span class="n">max_value</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;Coherence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_value</span><span class="p">)</span>
-    <span class="n">pre_topics_score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_topics_score = []
+for i in pre_df_result[&#39;Topics&#39;].value_counts().index:
+    data = []
+    data.append(i)
+    temp = pre_df_result[(pre_df_result[&#39;Topics&#39;] == i) &amp; (pre_df_result[&#39;Alpha&#39;] == &#39;symmetric&#39;) &amp; (pre_df_result[&#39;Beta&#39;] == &#39;symmetric&#39;)]
+    max_value = temp[&#39;Coherence&#39;].max()
+    data.append(max_value)
+    pre_topics_score.append(data)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_ts_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pre_topics_score</span><span class="p">)</span>
-<span class="n">pre_ts_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="s1">&#39;coherence&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_ts_df = pd.DataFrame(pre_topics_score)
+pre_ts_df.columns = [&#39;topics&#39;, &#39;coherence&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_ts_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">pre_ts_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_ts_df.sort_values(&#39;topics&#39;, inplace=True)
+pre_ts_df.head()
 </pre></div>
 </div>
 </div>
@@ -1574,7 +1574,7 @@ KeyboardInterrupt
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_ts_df</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;coherence&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_ts_df.plot.line(x=&#39;topics&#39;, y=&#39;coherence&#39;)
 </pre></div>
 </div>
 </div>
@@ -1587,7 +1587,7 @@ KeyboardInterrupt
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_df_result</span><span class="p">[</span><span class="n">pre_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_df_result[pre_df_result[&#39;Topics&#39;] == 2]
 </pre></div>
 </div>
 </div>
@@ -2107,88 +2107,88 @@ KeyboardInterrupt
 <h3>Post-COVID<a class="headerlink" href="#post-covid" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">grid</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>grid = {}
+grid[&#39;Validation_Set&#39;] = {}
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="n">post_corpus</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>corpus = post_corpus
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Topics range</span>
-<span class="n">min_topics</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">max_topics</span> <span class="o">=</span> <span class="mi">15</span>
-<span class="n">step_size</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">topics_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_topics</span><span class="p">,</span> <span class="n">max_topics</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Topics range
+min_topics = 2
+max_topics = 15
+step_size = 1
+topics_range = range(min_topics, max_topics, step_size)
 
-<span class="c1"># Alpha parameter</span>
-<span class="n">alpha</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">))</span>
-<span class="n">alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
-<span class="n">alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;asymmetric&#39;</span><span class="p">)</span>
+# Alpha parameter
+alpha = list(np.arange(0.01, 1, 0.3))
+alpha.append(&#39;symmetric&#39;)
+alpha.append(&#39;asymmetric&#39;)
 
-<span class="c1"># Beta parameter</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">))</span>
-<span class="n">beta</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
+# Beta parameter
+beta = list(np.arange(0.01, 1, 0.3))
+beta.append(&#39;symmetric&#39;)
 
-<span class="c1"># Validation sets</span>
-<span class="n">num_of_docs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">corpus_sets</span> <span class="o">=</span> <span class="p">[</span><span class="c1">#gensim.utils.ClippedCorpus(corpus, int(num_of_docs*0.75)), </span>
-               <span class="n">corpus</span><span class="p">]</span>
-<span class="n">corpus_title</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;75% Corpus&#39;</span><span class="p">,</span> <span class="s1">&#39;100% Corpus&#39;</span><span class="p">]</span>
-<span class="n">model_results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Topics&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Alpha&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Beta&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                 <span class="s1">&#39;Coherence&#39;</span><span class="p">:</span> <span class="p">[]</span>
-                <span class="p">}</span>
+# Validation sets
+num_of_docs = len(corpus)
+corpus_sets = [#gensim.utils.ClippedCorpus(corpus, int(num_of_docs*0.75)), 
+               corpus]
+corpus_title = [&#39;75% Corpus&#39;, &#39;100% Corpus&#39;]
+model_results = {&#39;Validation_Set&#39;: [],
+                 &#39;Topics&#39;: [],
+                 &#39;Alpha&#39;: [],
+                 &#39;Beta&#39;: [],
+                 &#39;Coherence&#39;: []
+                }
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">iterations</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">topics_range</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus_sets</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>iterations = len(topics_range) * len(alpha) * len(beta) * len(corpus_sets)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Can take a long time to run</span>
-<span class="k">if</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">iterations</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Can take a long time to run
+if 1 == 1:
+    pbar = tqdm.tqdm(total=iterations)
     
-    <span class="c1"># iterate through validation corpuses</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus_sets</span><span class="p">)):</span>
-        <span class="c1"># iterate through number of topics</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">topics_range</span><span class="p">:</span>
-            <span class="c1"># iterate through alpha values</span>
-            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alpha</span><span class="p">:</span>
-                <span class="c1"># iterare through beta values</span>
-                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">beta</span><span class="p">:</span>
-                    <span class="c1"># get the coherence score for the given parameters</span>
-                    <span class="n">cv</span> <span class="o">=</span> <span class="n">compute_coherence_values</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus_sets</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> 
-                                                  <span class="n">dictionary</span><span class="o">=</span><span class="n">post_id2word</span><span class="p">,</span> 
-                                                  <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">b</span><span class="p">,</span>
-                                                  <span class="n">texts</span><span class="o">=</span><span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-                                                  <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
-                    <span class="c1"># Save the model results</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Validation_Set&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corpus_title</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-                    <span class="n">model_results</span><span class="p">[</span><span class="s1">&#39;Coherence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv</span><span class="p">)</span>
+    # iterate through validation corpuses
+    for i in range(len(corpus_sets)):
+        # iterate through number of topics
+        for k in topics_range:
+            # iterate through alpha values
+            for a in alpha:
+                # iterare through beta values
+                for b in beta:
+                    # get the coherence score for the given parameters
+                    cv = compute_coherence_values(corpus=corpus_sets[i], 
+                                                  dictionary=post_id2word, 
+                                                  k=k, alpha=a, beta=b,
+                                                  texts=post_df[&#39;bigram&#39;].values.tolist(),
+                                                  coherence=&#39;u_mass&#39;)
+                    # Save the model results
+                    model_results[&#39;Validation_Set&#39;].append(corpus_title[i])
+                    model_results[&#39;Topics&#39;].append(k)
+                    model_results[&#39;Alpha&#39;].append(a)
+                    model_results[&#39;Beta&#39;].append(b)
+                    model_results[&#39;Coherence&#39;].append(cv)
                     
-                    <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">post_df_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">model_results</span><span class="p">)</span>
-    <span class="n">pbar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                    pbar.update(1)
+    post_df_result = pd.DataFrame(model_results)
+    pbar.close()
 </pre></div>
 </div>
 </div>
@@ -2199,7 +2199,7 @@ KeyboardInterrupt
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_df_result.head()
 </pre></div>
 </div>
 </div>
@@ -2276,30 +2276,30 @@ KeyboardInterrupt
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_topics_score</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">post_df_result</span><span class="p">[(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;asymmetric&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;symmetric&#39;</span><span class="p">)]</span>
-    <span class="n">max_value</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;Coherence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_value</span><span class="p">)</span>
-    <span class="n">post_topics_score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_topics_score = []
+for i in post_df_result[&#39;Topics&#39;].value_counts().index:
+    data = []
+    data.append(i)
+    temp = post_df_result[(post_df_result[&#39;Topics&#39;] == i) &amp; (post_df_result[&#39;Alpha&#39;] == &#39;asymmetric&#39;) &amp; (post_df_result[&#39;Beta&#39;] == &#39;symmetric&#39;)]
+    max_value = temp[&#39;Coherence&#39;].max()
+    data.append(max_value)
+    post_topics_score.append(data)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_ts_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">post_topics_score</span><span class="p">)</span>
-<span class="n">post_ts_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="s1">&#39;coherence&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_ts_df = pd.DataFrame(post_topics_score)
+post_ts_df.columns = [&#39;topics&#39;, &#39;coherence&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_ts_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">post_ts_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_ts_df.sort_values(&#39;topics&#39;, inplace=True)
+post_ts_df.head()
 </pre></div>
 </div>
 </div>
@@ -2358,7 +2358,7 @@ KeyboardInterrupt
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_ts_df</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;topics&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;coherence&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_ts_df.plot.line(x=&#39;topics&#39;, y=&#39;coherence&#39;)
 </pre></div>
 </div>
 </div>
@@ -2371,7 +2371,7 @@ KeyboardInterrupt
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_df_result</span><span class="p">[(</span><span class="n">post_df_result</span><span class="p">[</span><span class="s1">&#39;Topics&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_df_result[(post_df_result[&#39;Topics&#39;] == 2)]
 </pre></div>
 </div>
 </div>
@@ -2652,27 +2652,27 @@ KeyboardInterrupt
 <h2>Final Models<a class="headerlink" href="#final-models" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_final_lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">pre_corpus</span><span class="p">,</span>
-                                        <span class="n">id2word</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span>
-                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                        <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                        <span class="n">alpha</span><span class="o">=</span><span class="s1">&#39;asymmetric&#39;</span><span class="p">,</span>
-                                        <span class="n">eta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_final_lda_model = gensim.models.LdaMulticore(corpus=pre_corpus,
+                                        id2word=pre_id2word,
+                                        num_topics=2,
+                                        random_state=100,
+                                        chunksize=100,
+                                        passes=10,
+                                        per_word_topics=True,
+                                        alpha=&#39;asymmetric&#39;,
+                                        eta=0.01)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_final_coherence_model_lda</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">pre_final_lda_model</span><span class="p">,</span> 
-                                                    <span class="n">texts</span><span class="o">=</span><span class="n">pre_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
-                                                    <span class="n">dictionary</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span> 
-                                                    <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
-<span class="n">pre_final_coherence_lda</span> <span class="o">=</span> <span class="n">pre_final_coherence_model_lda</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pre-COVID Coherence Score: &#39;</span><span class="p">,</span> <span class="n">pre_final_coherence_lda</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_final_coherence_model_lda = gensim.models.CoherenceModel(model=pre_final_lda_model, 
+                                                    texts=pre_df[&#39;bigram&#39;].values.tolist(), 
+                                                    dictionary=pre_id2word, 
+                                                    coherence=&#39;u_mass&#39;)
+pre_final_coherence_lda = pre_final_coherence_model_lda.get_coherence()
+print(&#39;Pre-COVID Coherence Score: &#39;, pre_final_coherence_lda)
 </pre></div>
 </div>
 </div>
@@ -2802,27 +2802,27 @@ KeyboardInterrupt
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_final_lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">post_corpus</span><span class="p">,</span>
-                                        <span class="n">id2word</span><span class="o">=</span><span class="n">post_id2word</span><span class="p">,</span>
-                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                        <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                        <span class="n">alpha</span><span class="o">=</span><span class="s1">&#39;asymmetric&#39;</span><span class="p">,</span>
-                                        <span class="n">eta</span><span class="o">=</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_final_lda_model = gensim.models.LdaMulticore(corpus=post_corpus,
+                                        id2word=post_id2word,
+                                        num_topics=2,
+                                        random_state=100,
+                                        chunksize=100,
+                                        passes=10,
+                                        per_word_topics=True,
+                                        alpha=&#39;asymmetric&#39;,
+                                        eta=&#39;symmetric&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_final_coherence_model_lda</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">post_final_lda_model</span><span class="p">,</span> 
-                                                    <span class="n">texts</span><span class="o">=</span><span class="n">post_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
-                                                    <span class="n">dictionary</span><span class="o">=</span><span class="n">post_id2word</span><span class="p">,</span> 
-                                                    <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
-<span class="n">post_final_coherence_lda</span> <span class="o">=</span> <span class="n">post_final_coherence_model_lda</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pre-COVID Coherence Score: &#39;</span><span class="p">,</span> <span class="n">post_final_coherence_lda</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_final_coherence_model_lda = gensim.models.CoherenceModel(model=post_final_lda_model, 
+                                                    texts=post_df[&#39;bigram&#39;].values.tolist(), 
+                                                    dictionary=post_id2word, 
+                                                    coherence=&#39;u_mass&#39;)
+post_final_coherence_lda = post_final_coherence_model_lda.get_coherence()
+print(&#39;Pre-COVID Coherence Score: &#39;, post_final_coherence_lda)
 </pre></div>
 </div>
 </div>

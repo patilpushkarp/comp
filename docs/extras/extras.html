@@ -579,7 +579,7 @@ title="Print to PDF"
                 
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
 </pre></div>
 </div>
 </div>
@@ -588,33 +588,33 @@ title="Print to PDF"
 <h1>Join word distribution results<a class="headerlink" href="#join-word-distribution-results" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintechs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;faircent&#39;</span><span class="p">,</span> <span class="s1">&#39;lendingkart&#39;</span><span class="p">,</span> <span class="s1">&#39;mobikwik&#39;</span><span class="p">,</span> <span class="s1">&#39;paytm&#39;</span><span class="p">,</span> <span class="s1">&#39;pine_labs&#39;</span><span class="p">]</span>
-<span class="n">nbfcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;aditya_birla_finance&#39;</span><span class="p">,</span> <span class="s1">&#39;bajaj_finance&#39;</span><span class="p">,</span> <span class="s1">&#39;muthoot_finance&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintechs = [&#39;faircent&#39;, &#39;lendingkart&#39;, &#39;mobikwik&#39;, &#39;paytm&#39;, &#39;pine_labs&#39;]
+nbfcs = [&#39;aditya_birla_finance&#39;, &#39;bajaj_finance&#39;, &#39;muthoot_finance&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_list</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">fintech</span> <span class="ow">in</span> <span class="n">fintechs</span><span class="p">:</span>
-    <span class="n">pre_wd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./../data/fintech/</span><span class="si">{</span><span class="n">fintech</span><span class="si">}</span><span class="s1">/pre_wd.csv&#39;</span><span class="p">)</span>
-    <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;false_cnt&#39;</span><span class="p">]</span>
-    <span class="n">post_wd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./../data/fintech/</span><span class="si">{</span><span class="n">fintech</span><span class="si">}</span><span class="s1">/post_wd.csv&#39;</span><span class="p">)</span>
-    <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;false_cnt&#39;</span><span class="p">]</span>
-    <span class="n">pre_wd_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">post_wd_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pre_wd_df</span><span class="p">,</span> <span class="n">post_wd_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span>
-    <span class="n">result_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Pre-COVID&#39;</span><span class="p">,</span> <span class="s1">&#39;Post-COVID&#39;</span><span class="p">]</span>
-    <span class="n">new_row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Pre-COVID&quot;</span><span class="p">:</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Post-COVID&quot;</span><span class="p">:</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]}</span>
-    <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">new_row</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">result_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Total Tweets&#39;</span><span class="p">))</span>
-    <span class="n">cols</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">([(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fintech</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Pre-COVID&quot;</span><span class="p">),</span>
-                                        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fintech</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Post-COVID&quot;</span><span class="p">)])</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">result_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-    <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_list = []
+for fintech in fintechs:
+    pre_wd_df = pd.read_csv(f&#39;./../data/fintech/{fintech}/pre_wd.csv&#39;)
+    pre_wd_df[&#39;total_tweets&#39;] = pre_wd_df[&#39;true_cnt&#39;] + pre_wd_df[&#39;false_cnt&#39;]
+    post_wd_df = pd.read_csv(f&#39;./../data/fintech/{fintech}/post_wd.csv&#39;)
+    post_wd_df[&#39;total_tweets&#39;] = post_wd_df[&#39;true_cnt&#39;] + post_wd_df[&#39;false_cnt&#39;]
+    pre_wd_df.set_index(&#39;words&#39;, inplace=True)
+    post_wd_df.set_index(&#39;words&#39;, inplace=True)
+    result_df = pd.concat([pre_wd_df, post_wd_df], axis=1)
+    result_df = result_df[&#39;true_cnt&#39;]
+    result_df.columns = [&#39;Pre-COVID&#39;, &#39;Post-COVID&#39;]
+    new_row = {&quot;Pre-COVID&quot;: pre_wd_df[&#39;total_tweets&#39;].unique()[0], &quot;Post-COVID&quot;: post_wd_df[&#39;total_tweets&#39;].unique()[0]}
+    result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+    cols = pd.MultiIndex.from_tuples([(f&quot;{fintech.title()}&quot;, &quot;Pre-COVID&quot;),
+                                        (f&quot;{fintech.title()}&quot;, &quot;Post-COVID&quot;)])
+    df = pd.DataFrame(result_df.values.tolist(), columns=cols, index=result_df.index)
+    df_list.append(df)
 
-<span class="n">fintech_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+fintech_result = pd.concat(df_list, axis=1)
 </pre></div>
 </div>
 </div>
@@ -635,7 +635,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_result</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_result
 </pre></div>
 </div>
 </div>
@@ -988,33 +988,33 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fintech_result.to_excel(&#39;./../data/summaries/word_distributions.xlsx&#39;, sheet_name=&#39;Fintech&#39;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># fintech_result.to_excel(&#39;./../data/summaries/word_distributions.xlsx&#39;, sheet_name=&#39;Fintech&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_list</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">nbfc</span> <span class="ow">in</span> <span class="n">nbfcs</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">nbfc</span><span class="p">)</span>
-    <span class="n">pre_wd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./../data/nbfc/</span><span class="si">{</span><span class="n">nbfc</span><span class="si">}</span><span class="s1">/pre_wd.csv&#39;</span><span class="p">)</span>
-    <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;false_cnt&#39;</span><span class="p">]</span>
-    <span class="n">post_wd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;./../data/nbfc/</span><span class="si">{</span><span class="n">nbfc</span><span class="si">}</span><span class="s1">/post_wd.csv&#39;</span><span class="p">)</span>
-    <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;false_cnt&#39;</span><span class="p">]</span>
-    <span class="n">pre_wd_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">post_wd_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;words&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pre_wd_df</span><span class="p">,</span> <span class="n">post_wd_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;true_cnt&#39;</span><span class="p">]</span>
-    <span class="n">result_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Pre-COVID&#39;</span><span class="p">,</span> <span class="s1">&#39;Post-COVID&#39;</span><span class="p">]</span>
-    <span class="n">new_row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Pre-COVID&quot;</span><span class="p">:</span> <span class="n">pre_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Post-COVID&quot;</span><span class="p">:</span> <span class="n">post_wd_df</span><span class="p">[</span><span class="s1">&#39;total_tweets&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]}</span>
-    <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">new_row</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">result_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Total Tweets&#39;</span><span class="p">))</span>
-    <span class="n">cols</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">([(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nbfc</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Pre-COVID&quot;</span><span class="p">),</span>
-                                        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nbfc</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Post-COVID&quot;</span><span class="p">)])</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">result_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-    <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_list = []
+for nbfc in nbfcs:
+    print(nbfc)
+    pre_wd_df = pd.read_csv(f&#39;./../data/nbfc/{nbfc}/pre_wd.csv&#39;)
+    pre_wd_df[&#39;total_tweets&#39;] = pre_wd_df[&#39;true_cnt&#39;] + pre_wd_df[&#39;false_cnt&#39;]
+    post_wd_df = pd.read_csv(f&#39;./../data/nbfc/{nbfc}/post_wd.csv&#39;)
+    post_wd_df[&#39;total_tweets&#39;] = post_wd_df[&#39;true_cnt&#39;] + post_wd_df[&#39;false_cnt&#39;]
+    pre_wd_df.set_index(&#39;words&#39;, inplace=True)
+    post_wd_df.set_index(&#39;words&#39;, inplace=True)
+    result_df = pd.concat([pre_wd_df, post_wd_df], axis=1)
+    result_df = result_df[&#39;true_cnt&#39;]
+    result_df.columns = [&#39;Pre-COVID&#39;, &#39;Post-COVID&#39;]
+    new_row = {&quot;Pre-COVID&quot;: pre_wd_df[&#39;total_tweets&#39;].unique()[0], &quot;Post-COVID&quot;: post_wd_df[&#39;total_tweets&#39;].unique()[0]}
+    result_df = result_df.append(pd.Series(new_row, index=result_df.columns, name=&#39;Total Tweets&#39;))
+    cols = pd.MultiIndex.from_tuples([(f&quot;{nbfc.title()}&quot;, &quot;Pre-COVID&quot;),
+                                        (f&quot;{nbfc.title()}&quot;, &quot;Post-COVID&quot;)])
+    df = pd.DataFrame(result_df.values.tolist(), columns=cols, index=result_df.index)
+    df_list.append(df)
 
-<span class="n">nbfc_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+nbfc_result = pd.concat(df_list, axis=1)
 </pre></div>
 </div>
 </div>
@@ -1039,7 +1039,7 @@ muthoot_finance
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nbfc_result</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nbfc_result
 </pre></div>
 </div>
 </div>
@@ -1343,16 +1343,16 @@ muthoot_finance
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># nbfc_result.to_excel(&#39;./../data/summaries/word_distributions.xlsx&#39;, sheet_name=&#39;NBFC&#39;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># nbfc_result.to_excel(&#39;./../data/summaries/word_distributions.xlsx&#39;, sheet_name=&#39;NBFC&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="s1">&#39;./../data/summaries/word_distributions.xlsx&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
-    <span class="n">nbfc_result</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;NBFC&#39;</span><span class="p">)</span>
-    <span class="n">fintech_result</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Fintech&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with pd.ExcelWriter(&#39;./../data/summaries/word_distributions.xlsx&#39;) as writer:
+    nbfc_result.to_excel(writer, sheet_name=&#39;NBFC&#39;)
+    fintech_result.to_excel(writer, sheet_name=&#39;Fintech&#39;)
 </pre></div>
 </div>
 </div>

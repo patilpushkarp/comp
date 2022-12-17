@@ -606,67 +606,67 @@ title="Print to PDF"
                 
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">gensim</span>
-<span class="kn">import</span> <span class="nn">spacy</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import glob
+import pandas as pd
+import gensim
+import spacy
+from pprint import pprint
 
-<span class="kn">from</span> <span class="nn">utils.helper</span> <span class="kn">import</span> <span class="n">preprocess_tweet</span><span class="p">,</span> <span class="n">sentence_to_words</span><span class="p">,</span> <span class="n">lemmatization</span>
+from utils.helper import preprocess_tweet, sentence_to_words, lemmatization
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fintech_path = &#39;./data/fintech/&#39;</span>
-<span class="c1"># fintech_folders = glob.glob(f&quot;{fintech_path}*/&quot;, recursive=True)</span>
-<span class="c1"># fintech = [path.split(&#39;/&#39;)[-2] for path in fintech_folders]</span>
-<span class="c1"># fintech_files = glob.glob(fintech_path + &quot;**/*.csv&quot;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># fintech_path = &#39;./data/fintech/&#39;
+# fintech_folders = glob.glob(f&quot;{fintech_path}*/&quot;, recursive=True)
+# fintech = [path.split(&#39;/&#39;)[-2] for path in fintech_folders]
+# fintech_files = glob.glob(fintech_path + &quot;**/*.csv&quot;)
 
-<span class="c1"># nbfc_path = &#39;./data/nbfc/&#39;</span>
-<span class="c1"># nbfc_folders = glob.glob(f&quot;{nbfc_path}*/&quot;, recursive=True)</span>
-<span class="c1"># nbfc = [path.split(&#39;/&#39;)[-2] for path in nbfc_folders]</span>
-<span class="c1"># nbfc_files = glob.glob(nbfc_path + &quot;**/*.csv&quot;)</span>
+# nbfc_path = &#39;./data/nbfc/&#39;
+# nbfc_folders = glob.glob(f&quot;{nbfc_path}*/&quot;, recursive=True)
+# nbfc = [path.split(&#39;/&#39;)[-2] for path in nbfc_folders]
+# nbfc_files = glob.glob(nbfc_path + &quot;**/*.csv&quot;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fintech_list = []</span>
-<span class="c1"># for comp, file in zip(fintech, fintech_files):</span>
-<span class="c1">#     temp = pd.read_csv(file, engine=&#39;python&#39;)</span>
-<span class="c1">#     temp[&#39;company&#39;] = comp</span>
-<span class="c1">#     fintech_list.append(temp)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># fintech_list = []
+# for comp, file in zip(fintech, fintech_files):
+#     temp = pd.read_csv(file, engine=&#39;python&#39;)
+#     temp[&#39;company&#39;] = comp
+#     fintech_list.append(temp)
 
-<span class="c1"># fintech_df = pd.concat(fintech_list, axis=0, ignore_index=True)</span>
+# fintech_df = pd.concat(fintech_list, axis=0, ignore_index=True)
 
-<span class="c1"># fintech_df.to_hdf(&#39;./data/fintech/fintech.h5&#39;, key=&#39;fintech&#39;)</span>
+# fintech_df.to_hdf(&#39;./data/fintech/fintech.h5&#39;, key=&#39;fintech&#39;)
 
-<span class="c1"># nbfc_list = []</span>
-<span class="c1"># for comp, file in zip(nbfc, nbfc_files):</span>
-<span class="c1">#     temp = pd.read_csv(file, engine=&#39;python&#39;)</span>
-<span class="c1">#     temp[&#39;company&#39;] = comp</span>
-<span class="c1">#     nbfc_list.append(pd.read_csv(file, engine=&#39;python&#39;))</span>
+# nbfc_list = []
+# for comp, file in zip(nbfc, nbfc_files):
+#     temp = pd.read_csv(file, engine=&#39;python&#39;)
+#     temp[&#39;company&#39;] = comp
+#     nbfc_list.append(pd.read_csv(file, engine=&#39;python&#39;))
 
-<span class="c1"># nbfc_df = pd.concat(nbfc_list, axis=0, ignore_index=True)</span>
+# nbfc_df = pd.concat(nbfc_list, axis=0, ignore_index=True)
 
-<span class="c1"># nbfc_df.to_hdf(&#39;./data/nbfc/nbfc.h5&#39;, key=&#39;nbfc&#39;)</span>
+# nbfc_df.to_hdf(&#39;./data/nbfc/nbfc.h5&#39;, key=&#39;nbfc&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s1">&#39;./data/fintech/fintech.h5&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;fintech&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_df = pd.read_hdf(&#39;./data/fintech/fintech.h5&#39;, key=&#39;fintech&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_df.head()
 </pre></div>
 </div>
 </div>
@@ -840,95 +840,95 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preprocess tweets</span>
-<span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">preprocess_tweet</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Preprocess tweets
+fintech_df[&#39;preprocessed&#39;] = fintech_df[&#39;tweet&#39;].apply(preprocess_tweet)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create words data</span>
-<span class="n">fintech_data</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="c1"># fintech_data_words = list(sentence_to_words(fintech_data))</span>
-<span class="n">fintech_data_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sentence_to_words</span><span class="p">(</span><span class="n">fintech_data</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create words data
+fintech_data = fintech_df[&#39;preprocessed&#39;].values.tolist()
+# fintech_data_words = list(sentence_to_words(fintech_data))
+fintech_data_words = list(sentence_to_words(fintech_data))
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build bigram and trigram models</span>
-<span class="n">bigram</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phrases</span><span class="p">(</span><span class="n">fintech_data_words</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">connector_words</span><span class="o">=</span><span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">ENGLISH_CONNECTOR_WORDS</span><span class="p">)</span>
-<span class="n">trigram</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phrases</span><span class="p">(</span><span class="n">bigram</span><span class="p">[</span><span class="n">fintech_data_words</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Build bigram and trigram models
+bigram = gensim.models.phrases.Phrases(fintech_data_words, min_count=5, threshold=10, connector_words=gensim.models.phrases.ENGLISH_CONNECTOR_WORDS)
+trigram = gensim.models.phrases.Phrases(bigram[fintech_data_words], threshold=100)
 
-<span class="n">bigram_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phraser</span><span class="p">(</span><span class="n">bigram</span><span class="p">)</span>
-<span class="n">trigram_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">phrases</span><span class="o">.</span><span class="n">Phraser</span><span class="p">(</span><span class="n">trigram</span><span class="p">)</span>
+bigram_model = gensim.models.phrases.Phraser(bigram)
+trigram_model = gensim.models.phrases.Phraser(trigram)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove stopwords</span>
-<span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">gensim</span><span class="o">.</span><span class="n">parsing</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">remove_stopwords</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Remove stopwords
+fintech_df[&#39;preprocessed&#39;] = fintech_df[&#39;preprocessed&#39;].apply(gensim.parsing.preprocessing.remove_stopwords)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;sep_words&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;preprocessed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sentence_to_words</span><span class="p">([</span><span class="n">x</span><span class="p">]))[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_df[&#39;sep_words&#39;] = fintech_df[&#39;preprocessed&#39;].apply(lambda x: list(sentence_to_words([x]))[0])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;sep_words&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">bigram_model</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_df[&#39;bigram&#39;] = fintech_df[&#39;sep_words&#39;].apply(lambda x: bigram_model[x])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;trigram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">trigram_model</span><span class="p">[</span><span class="n">x</span><span class="p">]])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fintech_df[&#39;trigram&#39;] = fintech_df[&#39;bigram&#39;].apply(lambda x: [trigram_model[x]])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">id2word</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">(</span><span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>id2word = gensim.corpora.Dictionary(fintech_df[&#39;bigram&#39;].values.tolist())
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">id2word</span><span class="o">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">fintech_df</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>corpus = [id2word.doc2bow(text) for text in fintech_df[&#39;bigram&#39;].values.tolist()]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
-                                        <span class="n">id2word</span><span class="o">=</span><span class="n">id2word</span><span class="p">,</span>
-                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-                                        <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                        <span class="n">workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>lda_model = gensim.models.LdaMulticore(corpus=corpus,
+                                        id2word=id2word,
+                                        num_topics=10,
+                                        random_state=42,
+                                        chunksize=100,
+                                        passes=10,
+                                        per_word_topics=True,
+                                        workers=4)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">lda_model</span><span class="o">.</span><span class="n">print_topics</span><span class="p">())</span>
-<span class="n">doc_lda</span> <span class="o">=</span> <span class="n">lda_model</span><span class="p">[</span><span class="n">corpus</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pprint(lda_model.print_topics())
+doc_lda = lda_model[corpus]
 </pre></div>
 </div>
 </div>

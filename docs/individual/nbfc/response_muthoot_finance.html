@@ -630,82 +630,82 @@ title="Print to PDF"
 <h1>Muthoot Finance<a class="headerlink" href="#muthoot-finance" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load necessary libraries</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">tqdm.notebook</span> <span class="k">as</span> <span class="nn">tqdm</span>
-<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="n">tqdm</span><span class="o">.</span><span class="n">pandas</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load necessary libraries
+import sys
+import warnings
+warnings.filterwarnings(&#39;ignore&#39;)
+import datetime
+import pandas as pd
+import tqdm.notebook as tqdm
+from tqdm.auto import tqdm
+tqdm.pandas()
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/pushkar/Documents/projects/fin_comp/comp/docs&#39;</span><span class="p">)</span>
+sys.path.append(&#39;/Users/pushkar/Documents/projects/fin_comp/comp/docs&#39;)
 
-<span class="kn">import</span> <span class="nn">utils.helper</span>
-<span class="kn">from</span> <span class="nn">utils.helper</span> <span class="kn">import</span> <span class="n">Processor</span>
-<span class="kn">import</span> <span class="nn">importlib</span>
-<span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">helper</span><span class="p">)</span>
+import utils.helper
+from utils.helper import Processor
+import importlib
+importlib.reload(utils.helper)
 
-<span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
-<span class="n">svg_renderer</span> <span class="o">=</span> <span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="p">[</span><span class="s2">&quot;svg&quot;</span><span class="p">]</span>
-<span class="n">svg_renderer</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">900</span>
-<span class="n">svg_renderer</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;svg&quot;</span>
-<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+import plotly.io as pio
+svg_renderer = pio.renderers[&quot;svg&quot;]
+svg_renderer.width = 900
+svg_renderer.height = 500
+pio.renderers.default = &quot;svg&quot;
+import plotly.express as px
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/nbfc/muthoot_finance/muthoot_finance.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load data
+df = pd.read_csv(&#39;./../../data/nbfc/muthoot_finance/muthoot_finance.csv&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Company username</span>
-<span class="n">company_username</span> <span class="o">=</span> <span class="s1">&#39;TheMuthootGroup&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Company username
+company_username = &#39;TheMuthootGroup&#39;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Correct the format of variables</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;inReplyToTweetId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;inReplyToTweetId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%.0f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Correct the format of variables
+df[&#39;inReplyToTweetId&#39;] = df[&#39;inReplyToTweetId&#39;].apply(lambda x: &#39;%.0f&#39; % x).values.tolist()
+df[&#39;conversation_id&#39;] = df[&#39;conversation_id&#39;].astype(str)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Declare the query words</span>
-<span class="n">query_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dm&#39;</span><span class="p">,</span> <span class="s1">&#39;customer experience&#39;</span><span class="p">,</span> <span class="s1">&#39;inconvenience&#39;</span><span class="p">,</span> <span class="s1">&#39;concern team&#39;</span><span class="p">,</span> <span class="s1">&#39;resolve&#39;</span><span class="p">,</span> 
-                <span class="s1">&#39;solve&#39;</span><span class="p">,</span> <span class="s1">&#39;no noc&#39;</span><span class="p">,</span> <span class="s1">&#39;await response&#39;</span><span class="p">,</span> <span class="s1">&#39;unpleasant experience&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the query words
+query_words = [&#39;dm&#39;, &#39;customer experience&#39;, &#39;inconvenience&#39;, &#39;concern team&#39;, &#39;resolve&#39;, 
+                &#39;solve&#39;, &#39;no noc&#39;, &#39;await response&#39;, &#39;unpleasant experience&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Declare the processor object</span>
-<span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">(</span><span class="s1">&#39;./../../data/config.json&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the processor object
+processor = Processor(&#39;./../../data/config.json&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check whether an observation is query for the company or not</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_query&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Check whether an observation is query for the company or not
+df[&#39;is_query&#39;] = 0
 
-<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">query_words</span><span class="p">):</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_query&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_query&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">processor</span><span class="o">.</span><span class="n">word_distribution</span><span class="p">,</span> <span class="n">find</span><span class="o">=</span><span class="n">word</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+for word in tqdm(query_words):
+    df[&#39;is_query&#39;] = df[&#39;is_query&#39;] + df[&#39;tweet&#39;].apply(processor.word_distribution, find=word).astype(int)
 </pre></div>
 </div>
 </div>
@@ -716,15 +716,15 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select observations of queries</span>
-<span class="n">qdf</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_query&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Select observations of queries
+qdf = df[(df[&#39;is_query&#39;]&gt;0) &amp; (df[&#39;username&#39;] == company_username)]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qdf</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>qdf.shape
 </pre></div>
 </div>
 </div>
@@ -736,9 +736,9 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get all the conversation ids</span>
-<span class="n">conversation_ids</span> <span class="o">=</span> <span class="n">qdf</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total number of unique conversations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get all the conversation ids
+conversation_ids = qdf[&#39;conversation_id&#39;].unique()
+print(f&quot;Total number of unique conversations: {len(conversation_ids)}&quot;)
 </pre></div>
 </div>
 </div>
@@ -750,7 +750,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df[&#39;date&#39;] = pd.to_datetime(df[&#39;date&#39;])
 </pre></div>
 </div>
 </div>
@@ -760,28 +760,28 @@ title="Print to PDF"
 <p>Response time is the time the company takes to respond to the first query.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-<span class="n">result</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversation_ids</span>
-<span class="n">result</span><span class="p">[</span><span class="s1">&#39;response_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result = pd.DataFrame()
+result[&#39;conversation_id&#39;] = conversation_ids
+result[&#39;response_time&#39;] = 0
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">conversation_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">):</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">conversation_id</span><span class="p">]</span>
-    <span class="n">tmp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">comp_tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">]</span>
-    <span class="n">response_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">comp_tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">result</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;response_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">response_time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for index, conversation_id in enumerate(conversation_ids):
+    tmp = df[df[&#39;conversation_id&#39;] == conversation_id]
+    tmp.sort_values(&#39;date&#39;, ascending=True, inplace=True)
+    comp_tmp = tmp[tmp[&#39;username&#39;] == company_username]
+    response_time = (comp_tmp.iloc[0][&#39;date&#39;] - tmp.iloc[0][&#39;date&#39;]) / datetime.timedelta(hours=1)
+    result.at[index, &#39;response_time&#39;] = response_time
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result
 </pre></div>
 </div>
 </div>
@@ -835,8 +835,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;response_time&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">1000</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;response_time&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of response time&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig = px.histogram(result[result[&#39;response_time&#39;]&lt;1000], x=&#39;response_time&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of response time&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -850,28 +850,28 @@ title="Print to PDF"
 Resolution time is the time difference between the last date of last tweet in the conversation and the date of first query.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result[&#39;resolution_time&#39;] = 0
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">conversation_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">):</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">conversation_id</span><span class="p">]</span>
-    <span class="n">tmp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">comp_tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">:</span>
-        <span class="n">resolution_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">result</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resolution_time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for index, conversation_id in enumerate(conversation_ids):
+    tmp = df[df[&#39;conversation_id&#39;] == conversation_id]
+    tmp.sort_values(&#39;date&#39;, ascending=True, inplace=True)
+    comp_tmp = tmp[tmp[&#39;username&#39;] == company_username]
+    if tmp.iloc[-1][&#39;username&#39;] == company_username:
+        resolution_time = (tmp.iloc[-1][&#39;date&#39;] - tmp.iloc[0][&#39;date&#39;]) / datetime.timedelta(hours=1)
+        result.at[index, &#39;resolution_time&#39;] = resolution_time
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of queries resolved: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of queries unresolved: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Number of queries resolved: {len(result[&#39;resolution_time&#39;].to_numpy().nonzero()[0])}&quot;)
+print(f&quot;Number of queries unresolved: {result.shape[0] - len(result[&#39;resolution_time&#39;].to_numpy().nonzero()[0])}&quot;)
 </pre></div>
 </div>
 </div>
@@ -884,8 +884,8 @@ Number of queries unresolved: 4
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of resolution time&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig = px.histogram(result, x=&#39;resolution_time&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of resolution time&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -894,7 +894,7 @@ Number of queries unresolved: 4
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result.describe()
 </pre></div>
 </div>
 </div>

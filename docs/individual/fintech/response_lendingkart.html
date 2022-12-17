@@ -640,83 +640,83 @@ title="Print to PDF"
 <h1>Lendingkart<a class="headerlink" href="#lendingkart" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load necessary libraries</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">gensim</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">tqdm.notebook</span> <span class="k">as</span> <span class="nn">tqdm</span>
-<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="n">tqdm</span><span class="o">.</span><span class="n">pandas</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load necessary libraries
+import sys
+import warnings
+warnings.filterwarnings(&#39;ignore&#39;)
+import datetime
+import gensim
+import pandas as pd
+import tqdm.notebook as tqdm
+from tqdm.auto import tqdm
+tqdm.pandas()
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/pushkar/Documents/projects/fin_comp/comp/docs&#39;</span><span class="p">)</span>
+sys.path.append(&#39;/Users/pushkar/Documents/projects/fin_comp/comp/docs&#39;)
 
-<span class="kn">import</span> <span class="nn">utils.helper</span>
-<span class="kn">from</span> <span class="nn">utils.helper</span> <span class="kn">import</span> <span class="n">Processor</span>
-<span class="kn">import</span> <span class="nn">importlib</span>
-<span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">helper</span><span class="p">)</span>
+import utils.helper
+from utils.helper import Processor
+import importlib
+importlib.reload(utils.helper)
 
-<span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
-<span class="n">png_renderer</span> <span class="o">=</span> <span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="p">[</span><span class="s2">&quot;png&quot;</span><span class="p">]</span>
-<span class="n">png_renderer</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">900</span>
-<span class="n">png_renderer</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;png&quot;</span>
-<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+import plotly.io as pio
+png_renderer = pio.renderers[&quot;png&quot;]
+png_renderer.width = 900
+png_renderer.height = 500
+pio.renderers.default = &quot;png&quot;
+import plotly.express as px
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/fintech/lendingkart/lendingkart.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load data
+df = pd.read_csv(&#39;./../../data/fintech/lendingkart/lendingkart.csv&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Company username</span>
-<span class="n">company_username</span> <span class="o">=</span> <span class="s1">&#39;Lendingkart&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Company username
+company_username = &#39;Lendingkart&#39;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Correct the format of variables</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;inReplyToTweetId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;inReplyToTweetId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%.0f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Correct the format of variables
+df[&#39;inReplyToTweetId&#39;] = df[&#39;inReplyToTweetId&#39;].apply(lambda x: &#39;%.0f&#39; % x).values.tolist()
+df[&#39;conversation_id&#39;] = df[&#39;conversation_id&#39;].astype(str)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Declare the query words</span>
-<span class="n">query_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dm&#39;</span><span class="p">,</span> <span class="s1">&#39;customer experience&#39;</span><span class="p">,</span> <span class="s1">&#39;inconvenience&#39;</span><span class="p">,</span> <span class="s1">&#39;concern team&#39;</span><span class="p">,</span> <span class="s1">&#39;resolve&#39;</span><span class="p">,</span> 
-                <span class="s1">&#39;solve&#39;</span><span class="p">,</span> <span class="s1">&#39;no noc&#39;</span><span class="p">,</span> <span class="s1">&#39;await response&#39;</span><span class="p">,</span> <span class="s1">&#39;unpleasant experience&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the query words
+query_words = [&#39;dm&#39;, &#39;customer experience&#39;, &#39;inconvenience&#39;, &#39;concern team&#39;, &#39;resolve&#39;, 
+                &#39;solve&#39;, &#39;no noc&#39;, &#39;await response&#39;, &#39;unpleasant experience&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Declare the processor object</span>
-<span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">(</span><span class="s1">&#39;./../../data/config.json&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the processor object
+processor = Processor(&#39;./../../data/config.json&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check whether an observation is query for the company or not</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_query&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Check whether an observation is query for the company or not
+df[&#39;is_query&#39;] = 0
 
-<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">query_words</span><span class="p">):</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_query&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_query&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">processor</span><span class="o">.</span><span class="n">word_distribution</span><span class="p">,</span> <span class="n">find</span><span class="o">=</span><span class="n">word</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+for word in tqdm(query_words):
+    df[&#39;is_query&#39;] = df[&#39;is_query&#39;] + df[&#39;tweet&#39;].apply(processor.word_distribution, find=word).astype(int)
 </pre></div>
 </div>
 </div>
@@ -727,15 +727,15 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select observations of queries</span>
-<span class="n">qdf</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_query&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Select observations of queries
+qdf = df[(df[&#39;is_query&#39;]&gt;0) &amp; (df[&#39;username&#39;] == company_username)]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qdf</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>qdf.shape
 </pre></div>
 </div>
 </div>
@@ -747,9 +747,9 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get all the conversation ids</span>
-<span class="n">conversation_ids</span> <span class="o">=</span> <span class="n">qdf</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total number of unique conversations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get all the conversation ids
+conversation_ids = qdf[&#39;conversation_id&#39;].unique()
+print(f&quot;Total number of unique conversations: {len(conversation_ids)}&quot;)
 </pre></div>
 </div>
 </div>
@@ -761,7 +761,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df[&#39;date&#39;] = pd.to_datetime(df[&#39;date&#39;])
 </pre></div>
 </div>
 </div>
@@ -771,28 +771,23 @@ title="Print to PDF"
 <p>Response time is the time the company takes to respond to the first query.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-<span class="n">result</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversation_ids</span>
-<span class="n">result</span><span class="p">[</span><span class="s1">&#39;response_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result_list = []
+for index, conversation_id in enumerate(conversation_ids):
+    tmp = df[df[&#39;conversation_id&#39;] == conversation_id]
+    tmp.sort_values(&#39;date&#39;, ascending=True, inplace=True)
+    comp_tmp = tmp[tmp[&#39;username&#39;] == company_username]
+    if tmp.iloc[0][&#39;username&#39;] != company_username:
+        response_time = (comp_tmp.iloc[0][&#39;date&#39;] - tmp.iloc[0][&#39;date&#39;]) / datetime.timedelta(hours=1)
+        result_list.append([conversation_id, response_time])
+
+result = pd.DataFrame(result_list, columns=[&#39;conversation_id&#39;, &#39;response_time&#39;])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">conversation_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">):</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">conversation_id</span><span class="p">]</span>
-    <span class="n">tmp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">comp_tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">]</span>
-    <span class="n">response_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">comp_tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">result</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;response_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">response_time</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result[result[&#39;response_time&#39;]==0]
 </pre></div>
 </div>
 </div>
@@ -820,75 +815,28 @@ title="Print to PDF"
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th>0</th>
-      <td>1343785976942882818</td>
-      <td>0.888056</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1344177960446640130</td>
-      <td>0.610278</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1313373475407491073</td>
-      <td>2.497500</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1343868209510850564</td>
-      <td>3.420278</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1343518600808677381</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>731</th>
-      <td>1097425529492393984</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>732</th>
-      <td>1099926708210167808</td>
-      <td>7.112778</td>
-    </tr>
-    <tr>
-      <th>733</th>
-      <td>1096309397372817408</td>
-      <td>0.346111</td>
-    </tr>
-    <tr>
-      <th>734</th>
-      <td>1096031343539118080</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>735</th>
-      <td>1081796840176128000</td>
-      <td>23.574444</td>
-    </tr>
   </tbody>
 </table>
-<p>736 rows × 2 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;response_time&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">1000</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;response_time&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of response time&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig = px.histogram(result[result[&#39;response_time&#39;]&lt;1000], x=&#39;response_time&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of response time&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/response_lendingkart_17_0.png" src="../../../_images/response_lendingkart_17_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+
+/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+</pre></div>
+</div>
+<img alt="../../../_images/response_lendingkart_16_1.png" src="../../../_images/response_lendingkart_16_1.png" />
 </div>
 </div>
 </section>
@@ -898,52 +846,63 @@ title="Print to PDF"
 Resolution time is the time difference between the last date of last tweet in the conversation and the date of first query.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result[&#39;resolution_time&#39;] = 0
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">conversation_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">):</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">conversation_id</span><span class="p">]</span>
-    <span class="n">tmp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">comp_tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">company_username</span><span class="p">:</span>
-        <span class="n">resolution_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">result</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resolution_time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>unresolved_queries_count = 0
+for index, row in result.iterrows():
+    tmp = df[df[&#39;conversation_id&#39;] == row[&#39;conversation_id&#39;]]
+    tmp.sort_values(&#39;date&#39;, ascending=True, inplace=True)
+    comp_tmp = tmp[tmp[&#39;username&#39;] == company_username]
+    if tmp.iloc[0][&#39;username&#39;] != company_username:
+        if tmp.iloc[-1][&#39;username&#39;] == company_username:
+            resolution_time = (tmp.iloc[-1][&#39;date&#39;] - tmp.iloc[0][&#39;date&#39;]) / datetime.timedelta(hours=1)
+            result.at[index, &#39;resolution_time&#39;] = resolution_time
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of queries resolved: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of queries unresolved: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Number of queries resolved: {len(result[&#39;resolution_time&#39;].to_numpy().nonzero()[0])}&quot;)
+print(f&quot;Number of queries unresolved: {result.shape[0] - len(result[&#39;resolution_time&#39;].to_numpy().nonzero()[0])}&quot;)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of queries resolved: 547
-Number of queries unresolved: 189
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of queries resolved: 477
+Number of queries unresolved: 53
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;resolution_time&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of resolution time&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig = px.histogram(result[(result[&#39;resolution_time&#39;]!=0) &amp; (result[&#39;resolution_time&#39;]&lt;2000)], x=&#39;resolution_time&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of resolution time&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/response_lendingkart_23_0.png" src="../../../_images/response_lendingkart_23_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+
+/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/plotly/io/_renderers.py:395: DeprecationWarning:
+
+distutils Version classes are deprecated. Use packaging.version instead.
+</pre></div>
+</div>
+<img alt="../../../_images/response_lendingkart_22_1.png" src="../../../_images/response_lendingkart_22_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result.describe()
 </pre></div>
 </div>
 </div>
@@ -973,38 +932,38 @@ Number of queries unresolved: 189
   <tbody>
     <tr>
       <th>count</th>
-      <td>736.000000</td>
-      <td>736.000000</td>
+      <td>530.000000</td>
+      <td>530.000000</td>
     </tr>
     <tr>
       <th>mean</th>
-      <td>15.893941</td>
-      <td>71.104340</td>
+      <td>22.071586</td>
+      <td>53.474592</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>204.717685</td>
-      <td>324.559220</td>
+      <td>241.024484</td>
+      <td>271.836336</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>0.000000</td>
+      <td>0.030833</td>
       <td>0.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>0.000000</td>
-      <td>0.000000</td>
+      <td>1.364028</td>
+      <td>1.424653</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>1.708194</td>
-      <td>4.345417</td>
+      <td>4.144028</td>
+      <td>9.897639</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>10.396875</td>
-      <td>28.168056</td>
+      <td>15.458125</td>
+      <td>29.559375</td>
     </tr>
     <tr>
       <th>max</th>
@@ -1015,21 +974,28 @@ Number of queries unresolved: 189
 </table>
 </div></div></div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result.to_csv(&#39;./../../../../outputs/time_data/lendingkart.csv&#39;, index=False)
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="query-tweets-topics">
 <h2>Query Tweets Topics<a class="headerlink" href="#query-tweets-topics" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">queries</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conversation_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">conversation_ids</span><span class="p">)]</span>
-<span class="n">queries</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">queries</span> <span class="o">=</span> <span class="n">queries</span><span class="p">[(</span><span class="n">queries</span><span class="p">[</span><span class="s1">&#39;inReplyToTweetId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;nan&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">queries</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">company_username</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>queries = df[df[&#39;conversation_id&#39;].isin(conversation_ids)]
+queries.sort_values(&#39;date&#39;, ascending=True, inplace=True)
+queries = queries[(queries[&#39;inReplyToTweetId&#39;] == &#39;nan&#39;) &amp; (queries[&#39;username&#39;] != company_username)]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">queries</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>queries.shape
 </pre></div>
 </div>
 </div>
@@ -1041,39 +1007,39 @@ Number of queries unresolved: 189
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processor</span> <span class="o">=</span> <span class="n">Processor</span><span class="p">(</span><span class="s1">&#39;./../../data/config.json&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>processor = Processor(&#39;./../../data/config.json&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># queries = processor.preprocess_individual(queries)</span>
-<span class="n">pre_queries</span><span class="p">,</span> <span class="n">post_queries</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># queries = processor.preprocess_individual(queries)
+pre_queries, post_queries = processor.preprocess(queries)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create dictionaries</span>
-<span class="n">pre_id2word</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">(</span><span class="n">pre_queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-<span class="n">post_id2word</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">(</span><span class="n">post_queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create dictionaries
+pre_id2word = gensim.corpora.Dictionary(pre_queries[&#39;bigram&#39;].values.tolist())
+post_id2word = gensim.corpora.Dictionary(post_queries[&#39;bigram&#39;].values.tolist())
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre_id2word</span><span class="o">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">pre_queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
-<span class="n">post_corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">post_id2word</span><span class="o">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">post_queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_corpus = [pre_id2word.doc2bow(text) for text in pre_queries[&#39;bigram&#39;].values.tolist()]
+post_corpus = [post_id2word.doc2bow(text) for text in post_queries[&#39;bigram&#39;].values.tolist()]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_queries</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_queries.shape
 </pre></div>
 </div>
 </div>
@@ -1085,7 +1051,7 @@ Number of queries unresolved: 189
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_queries</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_queries.shape
 </pre></div>
 </div>
 </div>
@@ -1097,27 +1063,27 @@ Number of queries unresolved: 189
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">pre_corpus</span><span class="p">,</span>
-                                        <span class="n">id2word</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span>
-                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                                        <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                        <span class="n">alpha</span><span class="o">=</span><span class="s1">&#39;symmetric&#39;</span><span class="p">,</span>
-                                        <span class="n">eta</span><span class="o">=</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_lda_model = gensim.models.LdaMulticore(corpus=pre_corpus,
+                                        id2word=pre_id2word,
+                                        num_topics=3,
+                                        random_state=100,
+                                        chunksize=100,
+                                        passes=10,
+                                        per_word_topics=True,
+                                        alpha=&#39;symmetric&#39;,
+                                        eta=&#39;symmetric&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_coherence_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">pre_lda_model</span><span class="p">,</span> 
-                                                    <span class="n">texts</span><span class="o">=</span><span class="n">pre_queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
-                                                    <span class="n">dictionary</span><span class="o">=</span><span class="n">pre_id2word</span><span class="p">,</span> 
-                                                    <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
-<span class="n">pre_coherence_model_score</span> <span class="o">=</span> <span class="n">pre_coherence_model</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pre-COVID coherence Score: &#39;</span><span class="p">,</span> <span class="n">pre_coherence_model_score</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_coherence_model = gensim.models.CoherenceModel(model=pre_lda_model, 
+                                                    texts=pre_queries[&#39;bigram&#39;].values.tolist(), 
+                                                    dictionary=pre_id2word, 
+                                                    coherence=&#39;u_mass&#39;)
+pre_coherence_model_score = pre_coherence_model.get_coherence()
+print(&#39;Pre-COVID coherence Score: &#39;, pre_coherence_model_score)
 </pre></div>
 </div>
 </div>
@@ -1129,13 +1095,13 @@ Number of queries unresolved: 189
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyLDAvis.gensim_models</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import pyLDAvis.gensim_models
 
-<span class="kn">import</span> <span class="nn">pyLDAvis</span>
-<span class="c1"># Visualize the topics</span>
-<span class="n">pyLDAvis</span><span class="o">.</span><span class="n">enable_notebook</span><span class="p">()</span>
-<span class="n">LDAvis_prepared</span> <span class="o">=</span> <span class="n">pyLDAvis</span><span class="o">.</span><span class="n">gensim_models</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">pre_lda_model</span><span class="p">,</span> <span class="n">pre_corpus</span><span class="p">,</span> <span class="n">pre_id2word</span><span class="p">)</span>
-<span class="n">LDAvis_prepared</span>
+import pyLDAvis
+# Visualize the topics
+pyLDAvis.enable_notebook()
+LDAvis_prepared = pyLDAvis.gensim_models.prepare(pre_lda_model, pre_corpus, pre_id2word)
+LDAvis_prepared
 </pre></div>
 </div>
 </div>
@@ -1202,19 +1168,19 @@ if(typeof(LDAvis) !== "undefined"){
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_queries_topic_sents_keywords</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">dominant_topics</span><span class="p">(</span><span class="n">ldamodel</span><span class="o">=</span><span class="n">pre_lda_model</span><span class="p">,</span> 
-                                                         <span class="n">corpus</span><span class="o">=</span><span class="n">pre_corpus</span><span class="p">,</span> 
-                                                         <span class="n">texts</span><span class="o">=</span><span class="n">pre_queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-                                                         <span class="n">tweets</span><span class="o">=</span><span class="n">pre_queries</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_queries_topic_sents_keywords = processor.dominant_topics(ldamodel=pre_lda_model, 
+                                                         corpus=pre_corpus, 
+                                                         texts=pre_queries[&#39;bigram&#39;].values.tolist(),
+                                                         tweets=pre_queries[&#39;tweet&#39;].values.tolist())
 
-<span class="c1"># pre_queries_topic_sents_keywords.dropna(axis=0, inplace=True)</span>
+# pre_queries_topic_sents_keywords.dropna(axis=0, inplace=True)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_queries_topic_sents_keywords</span><span class="p">[</span><span class="s1">&#39;Topic_Keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_queries_topic_sents_keywords[&#39;Topic_Keywords&#39;].unique()
 </pre></div>
 </div>
 </div>
@@ -1235,16 +1201,16 @@ if(typeof(LDAvis) !== "undefined"){
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># select = pre_queries_topic_sents_keywords[&#39;Topic_Keywords&#39;].unique()[2]</span>
-<span class="c1"># pre_queries_topic_sents_keywords[pre_queries_topic_sents_keywords[&#39;Topic_Keywords&#39;] == select][&#39;Text&#39;].values</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># select = pre_queries_topic_sents_keywords[&#39;Topic_Keywords&#39;].unique()[2]
+# pre_queries_topic_sents_keywords[pre_queries_topic_sents_keywords[&#39;Topic_Keywords&#39;] == select][&#39;Text&#39;].values
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_queries_dist</span><span class="p">,</span> <span class="n">fig</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">plot_topic_distribution</span><span class="p">(</span><span class="n">pre_queries_topic_sents_keywords</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_queries_dist, fig = processor.plot_topic_distribution(pre_queries_topic_sents_keywords)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -1263,7 +1229,7 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_queries_dist</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pre_queries_dist
 </pre></div>
 </div>
 </div>
@@ -1312,21 +1278,21 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_lda_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">LdaMulticore</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">post_corpus</span><span class="p">,</span>
-                                        <span class="n">id2word</span><span class="o">=</span><span class="n">post_id2word</span><span class="p">,</span>
-                                        <span class="n">num_topics</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                        <span class="n">random_state</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                                        <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">per_word_topics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                        <span class="n">alpha</span><span class="o">=</span><span class="s1">&#39;symmetric&#39;</span><span class="p">,</span>
-                                        <span class="n">eta</span><span class="o">=</span><span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
-<span class="n">post_coherence_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">post_lda_model</span><span class="p">,</span> 
-                                                    <span class="n">texts</span><span class="o">=</span><span class="n">post_queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> 
-                                                    <span class="n">dictionary</span><span class="o">=</span><span class="n">post_id2word</span><span class="p">,</span> 
-                                                    <span class="n">coherence</span><span class="o">=</span><span class="s1">&#39;u_mass&#39;</span><span class="p">)</span>
-<span class="n">post_coherence_model_score</span> <span class="o">=</span> <span class="n">post_coherence_model</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Post-COVID coherence Score: &#39;</span><span class="p">,</span> <span class="n">post_coherence_model_score</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_lda_model = gensim.models.LdaMulticore(corpus=post_corpus,
+                                        id2word=post_id2word,
+                                        num_topics=2,
+                                        random_state=100,
+                                        chunksize=100,
+                                        passes=10,
+                                        per_word_topics=True,
+                                        alpha=&#39;symmetric&#39;,
+                                        eta=&#39;symmetric&#39;)
+post_coherence_model = gensim.models.CoherenceModel(model=post_lda_model, 
+                                                    texts=post_queries[&#39;bigram&#39;].values.tolist(), 
+                                                    dictionary=post_id2word, 
+                                                    coherence=&#39;u_mass&#39;)
+post_coherence_model_score = post_coherence_model.get_coherence()
+print(&#39;Post-COVID coherence Score: &#39;, post_coherence_model_score)
 </pre></div>
 </div>
 </div>
@@ -1338,13 +1304,14 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyLDAvis.gensim_models</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+import pyLDAvis.gensim_models
 
-<span class="kn">import</span> <span class="nn">pyLDAvis</span>
-<span class="c1"># Visualize the topics</span>
-<span class="n">pyLDAvis</span><span class="o">.</span><span class="n">enable_notebook</span><span class="p">()</span>
-<span class="n">LDAvis_prepared</span> <span class="o">=</span> <span class="n">pyLDAvis</span><span class="o">.</span><span class="n">gensim_models</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">post_lda_model</span><span class="p">,</span> <span class="n">post_corpus</span><span class="p">,</span> <span class="n">post_id2word</span><span class="p">)</span>
-<span class="n">LDAvis_prepared</span>
+import pyLDAvis
+# Visualize the topics
+pyLDAvis.enable_notebook()
+LDAvis_prepared = pyLDAvis.gensim_models.prepare(post_lda_model, post_corpus, post_id2word)
+LDAvis_prepared
 </pre></div>
 </div>
 </div>
@@ -1393,17 +1360,18 @@ if(typeof(LDAvis) !== "undefined"){
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_queries_topic_sents_keywords</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">dominant_topics</span><span class="p">(</span><span class="n">ldamodel</span><span class="o">=</span><span class="n">post_lda_model</span><span class="p">,</span> 
-                                                         <span class="n">corpus</span><span class="o">=</span><span class="n">post_corpus</span><span class="p">,</span> 
-                                                         <span class="n">texts</span><span class="o">=</span><span class="n">post_queries</span><span class="p">[</span><span class="s1">&#39;bigram&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-                                                         <span class="n">tweets</span><span class="o">=</span><span class="n">post_queries</span><span class="p">[</span><span class="s1">&#39;tweet&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_queries_topic_sents_keywords = processor.dominant_topics(ldamodel=post_lda_model, 
+                                                         corpus=post_corpus, 
+                                                         texts=post_queries[&#39;bigram&#39;].values.tolist(),
+                                                         tweets=post_queries[&#39;tweet&#39;].values.tolist())
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_queries_topic_sents_keywords</span><span class="p">[</span><span class="s1">&#39;Topic_Keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+post_queries_topic_sents_keywords[&#39;Topic_Keywords&#39;].unique()
 </pre></div>
 </div>
 </div>
@@ -1422,8 +1390,8 @@ if(typeof(LDAvis) !== "undefined"){
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">select</span> <span class="o">=</span> <span class="n">post_queries_topic_sents_keywords</span><span class="p">[</span><span class="s1">&#39;Topic_Keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">post_queries_topic_sents_keywords</span><span class="p">[</span><span class="n">post_queries_topic_sents_keywords</span><span class="p">[</span><span class="s1">&#39;Topic_Keywords&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">select</span><span class="p">][</span><span class="s1">&#39;Text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>select = post_queries_topic_sents_keywords[&#39;Topic_Keywords&#39;].unique()[0]
+post_queries_topic_sents_keywords[post_queries_topic_sents_keywords[&#39;Topic_Keywords&#39;] == select][&#39;Text&#39;].values
 </pre></div>
 </div>
 </div>
@@ -1685,8 +1653,8 @@ if(typeof(LDAvis) !== "undefined"){
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_queries_dist</span><span class="p">,</span> <span class="n">fig</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">plot_topic_distribution</span><span class="p">(</span><span class="n">post_queries_topic_sents_keywords</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_queries_dist, fig = processor.plot_topic_distribution(post_queries_topic_sents_keywords)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -1705,7 +1673,7 @@ distutils Version classes are deprecated. Use packaging.version instead.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_queries_dist</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>post_queries_dist
 </pre></div>
 </div>
 </div>
